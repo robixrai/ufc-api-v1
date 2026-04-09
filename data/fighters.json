@@ -360,7 +360,7 @@
             },
             "grappling": {
                 "takedown": 6,
-                "takedown-defence": 9,
+                "defence": 9,
                 "submissions": 4,
                 "ground-control": 7,
                 "scrambles": 7,
@@ -1721,7 +1721,7 @@
                 "recovery": 8,
                 "fight-iq": 9
             },
-            "ratio": 0.15
+            "ratio": 0.85
         },
         "career": {
             "api-id": 0,
@@ -1879,7 +1879,7 @@
                 "recovery": 9,
                 "fight-iq": 8
             },
-            "ratio": 0.2
+            "ratio": 0.4
         },
         "career": {
             "api-id": 0,
@@ -4115,7 +4115,7 @@
     },
     {
         "personal-info": {
-            "name": "Beno\u00eet Saint Denis",
+            "name": "Beno\u00eet Saint-Denis",
             "nickname": "God of War",
             "birth-date": "1995-12-18",
             "nationality": "French",

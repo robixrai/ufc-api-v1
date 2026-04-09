@@ -530,16 +530,21 @@ def predictions():
         else:
             winner = fighter2
 
-        stakes = win - loss
+        if win > loss:
+            stakes = win - loss
+        else:
+            stakes = loss - win
 
         if stakes < 0.2:
             confidence = "LOW"
-        elif stakes < 0.3:
+        elif stakes < 0.4:
             confidence = "MEDIUM"
         else:
             confidence = "HIGH"
-
-        print(f"\n\nWINNER - {winner}   CONFIDENCE - {confidence}\n\nOdds of fighter 1 ({fighter1}) winning - {win}\nOdds of fighter 2 ({fighter2}) winning - {loss}")
+        if win == 0.0:
+            print(logs)
+        else:
+            print(f"\n\nWINNER - {winner}   CONFIDENCE - {confidence}\n\nOdds of fighter 1 ({getattr(fighterone, '_personal-info_name')}) winning - {win}\nOdds of fighter 2 ({getattr(fightertwo, '_personal-info_name')}) winning - {loss}")
 
         if admin:
             print(logs)

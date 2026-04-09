@@ -154,4 +154,15 @@ empty_db = {
     "description": ""
 }
 
+rankings_index = {
+    "Flyweight": 0,
+    "Bantamweight": 1,
+    "Featherweight": 2,
+    "Lightweight": 3,
+    "Welterweight": 4,
+    "Middleweight": 5,
+    "Light Heavyweight": 6,
+    "Heavyweight": 7
+}
+
 load_data()
