@@ -360,7 +360,7 @@
             },
             "grappling": {
                 "takedown": 6,
-                "defence": 9,
+                "takedown-defence": 9,
                 "submissions": 4,
                 "ground-control": 7,
                 "scrambles": 7,
@@ -1721,7 +1721,7 @@
                 "recovery": 8,
                 "fight-iq": 9
             },
-            "ratio": 0.85
+            "ratio": 0.15
         },
         "career": {
             "api-id": 0,
@@ -1879,7 +1879,7 @@
                 "recovery": 9,
                 "fight-iq": 8
             },
-            "ratio": 0.4
+            "ratio": 0.2
         },
         "career": {
             "api-id": 0,
@@ -3214,7 +3214,7 @@
             },
             "clinch": {
                 "clinch-control": 8,
-                "clinch-striking": 8
+                "clinch-striking": ""
             },
             "intangibles": {
                 "stamina": 8,
@@ -4115,7 +4115,7 @@
     },
     {
         "personal-info": {
-            "name": "Beno\u00eet Saint-Denis",
+            "name": "Beno\u00eet Saint Denis",
             "nickname": "God of War",
             "birth-date": "1995-12-18",
             "nationality": "French",
@@ -7040,7 +7040,7 @@
         "personal-info": {
             "name": "Alex Pereira",
             "nickname": "Poatan",
-            "birth-date": "1987-07-07",
+            "birth-date": "1987-97-07",
             "nationality": "Brazilian",
             "fighting-out-of": "Danbury, Connecticut",
             "country-code": "BR",
@@ -7307,7 +7307,7 @@
                     "power": 10,
                     "accuracy": 10,
                     "volume": 8,
-                    "defence": 8
+                    "defence": "8"
                 },
                 "proportion": 0.77,
                 "style": "Muay Thai / Kickboxer"
@@ -9958,5 +9958,321 @@
             "fight-history": []
         },
         "description": "Virna Jandiroba is one of the most technical and persistent submission threats in the strawweight division. A former Invicta FC champion, her game is built entirely around her elite Brazilian Jiu-Jitsu foundation. She utilizes a relentless pressure-based striking style to close distance, though her primary objective is always to initiate grappling exchanges. She is a specialist at finding the back or securing armbars in transitions, possessing some of the highest control-time statistics in the weight class. In October 2025, she came up just short in a five-round title fight against Mackenzie Dern, where her wrestling was highly effective but her striking defense struggled. Despite that loss, she remains a formidable hurdle for any contender, as her ability to dictate the fight on the mat is nearly peerless."
+    },
+    {
+        "personal-info": {
+            "name": "Yan Xiaonan",
+            "nickname": "Fury",
+            "birth-date": "1989-06-16",
+            "nationality": "Chinese",
+            "fighting-out-of": "Beijing, China",
+            "country-code": "CN",
+            "weight-class": "Strawweight",
+            "gym": "Team Alpha Male",
+            "status": "Active",
+            "gender": "Female"
+        },
+        "specs": {
+            "height": 165.0,
+            "reach": 63.0,
+            "stance": "Orthodox"
+        },
+        "skillset": {
+            "striking": {
+                "punches": {
+                    "jab": 8,
+                    "cross": 8,
+                    "haymaker": 6
+                },
+                "kicks": {
+                    "low": 8,
+                    "body": 7,
+                    "head": 8
+                },
+                "overview": {
+                    "power": 7,
+                    "accuracy": 8,
+                    "volume": 10,
+                    "defence": 7
+                },
+                "proportion": 0.85,
+                "style": "Pressure Striker"
+            },
+            "grappling": {
+                "takedown": 6,
+                "defence": 7,
+                "submissions": 4,
+                "ground-control": 6,
+                "scrambles": 7,
+                "style": "Defensive Grappler"
+            },
+            "clinch": {
+                "clinch-control": 7,
+                "clinch-striking": 8
+            },
+            "intangibles": {
+                "stamina": 9,
+                "chin": 8,
+                "recovery": 8,
+                "fight-iq": 8
+            },
+            "ratio": 0.85
+        },
+        "career": {
+            "api-id": 0,
+            "wins": 19,
+            "losses": 5,
+            "draws": 0,
+            "no-contests": 1,
+            "ko-tko-wins": 8,
+            "sub-wins": 1,
+            "win-streak": 0,
+            "last-five": [
+                0,
+                1,
+                0,
+                1,
+                1
+            ],
+            "fight-history": []
+        },
+        "description": "Yan Xiaonan is the division's premier volume striker, utilizing a background in Sanda to maintain a relentless pace. She operates with a primary focus on lateral movement and rapid-fire punching combinations, often overwhelming opponents with sheer activity rather than singular knockout power. Her game is built on a high-frequency jab and side kicks that disrupt the rhythm of her opposition. While her early UFC career was defined by her striking, her move to Team Alpha Male has bolstered her defensive wrestling and ability to navigate high-level grappling exchanges. She remains a difficult out for anyone in the top five due to her durability and a gas tank that allows her to maintain a championship-level tempo for the full duration of a fight."
+    },
+    {
+        "personal-info": {
+            "name": "Gillian Robertson",
+            "nickname": "The Savage",
+            "birth-date": "1995-05-17",
+            "nationality": "Canadian",
+            "fighting-out-of": "Coconut Creek, Florida",
+            "country-code": "CA",
+            "weight-class": "Strawweight",
+            "gym": "The Goat Shed Academy",
+            "status": "Active",
+            "gender": "Female"
+        },
+        "specs": {
+            "height": 165.0,
+            "reach": 63.0,
+            "stance": "Orthodox"
+        },
+        "skillset": {
+            "striking": {
+                "punches": {
+                    "jab": 6,
+                    "cross": 6,
+                    "haymaker": 5
+                },
+                "kicks": {
+                    "low": 6,
+                    "body": 6,
+                    "head": 6
+                },
+                "overview": {
+                    "power": 7,
+                    "accuracy": 6,
+                    "volume": 6,
+                    "defence": 7
+                },
+                "proportion": 0.3,
+                "style": "Pressure Striker"
+            },
+            "grappling": {
+                "takedown": 9,
+                "defence": 6,
+                "submissions": 10,
+                "ground-control": 9,
+                "scrambles": 8,
+                "style": "Submission Specialist"
+            },
+            "clinch": {
+                "clinch-control": 7,
+                "clinch-striking": 7
+            },
+            "intangibles": {
+                "stamina": 9,
+                "chin": 8,
+                "recovery": 8,
+                "fight-iq": 8
+            },
+            "ratio": 0.3
+        },
+        "career": {
+            "api-id": 0,
+            "wins": 17,
+            "losses": 8,
+            "draws": 0,
+            "no-contests": 0,
+            "ko-tko-wins": 3,
+            "sub-wins": 9,
+            "win-streak": 5,
+            "last-five": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "fight-history": []
+        },
+        "description": "Gillian Robertson has transformed herself into the ultimate \"boogeywoman\" of the strawweight division. Holding the record for the most finishes and submissions in women's UFC history, she operates with a single-minded focus on taking the fight to the mat. Her game is characterized by a relentless pursuit of the takedown, often wading through strikes to secure a clinch or a double-leg. Once on the ground, she is a positional shark, using a smothering top-game to force her opponents into giving up their backs or necks. Her 2025 and early 2026 runs have been career-defining, featuring a five-fight win streak that includes a TKO victory over Marina Rodriguez and a dominant tactical decision over former title challenger Amanda Lemos. While her striking is secondary, it has become much more durable, allowing her to survive early onslaughts to eventually drag her opposition into deep, grappling-heavy waters."
+    },
+    {
+        "personal-info": {
+            "name": "Loopy Godinez",
+            "nickname": "Loopy",
+            "birth-date": "1993-09-06",
+            "nationality": "Mexican",
+            "fighting-out-of": "Vancouver, British Columbia",
+            "country-code": "MX",
+            "weight-class": "Strawweight",
+            "gym": "Lobo Gym MMA",
+            "status": "Active",
+            "gender": "Female"
+        },
+        "specs": {
+            "height": 157.5,
+            "reach": 61.0,
+            "stance": "Orthodox"
+        },
+        "skillset": {
+            "striking": {
+                "punches": {
+                    "jab": 7,
+                    "cross": 8,
+                    "haymaker": 6
+                },
+                "kicks": {
+                    "low": 6,
+                    "body": 6,
+                    "head": 7
+                },
+                "overview": {
+                    "power": 6,
+                    "accuracy": 7,
+                    "volume": 8,
+                    "defence": 8
+                },
+                "proportion": 0.65,
+                "style": "Pressure Striker"
+            },
+            "grappling": {
+                "takedown": 8,
+                "defence": 9,
+                "submissions": 6,
+                "ground-control": 8,
+                "scrambles": 7,
+                "style": "All-Round Grappler"
+            },
+            "clinch": {
+                "clinch-control": 8,
+                "clinch-striking": 7
+            },
+            "intangibles": {
+                "stamina": 10,
+                "chin": 9,
+                "recovery": 9,
+                "fight-iq": 8
+            },
+            "ratio": 0.65
+        },
+        "career": {
+            "api-id": 0,
+            "wins": 14,
+            "losses": 5,
+            "draws": 0,
+            "no-contests": 0,
+            "ko-tko-wins": 1,
+            "sub-wins": 2,
+            "win-streak": 2,
+            "last-five": [
+                1,
+                1,
+                0,
+                0,
+                1
+            ],
+            "fight-history": []
+        },
+        "description": "Loopy Godinez is the division's most prolific \"workhorse,\" known for her incredible activity and high-frequency fighting schedule. She operates with a crisp, boxing-centric approach on the feet, utilizing rapid-fire combinations and a high-level defensive shell to out-point her opponents. Her game is anchored by elite-level defensive wrestling, which allows her to dictate whether a fight remains standing or transitions to the mat. When she chooses to grapple, she employs a physically strong, top-heavy style that prioritizes positional control and short strikes. Following a difficult 2024 where she faced top-tier contenders like Virna Jandiroba and Mackenzie Dern, she has surged back into title contention in late 2025 and early 2026 with dominant technical performances against Julia Polastri and Jessica Andrade."
+    },
+    {
+        "personal-info": {
+            "name": "Tabatha Ricci",
+            "nickname": "Baby Shark",
+            "birth-date": "1995-02-21",
+            "nationality": "Brazilian",
+            "fighting-out-of": "Ventura, California",
+            "country-code": "BR",
+            "weight-class": "Strawweight",
+            "gym": "Paragon BJJ",
+            "status": "Active",
+            "gender": "Female"
+        },
+        "specs": {
+            "height": 155.0,
+            "reach": 61.0,
+            "stance": "Orthodox"
+        },
+        "skillset": {
+            "striking": {
+                "punches": {
+                    "jab": 7,
+                    "cross": 7,
+                    "haymaker": 6
+                },
+                "kicks": {
+                    "low": 7,
+                    "body": 6,
+                    "head": 7
+                },
+                "overview": {
+                    "power": 6,
+                    "accuracy": 6,
+                    "volume": 7,
+                    "defence": 7
+                },
+                "proportion": 0.45,
+                "style": "Pressure Striker"
+            },
+            "grappling": {
+                "takedown": 9,
+                "defence": 8,
+                "submissions": 8,
+                "ground-control": 8,
+                "scrambles": 8,
+                "style": "All-Round Grappler"
+            },
+            "clinch": {
+                "clinch-control": 8,
+                "clinch-striking": 7
+            },
+            "intangibles": {
+                "stamina": 9,
+                "chin": 8,
+                "recovery": 8,
+                "fight-iq": 8
+            },
+            "ratio": 0.45
+        },
+        "career": {
+            "api-id": 0,
+            "wins": 12,
+            "losses": 3,
+            "draws": 0,
+            "no-contests": 0,
+            "ko-tko-wins": 2,
+            "sub-wins": 3,
+            "win-streak": 1,
+            "last-five": [
+                1,
+                0,
+                1,
+                1,
+                0
+            ],
+            "fight-history": []
+        },
+        "description": "Tabatha Ricci is a high-pace competitor who effectively blends her background in Judo and Brazilian Jiu-Jitsu with a rapidly evolving boxing game. She utilizes a constant forward march to disrupt her opponent's rhythm, often using technical combinations to hide her entries into the clinch. Once she establishes a connection, she employs slick trips and tosses to bring the fight to the mat. Her ground game is defined by active positional changes and a constant hunt for submissions, particularly armbars. While she struggled with the elite striking range of Yan Xiaonan in late 2024, she made a major statement in mid-2025 by securing her first UFC knockout victory over Amanda Ribas. She is characterized by her physical strength and an ability to maintain a high wrestling tempo throughout a fifteen-minute bout."
     }
 ]

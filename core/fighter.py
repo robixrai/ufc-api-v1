@@ -63,6 +63,8 @@ class Fighter():
         count = 0
         for stat_path in self.numbered_stats:
             if category_name.lower() in stat_path.lower():
+                if "style" in stat_path.lower():
+                    continue
                 val = getattr(self, stat_path, 0)
                 total += val
                 count += 1

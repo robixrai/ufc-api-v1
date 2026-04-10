@@ -155,6 +155,7 @@ empty_db = {
 }
 
 rankings_index = {
+    "Strawweight": -1,
     "Flyweight": 0,
     "Bantamweight": 1,
     "Featherweight": 2,

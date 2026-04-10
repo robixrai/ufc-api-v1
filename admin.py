@@ -504,6 +504,88 @@ def update_rankings():
         else:
             print("\nSorry, I couldn't quite understand that")
 
+def filter_fighters():
+    filters = []
+    while True:
+        print("\nEnter 'filter' to run search, an attribute pathway to add a filter, or 'exit' to quit.\n")
+        x = input("").strip().lower()
+
+        if x == 'filter':
+            filter_search(filters)
+        elif x == 'exit':
+            print("You have decided to exit.")
+            print("_" * 160)
+            break
+        elif x == 'show':
+            if not filters:
+                print("\nNo filters currently set.\n")
+            else:
+                print("\nCurrent filters:")
+                for i, f in enumerate(filters):
+                    print(f"{i}: {f}")
+                print("_" * 160)
+
+        elif x == 'remove':
+            if not filters:
+                print("\nNo filters to remove.\n")
+                continue
+            print("\nEnter index of filter to remove, or 'all' to clear all:")
+            choice = input("").strip().lower()
+            if choice == 'all':
+                filters.clear()
+                print("All filters removed.\n")
+            else:
+                try:
+                    idx = int(choice)
+                    removed = filters.pop(idx)
+                    print(f"Removed filter {idx}: {removed}\n")
+                except (ValueError, IndexError):
+                    print("Invalid index.\n")
+
+        elif x:
+            # Build a filter rule
+            pathway = x
+            if ("skillset" in pathway or "score" in pathway or "career" in pathway or "specs" in pathway) and "style" not in pathway and "stance" not in pathway:
+                mode = input(f"Should {pathway} be a minimum or maximum filter? (min/max): ").strip().lower()
+                value = float(input(f"Enter numeric value for {pathway}: "))
+                filters.append((mode, pathway, value))
+            elif "personal-info" in pathway or "style" in pathway or "stance" in pathway:
+                value = input(f"Enter exact value for {pathway}: ").strip()
+                filters.append(("exact", pathway, value))
+            else:
+                print("Unsupported pathway type. Try again.")
+
+def filter_search(filters):
+    results = []
+    for fighter_name, fighter_data in tools.fighter_db.items():
+        match = True
+        for ftype, pathway, value in filters:
+            # Navigate flattened dict
+            fighter_value = getattr(fighter_data, pathway)
+            if ftype == "exact":
+                if fighter_value != value:
+                    match = False
+                    break
+            elif ftype == "min":
+                if fighter_value < value:
+                    match = False
+                    break
+            elif ftype == "max":
+                if fighter_value > value:
+                    match = False
+                    break
+        if match:
+            results.append(fighter_name)
+
+    print("\nFiltered Fighters:\n")
+    for r in results:
+        print(r.title())
+    print("_" * 160)
+
+
+
+
+
 def predictions():
     while True:
         fighter1 = input("\n\nEnter fighter 1\n\n")
@@ -585,6 +667,8 @@ while True:
     elif choice == 'create':
 
         create_fighter()
+    elif choice == 'filter':
+        filter_fighters()
 
     elif choice == 'database':
         print("\nHere is all of the currently available fighters in the database:\n")
