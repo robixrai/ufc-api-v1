@@ -367,7 +367,7 @@ def fighter_search(name):
         if choice == 'skillset':
             print(Fighter.skillset(name))
         elif choice == 'fight history':
-            fight_history = getattr(found_fighter, "_career_fight-history")
+            fight_history = getattr(name, "_career_fight-history")
             print("\n" + "--- Fight History ---".center(160, " ") + "\n")
             for fight in fight_history:
                 print(f"{fight}".center(160, " "))
@@ -375,7 +375,7 @@ def fighter_search(name):
             print("-" * 160)
             print("\n\n")
             print(
-                f"Would you like to see {getattr(found_fighter, '_personal-info_name')}'s profile, skillset, fight history, or exit?".center(
+                f"Would you like to see {getattr(name, '_personal-info_name')}'s profile, skillset, fight history, or exit?".center(
                     160, " "))
         elif choice == 'profile':
             print(Fighter.profile(name))
@@ -389,7 +389,7 @@ def fighter_search(name):
         else:
             print("Sorry, I didn't understand you there.\n")
             print(
-                f"Would you like to see {getattr(found_fighter, '_personal-info_name')}'s profile, skillset, fight history, or exit?".center(
+                f"Would you like to see {getattr(name, '_personal-info_name')}'s profile, skillset, fight history, or exit?".center(
                     160, " "))
     return ""
 
