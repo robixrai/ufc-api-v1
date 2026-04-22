@@ -26,6 +26,10 @@ async def lifespan(app: FastAPI):
             rankings_db = deepcopy(json.load(f))
     except FileNotFoundError:
         raise RuntimeError("rankings.json missing")
+    for gender in rankings_db.keys():
+        for division in rankings_db[gender].values():
+            for index, fighter in enumerate(rankings_db[gender][division]):
+                rankings_db[gender][division][index] = normalise_name(fighter)
 
     # load fighters list
     try:
