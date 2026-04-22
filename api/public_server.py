@@ -23,7 +23,7 @@ async def lifespan(app: FastAPI):
     # load rankings
     try:
         with open(rankings_path, "r", encoding="utf-8") as f:
-            rankings_db = json.load(f)
+            rankings_db = deepcopy(json.load(f))
     except FileNotFoundError:
         raise RuntimeError("rankings.json missing")
 
