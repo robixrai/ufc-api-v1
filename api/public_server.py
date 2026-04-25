@@ -27,7 +27,7 @@ async def lifespan(app: FastAPI):
     except FileNotFoundError:
         raise RuntimeError("rankings.json missing")
     for gender in rankings_db.keys():
-        for division in rankings_db[gender].values():
+        for division in rankings_db[gender].keys():
             for index, fighter in enumerate(rankings_db[gender][division]):
                 rankings_db[gender][division][index] = normalise_name(fighter)
 
