@@ -12,7 +12,7 @@ DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 fighters_path = DATA_DIR / "fighters.json"
 rankings_path = DATA_DIR / "rankings.json"
 
-rankings_db = None
+rankings_db = []
 fighters_db = {}
 
 

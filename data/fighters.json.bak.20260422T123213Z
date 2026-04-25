@@ -182,20 +182,20 @@
         "skillset": {
             "striking": {
                 "punches": {
-                    "jab": 8,
-                    "cross": 7,
+                    "jab": 7,
+                    "cross": 6,
                     "haymaker": 8
                 },
                 "kicks": {
                     "low": 6,
-                    "body": 6,
-                    "head": 5
+                    "body": 4,
+                    "head": 4
                 },
                 "overview": {
                     "power": 9,
-                    "accuracy": 8,
-                    "volume": 8,
-                    "defence": 8
+                    "accuracy": 6,
+                    "volume": 6,
+                    "defence": 4
                 },
                 "proportion": 0.9,
                 "style": "Pressure Striker"
@@ -210,13 +210,13 @@
             },
             "clinch": {
                 "clinch-control": 10,
-                "clinch-striking": 8
+                "clinch-striking": 6
             },
             "intangibles": {
-                "stamina": 9,
+                "stamina": 7,
                 "chin": 8,
-                "recovery": 7,
-                "fight-iq": 9
+                "recovery": 8,
+                "fight-iq": 7
             },
             "ratio": 0.1
         },
@@ -360,7 +360,7 @@
             },
             "grappling": {
                 "takedown": 6,
-                "defence": 9,
+                "takedown-defence": 9,
                 "submissions": 4,
                 "ground-control": 7,
                 "scrambles": 7,
@@ -3028,38 +3028,38 @@
         "skillset": {
             "striking": {
                 "punches": {
-                    "jab": 7,
-                    "cross": 8,
-                    "haymaker": 7
+                    "jab": 8,
+                    "cross": 7,
+                    "haymaker": 6
                 },
                 "kicks": {
-                    "low": 9,
+                    "low": 10,
                     "body": 8,
                     "head": 7
                 },
                 "overview": {
-                    "power": 7,
+                    "power": 6,
                     "accuracy": 8,
-                    "volume": 7,
-                    "defence": 7
+                    "volume": 9,
+                    "defence": 8
                 },
                 "proportion": 0.4,
                 "style": "Pressure Striker"
             },
             "grappling": {
                 "takedown": 9,
-                "defence": 8,
-                "submissions": 7,
-                "ground-control": 8,
-                "scrambles": 8,
+                "defence": 7,
+                "submissions": 10,
+                "ground-control": 10,
+                "scrambles": 10,
                 "style": "All-Round Grappler"
             },
             "clinch": {
-                "clinch-control": 8,
+                "clinch-control": 9,
                 "clinch-striking": 8
             },
             "intangibles": {
-                "stamina": 7,
+                "stamina": 9,
                 "chin": 7,
                 "recovery": 8,
                 "fight-iq": 10
@@ -3214,10 +3214,10 @@
             },
             "clinch": {
                 "clinch-control": 8,
-                "clinch-striking": 8
+                "clinch-striking": ""
             },
             "intangibles": {
-                "stamina": 9,
+                "stamina": 8,
                 "chin": 8,
                 "recovery": 9,
                 "fight-iq": 10
@@ -7042,11 +7042,11 @@
         "personal-info": {
             "name": "Alex Pereira",
             "nickname": "Poatan",
-            "birth-date": "1987-07-07",
+            "birth-date": "1987-97-07",
             "nationality": "Brazilian",
             "fighting-out-of": "Danbury, Connecticut",
             "country-code": "BR",
-            "weight-class": "Heavyweight",
+            "weight-class": "Heavyweight (Former LHW + MW)",
             "gym": "Teixeira MMA",
             "status": "Active",
             "gender": "Male"
@@ -9042,38 +9042,38 @@
         "skillset": {
             "striking": {
                 "punches": {
-                    "jab": 6,
+                    "jab": 5,
                     "cross": 8,
-                    "haymaker": 9
+                    "haymaker": 10
                 },
                 "kicks": {
-                    "low": 7,
-                    "body": 6,
+                    "low": 4,
+                    "body": 5,
                     "head": 9
                 },
                 "overview": {
-                    "power": 8,
-                    "accuracy": 7,
-                    "volume": 7,
-                    "defence": 7
+                    "power": 10,
+                    "accuracy": 6,
+                    "volume": 4,
+                    "defence": 5
                 },
                 "proportion": 0.8,
                 "style": "Counter Striker"
             },
             "grappling": {
-                "takedown": 6,
-                "defence": 8,
-                "submissions": 3,
+                "takedown": 4,
+                "defence": 5,
+                "submissions": 2,
                 "ground-control": 6,
                 "scrambles": 8,
                 "style": "Ground and Pound"
             },
             "clinch": {
-                "clinch-control": 7,
+                "clinch-control": 6,
                 "clinch-striking": 8
             },
             "intangibles": {
-                "stamina": 6,
+                "stamina": 4,
                 "chin": 8,
                 "recovery": 8,
                 "fight-iq": 7
@@ -13560,25 +13560,25 @@
                     "defence": 7
                 },
                 "proportion": 0.45,
-                "style": "Pressure Striker"
+                "style": "Volume Pressure Striker"
             },
             "grappling": {
-                "takedown": 8,
+                "takedown": 10,
                 "defence": 9,
                 "submissions": 7,
-                "ground-control": 7,
-                "scrambles": 8,
+                "ground-control": 9,
+                "scrambles": 9,
                 "style": "Wrestler"
             },
             "clinch": {
-                "clinch-control": 8,
-                "clinch-striking": 7
+                "clinch-control": 9,
+                "clinch-striking": 8
             },
             "intangibles": {
-                "stamina": 9,
+                "stamina": 10,
                 "chin": 9,
                 "recovery": 9,
-                "fight-iq": 7
+                "fight-iq": 8
             },
             "ratio": 0.45
         },
@@ -13603,84 +13603,78 @@
         "description": "Josh Hokit is a high-motor heavyweight whose game is built on elite athleticism and NCAA All-American wrestling. While he recently set volume records in his April 2026 win over Curtis Blaydes, his striking is characterized more by relentless output and physical conditioning than technical perfection. He often uses his striking as a vehicle to force clinches and takedowns where his wrestling can truly shine. Despite some defensive lapses and a lack of traditional technical 'finesse' in his boxing, his ability to maintain a lightweight-esque pace for three full rounds makes him a physical anomaly and a major problem for the aging heavyweight elite."
     },
     {
-        "personal-info": {
-            "name": "Mike Malott",
-            "nickname": "",
-            "birth-date": "1991-11-07",
-            "nationality": "Canadian",
-            "fighting-out-of": "Ontario, Canada",
-            "country-code": "CA",
-            "weight-class": "Welterweight",
-            "gym": "House of Champions",
-            "status": "Active",
-            "gender": "Male"
-        },
-        "specs": {
-            "height": 185,
-            "reach": 73,
-            "stance": "Orthodox"
-        },
-        "skillset": {
-            "striking": {
-                "punches": {
-                    "jab": 7,
-                    "cross": 7,
-                    "haymaker": 7
-                },
-                "kicks": {
-                    "low": 6,
-                    "body": 6,
-                    "head": 5
-                },
-                "overview": {
-                    "power": 7,
-                    "accuracy": 7,
-                    "volume": 7,
-                    "defence": 8
-                },
-                "proportion": 0.6,
-                "style": "Pressure Striker"
-            },
-            "grappling": {
-                "takedown": 6,
-                "defence": 8,
-                "submissions": 5,
-                "ground-control": 6,
-                "scrambles": 6,
-                "style": "Defensive Grappler"
-            },
-            "clinch": {
-                "clinch-control": 6,
-                "clinch-striking": 6
-            },
-            "intangibles": {
-                "stamina": 6,
-                "chin": 7,
-                "recovery": 6,
-                "fight-iq": 6
-            },
-            "ratio": 0.65
-        },
-        "career": {
-            "api-id": 0,
-            "wins": 14,
-            "losses": 2,
-            "draws": 1,
-            "no-contests": 0,
-            "ko-tko-wins": 6,
-            "sub-wins": 3,
-            "win-streak": 4,
-            "last-five": [
-                1,
-                1,
-                1,
-                1,
-                0
-            ],
-            "fight-history": [
-                "W vs Gilbert Burns (KO/TKO - Strikes) R3 2:08 - UFC Fight Night 273"
-            ]
-        },
-        "description": "Mike Malott is a Canadian welterweight who recently scored a signature third-round TKO over former title challenger Gilbert Burns at UFC Winnipeg, improving his record and rising into the UFC welterweight rankings. Poised, patient pressure striker with improving all-round skills and growing momentum in the division."
-    }
+  "personal-info": {
+    "name": "Mike Malott",
+    "nickname": "",
+    "birth-date": "1991-11-07",
+    "nationality": "Canadian",
+    "fighting-out-of": "Ontario, Canada",
+    "country-code": "CA",
+    "weight-class": "Welterweight",
+    "gym": "House of Champions",
+    "status": "Active",
+    "gender": "Male"
+  },
+  "specs": {
+    "height": 185,
+    "reach": 73,
+    "stance": "Orthodox"
+  },
+  "skillset": {
+    "striking": {
+      "punches": {
+        "jab": 7,
+        "cross": 7,
+        "haymaker": 7
+      },
+      "kicks": {
+        "low": 6,
+        "body": 6,
+        "head": 5
+      },
+      "overview": {
+        "power": 7,
+        "accuracy": 7,
+        "volume": 7,
+        "defence": 8
+      },
+      "proportion": 0.6,
+      "style": "Pressure Striker"
+    },
+    "grappling": {
+      "takedown": 6,
+      "defence": 8,
+      "submissions": 5,
+      "ground-control": 6,
+      "scrambles": 6,
+      "style": "Defensive grappler"
+    },
+    "clinch": {
+      "clinch-control": 6,
+      "clinch-striking": 6
+    },
+    "intangibles": {
+      "stamina": 6,
+      "chin": 7,
+      "recovery": 6,
+      "fight-iq": 6
+    },
+    "ratio": 0.65
+  },
+  "career": {
+    "api-id": 0,
+    "wins": 14,
+    "losses": 2,
+    "draws": 1,
+    "no-contests": 0,
+    "ko-tko-wins": 6,
+    "sub-wins": 3,
+    "win-streak": 4,
+    "last-five": [1, 1, 1, 1, 0],
+    "fight-history": [
+      "W vs Gilbert Burns (KO/TKO - Strikes) R3 2:08 - UFC Fight Night 273"
+    ]
+  },
+  "description": "Mike Malott is a Canadian welterweight who recently scored a signature third-round TKO over former title challenger Gilbert Burns at UFC Winnipeg, improving his record and rising into the UFC welterweight rankings. Poised, patient pressure striker with improving all-round skills and growing momentum in the division."
+}
 ]
