@@ -74,44 +74,75 @@ class Fighter():
     def skillset_score(self):
         ratio = self._skillset_ratio
         ratio1 = 1.0 - ratio
-        score = (0.2 * self.intangibles_score) + (0.75 * ratio * self.striking_score) + (
-                    0.75 * ratio1 * self.grappling_score) + (0.05 * self.clinch_score)
+        score = (
+                (0.20 * self.intangibles_score) +
+                (0.75 * ratio * self.striking_score) +
+                (0.75 * ratio1 * self.grappling_score) +
+                (0.05 * self.clinch_score)
+        )
         return round(score, 2)
 
     @property
     def intangibles_score(self):
-        score = (0.3 * self._skillset_intangibles_chin) + (0.3 * self._skillset_intangibles_stamina) + (
-                    0.2 * self.__dict__["_skillset_intangibles_fight-iq"]) + (0.2 * self._skillset_intangibles_recovery)
+        score = (
+                (0.30 * self._skillset_intangibles_chin) +
+                (0.30 * self.__dict__["_skillset_intangibles_fight-iq"]) +
+                (0.20 * self._skillset_intangibles_stamina) +
+                (0.20 * self._skillset_intangibles_durability)
+        )
         return round(score, 1)
 
     @property
     def striking_score(self):
         ratio = self._skillset_striking_proportion
         ratio1 = 1.0 - ratio
-        score = (0.5 * self.overview_score) + (0.5 * ratio * self.punches_score) + (0.5 * ratio1 * self.kicks_score)
+        score = (
+                (0.50 * self.overview_score) +
+                (0.50 * ratio * self.punches_score) +
+                (0.50 * ratio1 * self.kicks_score)
+        )
         return round(score, 1)
 
     @property
     def grappling_score(self):
-        score = self.category_score("grappling")
+        score = (
+                (0.18 * self._skillset_grappling_takedown) +
+                (0.15 * self.__dict__["_skillset_grappling_takedown-defence"]) +
+                (0.17 * self.__dict__["_skillset_grappling_ground-control"]) +
+                (0.15 * self._skillset_grappling_submissions) +
+                (0.13 * self._skillset_grappling_scrambles) +
+                (0.12 * self.__dict__["_skillset_grappling_ground-and-pound"]) +
+                (0.10 * self.__dict__["_skillset_grappling_bottom-game"])
+        )
         return round(score, 1)
 
     @property
     def punches_score(self):
-        score = (0.4 * self._skillset_striking_punches_jab) + (0.3 * self._skillset_striking_punches_cross) + (
-                    0.3 * self._skillset_striking_punches_haymaker)
+        score = (
+                (0.40 * self._skillset_striking_punches_jab) +
+                (0.30 * self._skillset_striking_punches_cross) +
+                (0.30 * self._skillset_striking_punches_haymaker)
+        )
         return round(score, 1)
 
     @property
     def kicks_score(self):
-        score = (0.4 * self._skillset_striking_kicks_low) + (0.3 * self._skillset_striking_kicks_body) + (
-                    0.3 * self._skillset_striking_kicks_head)
+        score = (
+                (0.40 * self._skillset_striking_kicks_low) +
+                (0.30 * self._skillset_striking_kicks_body) +
+                (0.30 * self._skillset_striking_kicks_head)
+        )
         return round(score, 1)
 
     @property
     def overview_score(self):
-        score = (0.3 * self._skillset_striking_overview_defence) + (0.3 * self._skillset_striking_overview_accuracy) + (
-                    0.2 * self._skillset_striking_overview_power) + (0.2 * self._skillset_striking_overview_volume)
+        score = (
+                (0.25 * self._skillset_striking_overview_defence) +
+                (0.25 * self._skillset_striking_overview_accuracy) +
+                (0.20 * self._skillset_striking_overview_power) +
+                (0.15 * self._skillset_striking_overview_volume) +
+                (0.15 * self._skillset_striking_overview_footwork)
+        )
         return round(score, 1)
 
     @property

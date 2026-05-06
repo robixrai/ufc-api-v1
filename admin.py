@@ -15,7 +15,7 @@ rankings_path = DATA_DIR / "rankings.json"
 striking_styles = { 1 : "Counter Striker", 2 : "Pressure Striker", 3 : "Outside Sniper", 4 : "Technical Boxer", 5 : "Muay Thai / Kickboxer"}
 grappling_styles = { 1 : "Wrestler", 2 : "Defensive Grappler", 3 : "Submission Specialist", 4 : "Ground and Pound", 5 : "All-Round Grappler"}
 
-with open(fighters_path, "r") as f:
+with open(fighters_path, "r", encoding="utf-8") as f:
     fighters = json.load(f)
 
 male_divisions = []
@@ -233,6 +233,64 @@ def inspect():
 
     return ""
 
+def populate_ufc_stats():
+    UFC_STATS = ["ufc-wins", "ufc-losses", "ufc-ko-tko-wins", "ufc-sub-wins"]
+
+    with open(fighters_path, "r", encoding="utf-8") as f:
+        raw_list = json.load(f)
+
+    print("\n" + " - - - POPULATE UFC STATS - - - ".center(160, " ") + "\n")
+    print("Enter 'exit', 'leave', or 'cancel' at any time to save and quit.\n")
+
+    exit_words = {"exit", "leave", "cancel"}
+
+    for fighter_json in raw_list:
+        name = fighter_json["personal-info"]["name"]
+        career = fighter_json.setdefault("career", {})
+
+        # Skip fighter entirely if all 4 stats are already populated (not -1)
+        if all(career.get(stat, -1) != -1 for stat in UFC_STATS):
+            continue
+
+        print("\n" + f"  {name}  ".center(160, "-") + "\n")
+
+        aborted = False
+        for stat in UFC_STATS:
+            current = career.get(stat, -1)
+
+            # Skip if already populated
+            if current != -1:
+                print(f"  {stat:<22}: {current}  (skipping — already set)")
+                continue
+
+            while True:
+                raw = input(f"  {stat}: ").strip().lower()
+
+                if raw in exit_words:
+                    print("\n  Saving progress and exiting...\n")
+                    with open(fighters_path, "w", encoding="utf-8") as f:
+                        json.dump(raw_list, f, indent=4, ensure_ascii=False)
+                    tools.load_data()
+                    print("  Progress saved.\n")
+                    print("_" * 160)
+                    aborted = True
+                    break
+
+                try:
+                    career[stat] = int(raw)
+                    break
+                except ValueError:
+                    print("  Please enter a valid integer.")
+
+            if aborted:
+                return
+
+    with open(fighters_path, "w", encoding="utf-8") as f:
+        json.dump(raw_list, f, indent=4, ensure_ascii=False)
+    tools.load_data()
+
+    print("\n" + "All fighters updated and saved.".center(160, " ") + "\n")
+    print("_" * 160)
 
 for div in tools.rankings_db.keys():
     if div.startswith("men's"):
@@ -590,6 +648,7 @@ def predictions():
     while True:
         fighter1 = input("\n\nEnter fighter 1\n\n")
         fighter2 = input("\nEnter fighter 2\n\n")
+        rounds = int(input("\nEnter number of rounds\n").strip())
         logs = input("\n\nWould you like logs? Y/N\n\n").strip().lower()
 
         if logs == 'y':
@@ -605,7 +664,7 @@ def predictions():
 
         model = Predict()
 
-        win, loss, logs = model.predict_fight(fighterone, fightertwo)
+        win, loss, logs = model.predict_fight(fighterone, fightertwo, rounds)
 
         if win > 0.5:
             winner = fighter1
@@ -641,6 +700,9 @@ while True:
     if choice == 'inspect':
 
         inspect()
+
+    elif choice == 'stats':
+        populate_ufc_stats()
 
     elif choice == 'exit':
         print("\nProject Shutting Down.\n\n")

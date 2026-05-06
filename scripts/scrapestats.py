@@ -1,8 +1,8 @@
 """
 scrape_ufc_stats.py
 
-Uses Google search to find each fighter's UFCStats page directly,
-then scrapes their fight history for UFC wins/losses/finishes.
+Scrapes UFCStats.com to auto-populate ufc-wins, ufc-losses, ufc-ko-tko-wins, ufc-sub-wins
+for every fighter in fighters.json.
 
 Run from project root:
     python scripts/scrape_ufc_stats.py
@@ -20,67 +20,92 @@ from pathlib import Path
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
-FIGHTERS_PATH = Path(__file__).resolve().parent.parent / "data" / "fighters.json"
-HEADERS       = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/120.0.0.0 Safari/537.36"
-    )
-}
-SEARCH_DELAY  = 2.0   # between Google searches
-SCRAPE_DELAY  = 1.2   # between UFCStats page fetches
+FIGHTERS_PATH   = Path(__file__).resolve().parent.parent / "data" / "fighters.json"
+UFCSTATS_SEARCH = "http://ufcstats.com/statistics/fighters?char={}&action=fighter_search"
+HEADERS         = {"User-Agent": "Mozilla/5.0"}
+DELAY           = 0
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 def strip_accents(text: str) -> str:
+    """Remove all accents/diacritics from a string."""
     return "".join(
         c for c in unicodedata.normalize("NFD", text)
         if unicodedata.category(c) != "Mn"
     )
 
+def normalise(text: str) -> str:
+    """Lowercase, strip accents, remove punctuation."""
+    text = strip_accents(text).lower()
+    text = "".join(c for c in text if c.isalnum() or c == " ")
+    return " ".join(text.split())
 
-def find_ufcstats_url(name: str) -> str | None:
-    """
-    Google search: '<name> site:ufcstats.com fighter-details'
-    Extract the first ufcstats.com/fighter-details URL from results.
-    """
-    query = f"{name} site:ufcstats.com/fighter-details"
-    url   = f"https://www.google.com/search?q={requests.utils.quote(query)}&num=5"
 
-    try:
-        resp = requests.get(url, headers=HEADERS, timeout=10)
-    except Exception:
+def search_fighter(name: str):
+    """
+    Strategy:
+      1. Browse UFCStats by first letter of the DB last name
+      2. For each row, strip accents from the UFC name
+      3. Match: first name must match AND first 2 letters of last name must match
+    Returns fighter page URL or None.
+    """
+    parts      = name.strip().split()
+    if len(parts) < 2:
+        # Single name — try first letter of that name
+        first_name = normalise(parts[0])
+        last_name  = ""
+        last_2     = ""
+        search_char = first_name[0] if first_name else "a"
+    else:
+        first_name  = normalise(parts[0])
+        last_name   = normalise(" ".join(parts[1:]))
+        last_2      = last_name[:2]
+        search_char = last_name[0] if last_name else first_name[0]
+
+    if not search_char.isalpha():
         return None
 
+    url  = UFCSTATS_SEARCH.format(search_char)
+    resp = requests.get(url, headers=HEADERS, timeout=10)
     if resp.status_code != 200:
         return None
 
-    soup  = BeautifulSoup(resp.text, "html.parser")
+    soup = BeautifulSoup(resp.text, "html.parser")
+    rows = soup.select("table.b-statistics__table tbody tr")
 
-    # Google wraps result links in <a href="/url?q=..."> tags
-    for a in soup.find_all("a", href=True):
-        href = a["href"]
-        if "ufcstats.com/fighter-details/" in href:
-            # Strip Google's redirect wrapper
-            if href.startswith("/url?q="):
-                href = href[7:]
-                href = href.split("&")[0]
-            return href
+    for row in rows:
+        cells = row.find_all("td")
+        if len(cells) < 2:
+            continue
+        first_a = cells[0].find("a")
+        last_a  = cells[1].find("a")
+        if not first_a or not last_a:
+            continue
+
+        # Strip accents from UFC site names before comparing
+        ufc_first = normalise(first_a.text.strip())
+        ufc_last  = normalise(last_a.text.strip())
+
+        # First name must match exactly
+        if ufc_first != first_name:
+            continue
+
+        # Last name first 2 letters must match (handles Jr., compound names etc.)
+        if last_2 and not ufc_last.startswith(last_2):
+            continue
+
+        href = first_a.get("href") or last_a.get("href")
+        return href
 
     return None
 
 
-def scrape_fighter_page(url: str) -> dict | None:
+def scrape_fighter_page(url: str):
     """
-    Scrape a fighter's UFCStats page.
+    Scrape a fighter's UFC stats page.
     Returns dict with ufc-wins, ufc-losses, ufc-ko-tko-wins, ufc-sub-wins.
     """
-    try:
-        resp = requests.get(url, headers=HEADERS, timeout=10)
-    except Exception:
-        return None
-
+    resp = requests.get(url, headers=HEADERS, timeout=10)
     if resp.status_code != 200:
         return None
 
@@ -110,8 +135,6 @@ def scrape_fighter_page(url: str) -> dict | None:
         elif result_cell == "LOSS":
             ufc_losses += 1
 
-        # NC and Draw intentionally ignored
-
     return {
         "ufc-wins":        ufc_wins,
         "ufc-losses":      ufc_losses,
@@ -138,21 +161,15 @@ def main():
 
         # Skip if already populated with non-zero values
         if career.get("ufc-wins") not in (None, 0) or career.get("ufc-losses") not in (None, 0):
-            print("already populated, skipping")
+            print("already has UFC stats, skipping")
             continue
 
         try:
-            # Step 1 — find the UFCStats page via Google
-            page_url = find_ufcstats_url(name)
-            time.sleep(SEARCH_DELAY)
+            page_url = search_fighter(name)
+            time.sleep(DELAY)
 
             if not page_url:
-                # Retry with accents stripped in case DB name differs
-                page_url = find_ufcstats_url(strip_accents(name))
-                time.sleep(SEARCH_DELAY)
-
-            if not page_url:
-                print("NOT FOUND via Google")
+                print("NOT FOUND")
                 failed.append(name)
                 career["ufc-wins"]        = 0
                 career["ufc-losses"]      = 0
@@ -160,9 +177,8 @@ def main():
                 career["ufc-sub-wins"]    = 0
                 continue
 
-            # Step 2 — scrape the fighter page
             stats = scrape_fighter_page(page_url)
-            time.sleep(SCRAPE_DELAY)
+            time.sleep(DELAY)
 
             if not stats:
                 print(f"page fetch failed ({page_url})")
@@ -194,9 +210,9 @@ def main():
             career["ufc-ko-tko-wins"] = 0
             career["ufc-sub-wins"]    = 0
 
-        # Save after every fighter so progress isn't lost if interrupted
-        with open(FIGHTERS_PATH, "w", encoding="utf-8") as f:
-            json.dump(fighters, f, indent=4, ensure_ascii=False)
+    # Save back
+    with open(FIGHTERS_PATH, "w", encoding="utf-8") as f:
+        json.dump(fighters, f, indent=4, ensure_ascii=False)
 
     print(f"\nDone. Updated: {updated}/{total}")
     if failed:

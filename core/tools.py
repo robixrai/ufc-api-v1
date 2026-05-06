@@ -52,7 +52,7 @@ def flat_dict(nested_dict):
 def load_fighters():
     db = {}
     try:
-        with open(fighters_path, 'r') as f:
+        with open(fighters_path, "r", encoding="utf-8") as f:
             data = json.load(f)
             for item in data:
                 flat_data = flat_dict(item)
@@ -80,79 +80,82 @@ def load_rankings():
     return db
 
 
-empty_db = {
-    "personal-info": {
-        "name": "",
-        "nickname": "",
-        "birth-date": "",
-        "nationality": "",
-        "fighting-out-of": "",
-        "country-code": "",
-        "weight-class": "",
-        "gym": "",
-        "status": "",
-        "gender": ""
-    },
-    "specs": {
-        "height": 0,
-        "reach": 0,
-        "stance": ""
-    },
-    "skillset": {
-        "striking": {
-            "punches": {
-                "jab": 0,
-                "cross": 0,
-                "haymaker": 0
+empty_db =     {
+        "personal-info": {
+            "name": "Youssef Zalal",
+            "nickname": "The Moroccan Devil",
+            "birth-date": "1996-09-04",
+            "nationality": "Moroccan",
+            "fighting-out-of": "Englewood, Colorado",
+            "country-code": "MA",
+            "weight-class": "Featherweight",
+            "gym": "Factor X Muay Thai",
+            "status": "Active",
+            "gender": "Male"
+        },
+        "specs": {
+            "height": 178.0,
+            "reach": 72.0,
+            "stance": "Switch"
+        },
+        "skillset": {
+            "striking": {
+                "punches": {
+                    "jab": 9,
+                    "cross": 8,
+                    "haymaker": 7
+                },
+                "kicks": {
+                    "low": 8,
+                    "body": 7,
+                    "head": 9
+                },
+                "overview": {
+                    "power": 8,
+                    "accuracy": 9,
+                    "volume": 8,
+                    "defence": 8,
+                    "footwork": 10
+                },
+                "proportion": 0.45,
+                "style": "Outside Sniper"
             },
-            "kicks": {
-                "low": 0,
-                "body": 0,
-                "head": 0
+            "grappling": {
+                "takedown": 8,
+                "takedown-defence": 8,
+                "submissions": 10,
+                "ground-control": 9,
+                "ground-and-pound": 9,
+                "scrambles": 9,
+                "style": "Submission Specialist",
+                "bottom-game": 7
             },
-            "overview": {
-                "power": 0,
-                "accuracy": 0,
-                "volume": 0,
-                "defence": 0
+            "clinch": {
+                "clinch-control": 9,
+                "clinch-striking": 7
             },
-            "proportion": 0.0,
-            "style": ""
+            "intangibles": {
+                "stamina": 7,
+                "chin": 8,
+                "durability": 9,
+                "fight-iq": 8
+            },
+            "ratio": 0.55
         },
-        "grappling": {
-            "takedown": 0,
-            "defence": 0,
-            "submissions": 0,
-            "ground-control": 0,
-            "scrambles": 0,
-            "style": ""
+        "career": {
+            "api-id": 0,
+            "wins": 0,
+            "losses": 0,
+            "draws": 0,
+            "no-contests": 0,
+            "ko-tko-wins": 0,
+            "sub-wins": 0,
+            "win-streak": 0,
+            "last-five": [0, 0, 0, 0, 0],
+            "fight-history": []
         },
-        "clinch": {
-            "clinch-control": 0,
-            "clinch-striking": 0
-        },
-        "intangibles": {
-            "stamina": 0,
-            "chin": 0,
-            "recovery": 0,
-            "fight-iq": 0
-        },
-        "ratio": 0.0
-    },
-    "career": {
-        "api-id": 0,
-        "wins": 0,
-        "losses": 0,
-        "draws": 0,
-        "no-contests": 0,
-        "ko-tko-wins": 0,
-        "sub-wins": 0,
-        "win-streak": 0,
-        "last-five": [0, 0, 0, 0, 0],
-        "fight-history": []
-    },
-    "description": ""
-}
+        "description": ""
+    }
 
 rankings_index = {
     "Strawweight": -1,
