@@ -936,9 +936,9 @@ class Predict():
             method_perc = math.floor(best_method_value * 1000) / 10.0
 
             confidence = "Low"
-            if win_prob > 0.60:
+            if winner_conf > 0.60:
                 confidence = "Medium"
-            if win_prob > 0.80:
+            if winner_conf > 0.80:
                 confidence = "High"
 
             # ... (Your existing win_perc and lose_perc logic) ...
@@ -951,8 +951,19 @@ class Predict():
             ko_perc = math.floor(fight_ko * 1000) / 10.0
             sub_perc = math.floor(fight_sub * 1000) / 10.0
             dec_perc = math.floor(fight_dec * 1000) / 10.0
-            while round(ko_perc + sub_perc + dec_perc, 1) < 100.0:
-                ko_perc += 0.1
+
+            # fix the rounding remainder on the largest value
+            total = round(ko_perc + sub_perc + dec_perc, 1)
+            if total != 100.0:
+                diff = round(100.0 - total, 1)
+                # add remainder to the largest
+                largest = max(["ko", "sub", "dec"], key=lambda x: {"ko": ko_perc, "sub": sub_perc, "dec": dec_perc}[x])
+                if largest == "ko":
+                    ko_perc = round(ko_perc + diff, 1)
+                elif largest == "sub":
+                    sub_perc = round(sub_perc + diff, 1)
+                else:
+                    dec_perc = round(dec_perc + diff, 1)
 
             return 0.0, 0.0, {
                 "Fighter 1": f1_name,
@@ -966,9 +977,9 @@ class Predict():
                 "Fighter 2 % of winning": lose_perc,
                 "Winners method of victory": best_method_name,  # The string "KO"
                 "Winners method of victory %": method_perc,  # The float 75.4
-                "% of KO": ko_perc,
-                "% of SUB": sub_perc,
-                "% of DEC": dec_perc
+                "% of KO": round(ko_perc, 1),
+                "% of SUB": round(sub_perc, 1),
+                "% of DEC": round(dec_perc, 1)
             }
 
         else:
