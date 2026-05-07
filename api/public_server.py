@@ -9,7 +9,7 @@ import unicodedata
 from fastapi import FastAPI, HTTPException
 
 from core.predictor import Predict
-
+from core.tools import fighter_db
 predictor = Predict()
 
 DATA_DIR = Path(__file__).resolve().parent.parent
