@@ -334,7 +334,8 @@ def predict_matchup(f1: str, f2: str):
         raise HTTPException(status_code=500, detail="Database not initialized")
 
     # 1. Normalise names and fetch Fighter objects
-    n1, n2 = normalise_name(f1), normalise_name(f2)
+    n1 = normalise_name(f1.replace("_", " "))
+    n2 = normalise_name(f2.replace("_", " "))
     fighter1_obj = fighters_db.get(n1)
     fighter2_obj = fighters_db.get(n2)
 
