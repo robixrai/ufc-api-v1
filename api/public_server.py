@@ -330,54 +330,38 @@ def list_fighters(gender: Optional[str] = None, division: Optional[str] = None):
 
 @app.get("/predict/{f1}/{f2}")
 def predict_matchup(f1: str, f2: str):
-
-    """
-    Predict a fight between two fighters.
-    Look up round count in ufc_events.json and return model's JSON format.
-    """
     if not fighters_db:
         raise HTTPException(status_code=500, detail="Database not initialized")
 
-    # 1. Normalise names and fetch full Fighter Objects from DB
+    # 1. Normalise names and fetch Fighter objects
     n1, n2 = normalise_name(f1), normalise_name(f2)
     fighter1_obj = fighters_db.get(n1)
     fighter2_obj = fighters_db.get(n2)
 
     if not fighter1_obj or not fighter2_obj:
-        missing = [f1 if not fighter1_obj else f2]
-        if not fighter1_obj and not fighter2_obj: missing = [f1, f2]
+        missing = []
+        if not fighter1_obj: missing.append(f1)
+        if not fighter2_obj: missing.append(f2)
         raise HTTPException(status_code=404, detail=f"Fighter(s) not found: {missing}")
 
-    # 2. Determine Rounds from events database
-    # Default to 3 rounds if the bout isn't found
+    # 2. Determine rounds from ufc_events.json
     rounds = 3
-    found_bout = False
-
-    for event in events_db:
-        for bout in event.get("bouts", []):
+    for event in events_db.values():
+        all_bouts = event.get("main_card", []) + event.get("prelims", [])
+        for bout in all_bouts:
             b1_norm = normalise_name(bout.get("fighter1", ""))
             b2_norm = normalise_name(bout.get("fighter2", ""))
-
-            # Check for match in either corner configuration
             if (n1 == b1_norm and n2 == b2_norm) or (n1 == b2_norm and n2 == b1_norm):
                 try:
                     rounds = int(bout.get("rounds", 3))
                 except (ValueError, TypeError):
                     rounds = 3
-                found_bout = True
                 break
-        if found_bout: break
 
-    # 3. Execute prediction using the full objects and round count
+    # 3. Run prediction
     try:
-        # Calling your Predict class instance with the JSON=1 toggle
-        prediction_result = predictor.predict_fight(
-            fighter1_obj,
-            fighter2_obj,
-            rounds=rounds,
-            json=1
-        )
-        return prediction_result
+        _, _, result = predictor.predict_fight(fighter1_obj, fighter2_obj, rounds=rounds, json=1)
+        return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Model Error: {str(e)}")
 

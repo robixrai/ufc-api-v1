@@ -5,7 +5,7 @@ from pathlib import Path
 from core.fighter import Fighter
 from core.tools import rankings_index
 
-DATA_DIR = Path(__file__).resolve().parent
+DATA_DIR = Path(__file__).resolve().parent.parent
 
 fighters_path = DATA_DIR / "data" / "fighters.json"
 rankings_path = DATA_DIR / "data" / "rankings.json"
@@ -187,7 +187,6 @@ class Predict():
 
         priors_dict = FEMALE_PRIORS if getattr(fighter, "_personal-info_gender") == "female" else MALE_PRIORS
         division = getattr(fighter, "_personal-info_division", "Lightweight")
-
         stats_prior = priors_dict.get(division, [0.32, 0.18, 0.50])
 
         # --- Career rates ---
@@ -264,14 +263,13 @@ class Predict():
         # --- KO threat ---
         ko_resistance = (opp_chin * opp_durability * opp_str_def * opp_footwork) ** 0.25
         ko_threat = (striking_score * (blended_ko_rate + eps)) / (ko_resistance + eps)
-        ko_threat *= max(0.0, standing_prob)
-        ko_threat **= 1.5
+        ko_threat *= (0.5 + 0.5 * standing_prob)  # soft modifier, ranges 0.5–1.0
 
         # --- Sub threat ---
+        sub_rating_factor = 0.5 + 0.5 * (sub_rating / 10.0)  # dampened to ~0.5–1.0 range
         sub_resistance = (opp_grap_score * opp_tkd_def * opp_bottom_game) ** (1 / 3)
-        sub_threat = (grappling_score * sub_rating * (blended_sub_rate + eps)) / (sub_resistance + eps)
-        sub_threat *= max(0.0, grappling_prob)
-        sub_threat **= 1.5
+        sub_threat = (grappling_score * sub_rating_factor * (blended_sub_rate + eps)) / (sub_resistance + eps)
+        sub_threat *= (0.5 + 0.5 * grappling_prob)  # soft modifier, ranges 0.5–1.0
 
         # --- Decision propensity ---
         location_balance = 1.0 - abs(standing_prob - grappling_prob)
@@ -289,7 +287,11 @@ class Predict():
         log += f"  Raw Sub threat  : {round(sub_threat, 4)}\n"
         log += f"  Raw Dec threat  : {round(dec_threat, 4)}\n\n"
 
-        # --- Normalise ---
+        # --- Apply uniform power law to all three, then normalise ---
+        ko_threat = ko_threat ** 1.2
+        sub_threat =  sub_threat ** 1.2
+        dec_threat = dec_threat ** 1.3
+
         total_raw = ko_threat + sub_threat + dec_threat + eps
         ko_p = ko_threat / total_raw
         sub_p = sub_threat / total_raw
@@ -299,14 +301,13 @@ class Predict():
         if s <= 0:
             ko_p = sub_p = dec_p = 1.0 / 3.0
         else:
-            ko_p /= s;
-            sub_p /= s;
+            ko_p /= s
+            sub_p /= s
             dec_p /= s
 
         log += f"  Final profile  →  KO: {round(ko_p, 3)}   Sub: {round(sub_p, 3)}   Dec: {round(dec_p, 3)}\n"
 
         return ko_p, sub_p, dec_p, log
-
     def combine_method_profiles(
             self,
             f1_profile: Tuple[float, float, float],

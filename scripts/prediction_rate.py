@@ -168,7 +168,7 @@ def run_backtest():
             continue
 
         try:
-            win_prob, lose_prob, logs = predictor.predict_fight(f1, f2, rounds)
+            win_prob, lose_prob, logs = predictor.predict_fight(f1, f2, rounds, 0)
         except Exception as e:
             skipped.append(f"  SKIPPED (error): {f1_name} vs {f2_name} — {e}")
             continue

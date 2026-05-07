@@ -1,0 +1,47 @@
+{
+    "UFC 328": {
+        "locked_at": "2026-05-07T20:42:06.972117",
+        "fights": {
+            "Khamzat Chimaev vs Sean Strickland": {
+                "predicted_winner": "Khamzat Chimaev",
+                "predicted_winner_method": "Sub",
+                "predicted_fight_method": "Dec",
+                "win_probability": 87.4,
+                "actual_winner": null,
+                "actual_method": null,
+                "winner_correct": null,
+                "method_correct": null
+            },
+            "Tatsuro Taira vs Joshua Van": {
+                "predicted_winner": "Tatsuro Taira",
+                "predicted_winner_method": "Sub",
+                "predicted_fight_method": "Dec",
+                "win_probability": 70.9,
+                "actual_winner": null,
+                "actual_method": null,
+                "winner_correct": null,
+                "method_correct": null
+            },
+            "Alexander Volkov vs Waldo Cortes-Acosta": {
+                "predicted_winner": "Alexander Volkov",
+                "predicted_winner_method": "KO",
+                "predicted_fight_method": "KO",
+                "win_probability": 62.4,
+                "actual_winner": null,
+                "actual_method": null,
+                "winner_correct": null,
+                "method_correct": null
+            },
+            "Sean Brady vs Joaquin Buckley": {
+                "predicted_winner": "Sean Brady",
+                "predicted_winner_method": "Dec",
+                "predicted_fight_method": "Dec",
+                "win_probability": 62.5,
+                "actual_winner": null,
+                "actual_method": null,
+                "winner_correct": null,
+                "method_correct": null
+            }
+        }
+    }
+}
