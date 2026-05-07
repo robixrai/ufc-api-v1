@@ -338,8 +338,8 @@ def predict_matchup(f1: str, f2: str):
     # 1. Normalise names and fetch Fighter objects
     n1 = normalise_name(f1.replace("_", " "))
     n2 = normalise_name(f2.replace("_", " "))
-    fighter1_obj = fighters_db.get(n1)
-    fighter2_obj = fighters_db.get(n2)
+    fighter1_obj = fighter_db.get(n1)
+    fighter2_obj = fighter_db.get(n2)
 
     if not fighter1_obj or not fighter2_obj:
         missing = []
