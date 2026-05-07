@@ -1,0 +1,78 @@
+{
+    "UFC 328": {
+        "type": "Numbered Event",
+        "main_fight": "Chimaev vs Strickland",
+        "comain": "Van vs Taira",
+        "date": "2026-05-09",
+        "location": "Newark, New Jersey",
+        "main_card": [
+            {
+                "fighter1": "Khamzat Chimaev",
+                "fighter2": "Sean Strickland",
+                "rounds": 5
+            },
+            {
+                "fighter1": "Tatsuro Taira",
+                "fighter2": "Joshua Van",
+                "rounds": 5
+            },
+            {
+                "fighter1": "Alexander Volkov",
+                "fighter2": "Waldo Cortes-Acosta",
+                "rounds": 3
+            },
+            {
+                "fighter1": "Sean Brady",
+                "fighter2": "Joaquin Buckley",
+                "rounds": 3
+            },
+            {
+                "fighter1": "King Green",
+                "fighter2": "Jeremy Stephens",
+                "rounds": 3
+            }
+        ],
+        "prelims": [
+            {
+                "fighter1": "Ateba Gautier",
+                "fighter2": "Ozzy Diaz",
+                "rounds": 3
+            },
+            {
+                "fighter1": "Joel Alvarez",
+                "fighter2": "Yaroslav Amosov",
+                "rounds": 3
+            },
+            {
+                "fighter1": "Grant Dawson",
+                "fighter2": "Mateusz Rebecki",
+                "rounds": 3
+            },
+            {
+                "fighter1": "Jim Miller",
+                "fighter2": "Jared Gordon",
+                "rounds": 3
+            },
+            {
+                "fighter1": "Roman Kopylov",
+                "fighter2": "Marco Tulio",
+                "rounds": 3
+            },
+            {
+                "fighter1": "Pat Sabatini",
+                "fighter2": "William Gomis",
+                "rounds": 3
+            },
+            {
+                "fighter1": "Baisangur Susurkaev",
+                "fighter2": "Djorden Santos",
+                "rounds": 3
+            },
+            {
+                "fighter1": "Clayton Carpenter",
+                "fighter2": "Jose Ochoa",
+                "rounds": 3
+            }
+        ]
+    }
+}

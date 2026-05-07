@@ -8,17 +8,21 @@ from typing import Optional
 import unicodedata
 from fastapi import FastAPI, HTTPException
 
-DATA_DIR = Path(__file__).resolve().parent.parent / "data"
-fighters_path = DATA_DIR / "fighters.json"
-rankings_path = DATA_DIR / "rankings.json"
+from core import predictor
+
+DATA_DIR = Path(__file__).resolve().parent.parent
+fighters_path = DATA_DIR / "data/fighters.json"
+rankings_path = DATA_DIR / "data/rankings.json"
+fights_path = DATA_DIR / "ufc_events.json"
 
 rankings_db = []
 fighters_db = {}
+events_db = {}
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global rankings_db, fighters_db
+    global rankings_db, fighters_db, events_db
 
     # load rankings
     try:
@@ -54,11 +58,17 @@ async def lifespan(app: FastAPI):
     import logging
     logging.getLogger(__name__).info("Loaded fighters_db entries=%d sample_key=%s",
                                      len(fighters_db), next(iter(fighters_db), None))
+    try:
+        with open(fights_path, "r", encoding="utf-8") as f:
+            events_db = json.load(f)
+    except FileNotFoundError:
+        events_db = {}
 
     yield
 
 
 app = FastAPI(lifespan=lifespan)
+
 
 def extract_champions():
     if rankings_db is None:
@@ -73,6 +83,7 @@ def extract_champions():
             if fighters:  # make sure list isn't empty
                 champions[gender_key][division] = fighters[0]
     return champions
+
 
 def normalise_name(user_input: Optional[str]) -> str:
     """
@@ -94,15 +105,18 @@ def normalise_name(user_input: Optional[str]) -> str:
     s = re.sub(r"\s+", " ", s).strip()
     return s
 
+
 def copy_without_skillset(fighter_obj: dict) -> dict:
     """Return a shallow copy of fighter_obj with 'skillset' removed."""
     result = deepcopy(fighter_obj)
     result.pop("skillset", None)
     return result
 
+
 @app.get("/rankings")
 def get_rankings():
     return rankings_db
+
 
 @app.get("/rankings/champions")
 def get_champions(gender: Optional[str] = None, division: Optional[str] = None):
@@ -145,6 +159,7 @@ def get_champions(gender: Optional[str] = None, division: Optional[str] = None):
     # Case 4: no filters → return all champions
     return champions
 
+
 @app.get("/rankings/search/{fighter}")
 def search_fighter(fighter: str):
     """
@@ -174,7 +189,7 @@ def search_fighter(fighter: str):
                     })
 
     if not matches:
-        return {query : "Unranked / Not Found"}
+        return {query: "Unranked / Not Found"}
 
     return matches
 
@@ -197,6 +212,7 @@ def list_divisions(gender: Optional[str] = None):
         divisions[gender_key] = list(divs.keys())
     return divisions
 
+
 @app.get("/rankings/{gender}")
 def get_gender_rankings(gender: str):
     if rankings_db is None:
@@ -208,6 +224,7 @@ def get_gender_rankings(gender: str):
 
     # Return all divisions under this gender
     return rankings_db[gender_key]
+
 
 @app.get("/rankings/{gender}/{division}")
 def get_division_rankings(gender: str, division: str, rank: Optional[int] = None):
@@ -271,6 +288,7 @@ def get_fighter(name: str, block: Optional[str] = None):
 
     return fighter_copy
 
+
 @app.get("/fighters")
 def list_fighters(gender: Optional[str] = None, division: Optional[str] = None):
     """
@@ -310,6 +328,56 @@ def list_fighters(gender: Optional[str] = None, division: Optional[str] = None):
     return results
 
 
+@app.get("/predict/{f1}/{f2}")
+def predict_matchup(f1: str, f2: str):
 
+    """
+    Predict a fight between two fighters.
+    Look up round count in ufc_events.json and return model's JSON format.
+    """
+    if not fighters_db:
+        raise HTTPException(status_code=500, detail="Database not initialized")
 
+    # 1. Normalise names and fetch full Fighter Objects from DB
+    n1, n2 = normalise_name(f1), normalise_name(f2)
+    fighter1_obj = fighters_db.get(n1)
+    fighter2_obj = fighters_db.get(n2)
+
+    if not fighter1_obj or not fighter2_obj:
+        missing = [f1 if not fighter1_obj else f2]
+        if not fighter1_obj and not fighter2_obj: missing = [f1, f2]
+        raise HTTPException(status_code=404, detail=f"Fighter(s) not found: {missing}")
+
+    # 2. Determine Rounds from events database
+    # Default to 3 rounds if the bout isn't found
+    rounds = 3
+    found_bout = False
+
+    for event in events_db:
+        for bout in event.get("bouts", []):
+            b1_norm = normalise_name(bout.get("fighter1", ""))
+            b2_norm = normalise_name(bout.get("fighter2", ""))
+
+            # Check for match in either corner configuration
+            if (n1 == b1_norm and n2 == b2_norm) or (n1 == b2_norm and n2 == b1_norm):
+                try:
+                    rounds = int(bout.get("rounds", 3))
+                except (ValueError, TypeError):
+                    rounds = 3
+                found_bout = True
+                break
+        if found_bout: break
+
+    # 3. Execute prediction using the full objects and round count
+    try:
+        # Calling your Predict class instance with the JSON=1 toggle
+        prediction_result = predictor.predict_fight(
+            fighter1_obj,
+            fighter2_obj,
+            rounds=rounds,
+            json=1
+        )
+        return prediction_result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Model Error: {str(e)}")
 

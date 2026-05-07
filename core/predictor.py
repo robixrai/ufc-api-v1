@@ -5,13 +5,13 @@ from pathlib import Path
 from core.fighter import Fighter
 from core.tools import rankings_index
 
-DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+DATA_DIR = Path(__file__).resolve().parent
 
-fighters_path = DATA_DIR / "fighters.json"
-rankings_path = DATA_DIR / "rankings.json"
+fighters_path = DATA_DIR / "data" / "fighters.json"
+rankings_path = DATA_DIR / "data" / "rankings.json"
+
 
 def get_champion() -> set:
-
     """Return a set of all current champions (index 0 of each weight class)."""
     champions = set()
     with open(rankings_path, "r", encoding="utf-8") as f:
@@ -24,16 +24,20 @@ def get_champion() -> set:
                 champions.add(fighters[0].lower())
     return champions
 
+
 def is_title_fight(fighter1_name: str, fighter2_name: str) -> bool:
     champions = get_champion()
     return (fighter1_name.lower() in champions or
             fighter2_name.lower() in champions)
 
+
 def clamp(x: float, low: float = -1.0, high: float = 1.0) -> float:
     return max(low, min(high, x))
 
+
 def clamp_prop(x: float, low: float = 0.0, high: float = 1.0) -> float:
     return max(low, min(high, x))
+
 
 def cardio_boost(fighter1: Fighter, fighter2: Fighter, rounds: int) -> Tuple[float, float, str]:
     name1 = getattr(fighter1, "_personal-info_name")
@@ -50,7 +54,7 @@ def cardio_boost(fighter1: Fighter, fighter2: Fighter, rounds: int) -> Tuple[flo
     boost1 = round(diff * round_scalar, 4)
     boost2 = -boost1
 
-    logs  = "\n\n" + "_" * 80 + "\n\n"
+    logs = "\n\n" + "_" * 80 + "\n\n"
     logs += "CARDIO BOOST".center(80) + "\n"
     logs += "_" * 80 + "\n\n"
     logs += f"  {'Rounds':<22}: {rounds}\n"
@@ -64,9 +68,10 @@ def cardio_boost(fighter1: Fighter, fighter2: Fighter, rounds: int) -> Tuple[flo
 
     return boost1, boost2, logs
 
+
 def form_boost(fighter: Fighter) -> Tuple[float, str]:
-    last_five   = getattr(fighter, "_career_last-five", [])
-    name        = getattr(fighter, "_personal-info_name")
+    last_five = getattr(fighter, "_career_last-five", [])
+    name = getattr(fighter, "_personal-info_name")
     weights_all = [0.35, 0.25, 0.20, 0.12, 0.08]
 
     RESULT_LABELS = {1: "Win", 0: "Loss", 3: "Draw", 4: "NC"}
@@ -76,21 +81,21 @@ def form_boost(fighter: Fighter) -> Tuple[float, str]:
         logs_add = f"  {name}: no fight history — form boost = 0.0\n"
         return 0.0, logs_add
 
-    w       = weights_all[:len(last_five)]
+    w = weights_all[:len(last_five)]
     total_w = sum(w)
-    w       = [x / total_w for x in w]
+    w = [x / total_w for x in w]
 
     raw_score = sum(w[i] * RESULT_VALUES.get(last_five[i], 0.0) for i in range(len(last_five)))
-    boost     = round(raw_score * 0.25, 4)
+    boost = round(raw_score * 0.25, 4)
 
-    logs_add  = f"\n  {name} — Recent Form\n\n"
+    logs_add = f"\n  {name} — Recent Form\n\n"
     logs_add += f"  {'Fight':<12} | {'Result':<6} | {'Weight':>8} | {'Contribution':>12}\n"
     logs_add += "  " + "-" * 45 + "\n"
     for i, result in enumerate(last_five):
-        label        = RESULT_LABELS.get(result, "?")
-        val          = RESULT_VALUES.get(result, 0.0)
+        label = RESULT_LABELS.get(result, "?")
+        val = RESULT_VALUES.get(result, 0.0)
         contribution = w[i] * val
-        fight_label  = "Most Recent" if i == 0 else f"Fight -{i}"
+        fight_label = "Most Recent" if i == 0 else f"Fight -{i}"
         logs_add += (
             f"  {fight_label:<12} | {label:<6} | "
             f"{round(w[i], 3):>8} | {round(contribution, 4):>12}\n"
@@ -106,16 +111,16 @@ class Predict():
     def __init__(self) -> None:
         pass
 
-    diff_small    = 0.10
-    scale         = 10
-    age_div       = 10.0
-    height_div    = 10.0
-    reach_div     = 5.0
-    age_weight    = 0.25
+    diff_small = 0.10
+    scale = 10
+    age_div = 10.0
+    height_div = 10.0
+    reach_div = 5.0
+    age_weight = 0.25
     height_weight = 0.35
-    reach_weight  = 0.40
+    reach_weight = 0.40
 
-    def predict_fight(self, fighter1: Fighter, fighter2: Fighter, rounds : int) -> Tuple[float, float, str]:
+    def predict_fight(self, fighter1: Fighter, fighter2: Fighter, rounds: int, json: int) -> Tuple[float, float, str]:
 
         if not fighter1 or not fighter2:
             return 0, 0, "Fighters are not in the database"
@@ -127,19 +132,22 @@ class Predict():
             return 0, 0, "Not possible. Different weight classes"
         if getattr(fighter1, "_personal-info_gender") != getattr(fighter2, "_personal-info_gender"):
             return 0, 0, "Not possible. Different genders"
-        if getattr(fighter1, "_personal-info_status") == "Retired" or getattr(fighter2, "_personal-info_status") == "Retired":
+        if getattr(fighter1, "_personal-info_status") == "Retired" or getattr(fighter2,
+                                                                              "_personal-info_status") == "Retired":
             return 0.0, 0.0, "Not possible. One or both of the fighters is retired."
 
         gameplan1, gameplan2, logs = self.predict_gameplan(fighter1, fighter2)
         standing_prob, grappling_prob, logs = self.predict_location(fighter1, fighter2, gameplan1, gameplan2, logs)
-        win_prob, lose_prob, logs = self.predict_outcome(standing_prob, grappling_prob, fighter1, fighter2, logs, rounds)
-
+        win_prob, lose_prob, logs = self.predict_outcome(standing_prob, grappling_prob, fighter1, fighter2, logs,
+                                                         rounds, json)
+        if json == 1:
+            return win_prob, lose_prob, logs
         logs += "\n\n"
         logs += "FINAL WIN PROBABILITY".center(80) + "\n\n\n"
         logs += (
-            f"{getattr(fighter1, '_personal-info_name')}: {round(win_prob * 100, 2)}%".center(40) +
-            f"{getattr(fighter2, '_personal-info_name')}: {round(lose_prob * 100, 2)}%".center(40) +
-            "\n\n\n"
+                f"{getattr(fighter1, '_personal-info_name')}: {round(win_prob * 100, 2)}%".center(40) +
+                f"{getattr(fighter2, '_personal-info_name')}: {round(lose_prob * 100, 2)}%".center(40) +
+                "\n\n\n"
         )
         logs += "_" * 80 + "\n"
         return win_prob, lose_prob, logs
@@ -300,61 +308,63 @@ class Predict():
         return ko_p, sub_p, dec_p, log
 
     def combine_method_profiles(
-        self,
-        f1_profile: Tuple[float, float, float],
-        f2_profile: Tuple[float, float, float],
-        win_prob:   float,
-        lose_prob:  float
+            self,
+            f1_profile: Tuple[float, float, float],
+            f2_profile: Tuple[float, float, float],
+            win_prob: float,
+            lose_prob: float
     ) -> Tuple[float, float, float, str]:
 
-        log  = "\n" + "-" * 80 + "\n"
+        log = "\n" + "-" * 80 + "\n"
         log += "  COMBINED FIGHT METHOD PROBABILITIES\n"
         log += "-" * 80 + "\n\n"
         log += f"  F1 profile : KO={f1_profile[0]:.3f}  Sub={f1_profile[1]:.3f}  Dec={f1_profile[2]:.3f}  (win prob={win_prob:.3f})\n"
         log += f"  F2 profile : KO={f2_profile[0]:.3f}  Sub={f2_profile[1]:.3f}  Dec={f2_profile[2]:.3f}  (win prob={lose_prob:.3f})\n\n"
 
-        fight_ko  = f1_profile[0] * win_prob  + f2_profile[0] * lose_prob
-        fight_sub = f1_profile[1] * win_prob  + f2_profile[1] * lose_prob
-        fight_dec = f1_profile[2] * win_prob  + f2_profile[2] * lose_prob
+        fight_ko = f1_profile[0] * win_prob + f2_profile[0] * lose_prob
+        fight_sub = f1_profile[1] * win_prob + f2_profile[1] * lose_prob
+        fight_dec = f1_profile[2] * win_prob + f2_profile[2] * lose_prob
 
         total = fight_ko + fight_sub + fight_dec
         if total <= 0:
             fight_ko = fight_sub = fight_dec = 1.0 / 3.0
         else:
-            fight_ko /= total; fight_sub /= total; fight_dec /= total
+            fight_ko /= total;
+            fight_sub /= total;
+            fight_dec /= total
 
-        log += f"  fight_ko  = (f1_ko  x {win_prob:.3f}) + (f2_ko  x {lose_prob:.3f}) = {round(fight_ko,  3)}\n"
+        log += f"  fight_ko  = (f1_ko  x {win_prob:.3f}) + (f2_ko  x {lose_prob:.3f}) = {round(fight_ko, 3)}\n"
         log += f"  fight_sub = (f1_sub x {win_prob:.3f}) + (f2_sub x {lose_prob:.3f}) = {round(fight_sub, 3)}\n"
         log += f"  fight_dec = (f1_dec x {win_prob:.3f}) + (f2_dec x {lose_prob:.3f}) = {round(fight_dec, 3)}\n\n"
         log += f"  Most likely method : "
 
         methods = {"KO/TKO": fight_ko, "Submission": fight_sub, "Decision": fight_dec}
-        likely  = max(methods, key=methods.get)
+        likely = max(methods, key=methods.get)
         log += f"{likely} ({round(methods[likely] * 100, 1)}%)\n\n"
-        log += f"  {'KO/TKO':<12}: {round(fight_ko  * 100, 1)}%\n"
+        log += f"  {'KO/TKO':<12}: {round(fight_ko * 100, 1)}%\n"
         log += f"  {'Submission':<12}: {round(fight_sub * 100, 1)}%\n"
         log += f"  {'Decision':<12}: {round(fight_dec * 100, 1)}%\n"
 
         return fight_ko, fight_sub, fight_dec, log
 
     def skill_gap_multipliers(self, fighter1: Fighter, fighter2: Fighter, diff: float, logs: str) -> Tuple[float, str]:
-        f1_str_score  = getattr(fighter1, "striking_score")
-        f2_str_score  = getattr(fighter2, "striking_score")
-        f1_str_def    = getattr(fighter1, "_skillset_striking_overview_defence")
-        f2_str_def    = getattr(fighter2, "_skillset_striking_overview_defence")
+        f1_str_score = getattr(fighter1, "striking_score")
+        f2_str_score = getattr(fighter2, "striking_score")
+        f1_str_def = getattr(fighter1, "_skillset_striking_overview_defence")
+        f2_str_def = getattr(fighter2, "_skillset_striking_overview_defence")
 
         f1_str_adv = (f1_str_score - f2_str_def) / self.scale
         f2_str_adv = (f2_str_score - f1_str_def) / self.scale
 
         f1_grap_score = getattr(fighter1, "grappling_score")
         f2_grap_score = getattr(fighter2, "grappling_score")
-        f1_grap_def   = fighter1.__dict__.get("_skillset_grappling_takedown-defence", 0)
-        f2_grap_def   = fighter2.__dict__.get("_skillset_grappling_takedown-defence", 0)
+        f1_grap_def = fighter1.__dict__.get("_skillset_grappling_takedown-defence", 0)
+        f2_grap_def = fighter2.__dict__.get("_skillset_grappling_takedown-defence", 0)
 
         f1_grap_adv = (f1_grap_score - f2_grap_def) / self.scale
         f2_grap_adv = (f2_grap_score - f1_grap_def) / self.scale
 
-        net_striking  = f1_str_adv  - f2_str_adv
+        net_striking = f1_str_adv - f2_str_adv
         net_grappling = f1_grap_adv - f2_grap_adv
 
         f1_name = getattr(fighter1, "_personal-info_name")
@@ -369,24 +379,24 @@ class Predict():
         logs += f"{'NET GRAPPLING':<20} | {round(net_grappling, 3)}\n"
 
         combined = (0.8 * net_striking) + (1.0 * net_grappling)
-        delta    = combined
+        delta = combined
         logs += f"\n{'COMBINED DELTA':<20} | (0.8 * {round(net_striking, 3)}) + (1.0 * {round(net_grappling, 3)}) = {round(delta, 4)}\n"
         return delta, logs
 
     def specs_adv(self, fighter1: Fighter, fighter2: Fighter) -> Tuple[float, str]:
-        age_diff    = fighter2.age - fighter1.age
+        age_diff = fighter2.age - fighter1.age
         height_diff = (getattr(fighter1, "_specs_height") - getattr(fighter2, "_specs_height")) / 2
-        reach_diff  =  getattr(fighter1, "_specs_reach")  - getattr(fighter2, "_specs_reach")
+        reach_diff = getattr(fighter1, "_specs_reach") - getattr(fighter2, "_specs_reach")
 
-        age_norm    = clamp(age_diff,    -10, 10)
+        age_norm = clamp(age_diff, -10, 10)
         height_norm = clamp(height_diff, -10, 10)
-        reach_norm  = clamp(reach_diff,  -10, 10)
+        reach_norm = clamp(reach_diff, -10, 10)
 
-        advantage  = (self.age_weight * age_norm) + (self.height_weight * height_norm) + (self.reach_weight * reach_norm)
+        advantage = (self.age_weight * age_norm) + (self.height_weight * height_norm) + (self.reach_weight * reach_norm)
         advantage /= 10
         advantage /= 2
 
-        logs_add  = "\n\n" + "_" * 80 + "\n\n"
+        logs_add = "\n\n" + "_" * 80 + "\n\n"
         logs_add += "PHYSICAL SPECS COMPARISON".center(80) + "\n"
         logs_add += "_" * 80 + "\n\n\n"
         logs_add += f"{'Age Diff':<10}: {round(age_diff, 2)} yrs | {'Height Diff':<10}: {round(height_diff, 2)}cm | {'Reach Diff':<10}: {round(reach_diff, 2)}in\n\n"
@@ -395,7 +405,7 @@ class Predict():
 
     def scale_for_diff(self, fighter1: Fighter, fighter2: Fighter, diff: float, logs: str) -> Tuple[float, str]:
         fighter1_adv, logs = self.skill_gap_multipliers(fighter1, fighter2, diff, logs)
-        absd    = abs(diff)
+        absd = abs(diff)
         average = (getattr(fighter1, "_skillset_ratio") + getattr(fighter2, "_skillset_ratio")) / 2
 
         small_thresh, med_thresh, high_thresh = 0.1, 0.2, 0.3
@@ -410,15 +420,19 @@ class Predict():
 
         skill_diff = abs(fighter1_adv)
         ratio = 0.9
-        if skill_diff < small_thresh:  ratio = 0.5
-        elif skill_diff < med_thresh:  ratio = 0.67
-        elif skill_diff < high_thresh: ratio = 0.75
+        if skill_diff < small_thresh:
+            ratio = 0.5
+        elif skill_diff < med_thresh:
+            ratio = 0.67
+        elif skill_diff < high_thresh:
+            ratio = 0.75
 
         logs += f"SKILL DIFFERENCE (F1 Advantage): {round(fighter1_adv, 3)}\n"
         logs += f"DETERMINED RATIO: {ratio} : {round(1.0 - ratio, 2)}\n"
 
         if fighter1_adv > 0.0:
-            matchup = (ratio * getattr(fighter1, "_skillset_ratio")) + ((1 - ratio) * getattr(fighter2, "_skillset_ratio"))
+            matchup = (ratio * getattr(fighter1, "_skillset_ratio")) + (
+                        (1 - ratio) * getattr(fighter2, "_skillset_ratio"))
             logs += f"MATCHUP CALC: ({ratio} * {getattr(fighter1, '_skillset_ratio')}) + ({round(1 - ratio, 2)} * {getattr(fighter2, '_skillset_ratio')}) = {round(matchup, 3)}\n"
             return matchup, logs
 
@@ -430,14 +444,15 @@ class Predict():
         gameplan1 = getattr(fighter1, "_skillset_ratio")
         gameplan2 = getattr(fighter2, "_skillset_ratio")
 
-        logs  = "\n" + "=" * 80 + "\n"
+        logs = "\n" + "=" * 80 + "\n"
         logs += "FIGHT PREDICTION ENGINE LOGS".center(80) + "\n"
         logs += "=" * 80 + "\n\n\n"
         logs += f"{getattr(fighter1, '_personal-info_name'):<40} Striking Ratio: {gameplan1}\n"
         logs += f"{getattr(fighter2, '_personal-info_name'):<40} Striking Ratio: {gameplan2}\n"
         return gameplan1, gameplan2, logs
 
-    def predict_location(self, fighter1: Fighter, fighter2: Fighter, gameplan1: float, gameplan2: float, logs: str) -> Tuple[float, float, str]:
+    def predict_location(self, fighter1: Fighter, fighter2: Fighter, gameplan1: float, gameplan2: float, logs: str) -> \
+    Tuple[float, float, str]:
         striking_diff = gameplan1 - gameplan2
 
         logs += "\n\n" + "_" * 80 + "\n\n"
@@ -445,8 +460,8 @@ class Predict():
         logs += "_" * 80 + "\n\n"
         logs += f"Initial Ratio Difference: {round(striking_diff, 2)}\n"
 
-        S, logs        = self.scale_for_diff(fighter1, fighter2, striking_diff, logs)
-        standing_prob  = clamp_prop(S)
+        S, logs = self.scale_for_diff(fighter1, fighter2, striking_diff, logs)
+        standing_prob = clamp_prop(S)
         grappling_prob = 1.0 - standing_prob
 
         logs += "\n\n" + "LOCATION RESULTS".center(40).center(80, ".") + "\n\n\n"
@@ -456,36 +471,37 @@ class Predict():
 
     def build_base_features(self, fighter, style):
         striking_base = {
-            "Accuracy":       getattr(fighter, "_skillset_striking_overview_accuracy",  0),
-            "Power":          getattr(fighter, "_skillset_striking_overview_power",     0),
-            "Volume":         getattr(fighter, "_skillset_striking_overview_volume",    0),
-            "LegKicks":       getattr(fighter, "_skillset_striking_kicks_low",          0),
-            "HeadKicks":      getattr(fighter, "_skillset_striking_kicks_head",         0),
-            "ClinchStriking": fighter.__dict__.get("_skillset_clinch_clinch-striking",  0),
-            "Defense":        getattr(fighter, "_skillset_striking_overview_defence",   0),
-            "Footwork":       getattr(fighter, "_skillset_striking_overview_footwork",  0),
-            "Stamina":        getattr(fighter, "_skillset_intangibles_stamina",         0),
-            "Durability":     getattr(fighter, "_skillset_intangibles_durability",      0),
-            "FightIQ":        fighter.__dict__.get("_skillset_intangibles_fight-iq",    0),
+            "Accuracy": getattr(fighter, "_skillset_striking_overview_accuracy", 0),
+            "Power": getattr(fighter, "_skillset_striking_overview_power", 0),
+            "Volume": getattr(fighter, "_skillset_striking_overview_volume", 0),
+            "LegKicks": getattr(fighter, "_skillset_striking_kicks_low", 0),
+            "HeadKicks": getattr(fighter, "_skillset_striking_kicks_head", 0),
+            "ClinchStriking": fighter.__dict__.get("_skillset_clinch_clinch-striking", 0),
+            "Defense": getattr(fighter, "_skillset_striking_overview_defence", 0),
+            "Footwork": getattr(fighter, "_skillset_striking_overview_footwork", 0),
+            "Stamina": getattr(fighter, "_skillset_intangibles_stamina", 0),
+            "Durability": getattr(fighter, "_skillset_intangibles_durability", 0),
+            "FightIQ": fighter.__dict__.get("_skillset_intangibles_fight-iq", 0),
         }
         grappling_base = {
-            "TakedownOffense": getattr(fighter, "_skillset_grappling_takedown",          0),
+            "TakedownOffense": getattr(fighter, "_skillset_grappling_takedown", 0),
             "TakedownDefense": fighter.__dict__.get("_skillset_grappling_takedown-defence", 0),
-            "SubmissionThreat":getattr(fighter, "_skillset_grappling_submissions",       0),
-            "Scrambles":       getattr(fighter, "_skillset_grappling_scrambles",         0),
-            "GroundControl":   fighter.__dict__.get("_skillset_grappling_ground-control",0),
-            "GroundAndPound":  fighter.__dict__.get("_skillset_grappling_ground-and-pound", 0),
-            "BottomGame":      fighter.__dict__.get("_skillset_grappling_bottom-game",   0),
-            "ClinchControl":   fighter.__dict__.get("_skillset_clinch_clinch-control",   0),
-            "Stamina":         getattr(fighter, "_skillset_intangibles_stamina",         0),
-            "Durability":      getattr(fighter, "_skillset_intangibles_durability",      0),
-            "FightIQ":         fighter.__dict__.get("_skillset_intangibles_fight-iq",    0),
+            "SubmissionThreat": getattr(fighter, "_skillset_grappling_submissions", 0),
+            "Scrambles": getattr(fighter, "_skillset_grappling_scrambles", 0),
+            "GroundControl": fighter.__dict__.get("_skillset_grappling_ground-control", 0),
+            "GroundAndPound": fighter.__dict__.get("_skillset_grappling_ground-and-pound", 0),
+            "BottomGame": fighter.__dict__.get("_skillset_grappling_bottom-game", 0),
+            "ClinchControl": fighter.__dict__.get("_skillset_clinch_clinch-control", 0),
+            "Stamina": getattr(fighter, "_skillset_intangibles_stamina", 0),
+            "Durability": getattr(fighter, "_skillset_intangibles_durability", 0),
+            "FightIQ": fighter.__dict__.get("_skillset_intangibles_fight-iq", 0),
         }
         if style in ("s", "S"): return striking_base
         if style in ("g", "G"): return grappling_base
         raise ValueError("style must be 's' or 'g'")
 
-    def calc_style_multiplier(self, fighter1: Fighter, fighter2: Fighter, logs: str) -> Tuple[float, float, float, float, str]:
+    def calc_style_multiplier(self, fighter1: Fighter, fighter2: Fighter, logs: str) -> Tuple[
+        float, float, float, float, str]:
 
         striking_style_weights = {
             "Counter Striker": {
@@ -549,63 +565,63 @@ class Predict():
         }
 
         STR_STYLE_ADVANTAGE = {
-            "Counter Striker":       ["Pressure Striker"],
-            "Pressure Striker":      ["Outside Sniper"],
-            "Outside Sniper":        ["Technical Boxer", "Muay Thai / Kickboxer"],
-            "Technical Boxer":       ["Pressure Striker"],
+            "Counter Striker": ["Pressure Striker"],
+            "Pressure Striker": ["Outside Sniper"],
+            "Outside Sniper": ["Technical Boxer", "Muay Thai / Kickboxer"],
+            "Technical Boxer": ["Pressure Striker"],
             "Muay Thai / Kickboxer": ["Technical Boxer"]
         }
 
         GRP_STYLE_ADVANTAGE = {
-            "Wrestler":              ["Submission Specialist", "Ground and Pound"],
-            "Defensive Grappler":    ["Wrestler", "Submission Specialist"],
+            "Wrestler": ["Submission Specialist", "Ground and Pound"],
+            "Defensive Grappler": ["Wrestler", "Submission Specialist"],
             "Submission Specialist": ["Ground and Pound"],
-            "Ground and Pound":      ["Defensive Grappler", "All-Round Grappler"],
-            "All-Round Grappler":    ["Wrestler"]
+            "Ground and Pound": ["Defensive Grappler", "All-Round Grappler"],
+            "All-Round Grappler": ["Wrestler"]
         }
 
         STANCE_ATTRIBUTE_ADJUSTMENTS = {
             "Orthodox": {},
             "Southpaw": {
-                "Power":    +0.20,
-                "Defense":  +0.10,
+                "Power": +0.20,
+                "Defense": +0.10,
                 "Accuracy": +0.10,
                 "LegKicks": -0.20,
-                "HeadKicks":-0.10,
-                "Volume":   -0.10,
+                "HeadKicks": -0.10,
+                "Volume": -0.10,
             },
             "Switch": {
-                "Volume":        +0.20,
-                "FightIQ":       +0.10,
-                "Accuracy":      +0.10,
-                "Footwork":      +0.10,
-                "Power":         -0.20,
+                "Volume": +0.20,
+                "FightIQ": +0.10,
+                "Accuracy": +0.10,
+                "Footwork": +0.10,
+                "Power": -0.20,
                 "ClinchStriking": -0.10,
-                "LegKicks":      -0.10,
+                "LegKicks": -0.10,
             }
         }
 
         STANCE_MATCHUP_BONUS = {
             ("Southpaw", "Orthodox"): +0.25,
             ("Orthodox", "Southpaw"): -0.25,
-            ("Switch",   "Orthodox"): +0.125,
-            ("Switch",   "Southpaw"): +0.125,
-            ("Orthodox", "Switch"):   -0.125,
-            ("Southpaw", "Switch"):   -0.125,
+            ("Switch", "Orthodox"): +0.125,
+            ("Switch", "Southpaw"): +0.125,
+            ("Orthodox", "Switch"): -0.125,
+            ("Southpaw", "Switch"): -0.125,
         }
 
         style_boost = 1.05
 
-        f1_name   = getattr(fighter1, "_personal-info_name")
-        f2_name   = getattr(fighter2, "_personal-info_name")
+        f1_name = getattr(fighter1, "_personal-info_name")
+        f2_name = getattr(fighter2, "_personal-info_name")
         f1_stance = getattr(fighter1, "_specs_stance", "Orthodox")
         f2_stance = getattr(fighter2, "_specs_stance", "Orthodox")
 
         # ------------------------------------------------------------------ #
         def apply_stance_adjustments(base: dict, stance: str) -> Tuple[dict, str]:
             adjustments = STANCE_ATTRIBUTE_ADJUSTMENTS.get(stance, {})
-            adjusted    = dict(base)
-            s_log       = ""
+            adjusted = dict(base)
+            s_log = ""
 
             if not adjustments:
                 s_log += f"  Stance : {stance} (orthodox baseline — no attribute changes)\n"
@@ -616,9 +632,9 @@ class Predict():
             s_log += "  " + "-" * 53 + "\n"
             for attr, pct in adjustments.items():
                 if attr in adjusted:
-                    original       = adjusted[attr]
+                    original = adjusted[attr]
                     adjusted[attr] = original * (1 + pct)
-                    sign           = "+" if pct >= 0 else ""
+                    sign = "+" if pct >= 0 else ""
                     s_log += (
                         f"  {attr:<22} | {round(original, 2):>8} | "
                         f"{sign}{int(pct * 100):>5}% | "
@@ -629,13 +645,13 @@ class Predict():
 
         # ------------------------------------------------------------------ #
         def compute_style_strength(
-            base: dict, weights: dict,
-            fighter_name: str, label: str,
-            stance: str, opp_stance: str,
-            apply_stance: bool = True
+                base: dict, weights: dict,
+                fighter_name: str, label: str,
+                stance: str, opp_stance: str,
+                apply_stance: bool = True
         ) -> Tuple[float, str]:
 
-            bd  = "\n"
+            bd = "\n"
             bd += f"  Fighter  : {fighter_name}\n"
             bd += f"  Style    : {label}\n"
             bd += f"  Stance   : {stance}  vs  opponent stance: {opp_stance}\n\n"
@@ -651,9 +667,9 @@ class Predict():
             bd += "  " + "-" * 57 + "\n"
             total = 0.0
             for key, w in weights.items():
-                val          = adjusted.get(key, 0)
+                val = adjusted.get(key, 0)
                 contribution = val * w
-                total       += contribution
+                total += contribution
                 bd += (
                     f"  {key:<22} | {round(val, 2):>8} | "
                     f"{round(w, 3):>8} | {round(contribution, 4):>12}\n"
@@ -662,9 +678,9 @@ class Predict():
             bd += f"  {'Weighted Total':<22} | {'':>8} | {'':>8} | {round(total, 4):>12}\n"
 
             if apply_stance:
-                matchup_key  = (stance, opp_stance)
+                matchup_key = (stance, opp_stance)
                 stance_bonus = STANCE_MATCHUP_BONUS.get(matchup_key, 0.0)
-                final        = total + stance_bonus
+                final = total + stance_bonus
                 bd += "\n"
                 if stance_bonus != 0.0:
                     sign = "+" if stance_bonus > 0 else ""
@@ -681,8 +697,8 @@ class Predict():
 
         # ------------------------------------------------------------------ #
 
-        f1_str_style = getattr(fighter1, "_skillset_striking_style",  None)
-        f2_str_style = getattr(fighter2, "_skillset_striking_style",  None)
+        f1_str_style = getattr(fighter1, "_skillset_striking_style", None)
+        f2_str_style = getattr(fighter2, "_skillset_striking_style", None)
         f1_grp_style = getattr(fighter1, "_skillset_grappling_style", None)
         f2_grp_style = getattr(fighter2, "_skillset_grappling_style", None)
 
@@ -827,7 +843,8 @@ class Predict():
 
         return f1_str_updated, f1_grp_updated, f2_str_updated, f2_grp_updated, logs
 
-    def predict_outcome(self, standing_prob: float, grappling_prob: float, fighter1: Fighter, fighter2: Fighter, logs: str, rounds : int) -> Tuple[float, float, str]:
+    def predict_outcome(self, standing_prob: float, grappling_prob: float, fighter1: Fighter, fighter2: Fighter,
+                        logs: str, rounds: int, json: int) -> Tuple[float, float, str]:
 
         C1, C2 = fighter1.clinch_score, fighter2.clinch_score
         I1, I2 = fighter1.intangibles_score, fighter2.intangibles_score
@@ -837,8 +854,8 @@ class Predict():
 
         S1, G1, S2, G2, logs = self.calc_style_multiplier(fighter1, fighter2, logs)
 
-        strike_phase_1  = 0.80 * S1 + 0.20 * C1
-        strike_phase_2  = 0.80 * S2 + 0.20 * C2
+        strike_phase_1 = 0.80 * S1 + 0.20 * C1
+        strike_phase_2 = 0.80 * S2 + 0.20 * C2
         grapple_phase_1 = G1
         grapple_phase_2 = G2
 
@@ -856,8 +873,8 @@ class Predict():
         R1 = skillset_1 + intang_1 + specs_adv_1 + fb1 + cb1
         R2 = skillset_2 + intang_2 + specs_adv_2 + fb2 + cb2
 
-        raw       = R1 - R2
-        win_prob  = round(1 / (1 + math.exp(-raw)), 3)
+        raw = R1 - R2
+        win_prob = round(1 / (1 + math.exp(-raw)), 3)
         lose_prob = round(1 - win_prob, 3)
 
         f1_name = getattr(fighter1, "_personal-info_name")
@@ -897,4 +914,61 @@ class Predict():
         )
         logs += log1 + "\n" + log2 + "\n" + combined_log
 
-        return win_prob, lose_prob, logs
+        if json == 1:
+            winner_name = f1_name if win_prob > lose_prob else f2_name
+            winner_conf = win_prob if win_prob > lose_prob else lose_prob
+
+            # 1. Define the methods dictionary based on the winner
+            if winner_name == f1_name:
+                methods = {"KO": f1_ko, "SUB": f1_sub, "DEC": f1_dec}
+            else:
+                methods = {"KO": f2_ko, "SUB": f2_sub, "DEC": f2_dec}
+
+            # 2. Get the string name of the best method
+            best_method_name = max(methods, key=methods.get)
+
+            # 3. Get the actual numerical value of that method
+            best_method_value = methods[best_method_name]
+
+            # 4. Convert to percentage float with one decimal place
+            # Using round() or your math.floor logic as requested
+            method_perc = math.floor(best_method_value * 1000) / 10.0
+
+            confidence = "Low"
+            if win_prob > 0.60:
+                confidence = "Medium"
+            if win_prob > 0.80:
+                confidence = "High"
+
+            # ... (Your existing win_perc and lose_perc logic) ...
+            win_perc = math.floor(win_prob * 1000) / 10.0
+            lose_perc = math.floor(lose_prob * 1000) / 10.0
+            if round(win_perc + lose_perc, 1) != 100.0:
+                win_perc += 0.1
+
+            # ... (Your existing ko/sub/dec logic) ...
+            ko_perc = math.floor(fight_ko * 1000) / 10.0
+            sub_perc = math.floor(fight_sub * 1000) / 10.0
+            dec_perc = math.floor(fight_dec * 1000) / 10.0
+            while round(ko_perc + sub_perc + dec_perc, 1) < 100.0:
+                ko_perc += 0.1
+
+            return 0.0, 0.0, {
+                "Fighter 1": f1_name,
+                "Fighter 2": f2_name,
+                "Fighter 1 Final Score": round(R1, 2),
+                "Fighter 2 Final Score": round(R2, 2),
+                "Rounds": rounds,
+                "Winner": winner_name,
+                "Winning fighters Confidence": confidence,
+                "Fighter 1 % of winning": win_perc,
+                "Fighter 2 % of winning": lose_perc,
+                "Winners method of victory": best_method_name,  # The string "KO"
+                "Winners method of victory %": method_perc,  # The float 75.4
+                "% of KO": ko_perc,
+                "% of SUB": sub_perc,
+                "% of DEC": dec_perc
+            }
+
+        else:
+            return win_prob, lose_prob, logs
