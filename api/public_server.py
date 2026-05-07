@@ -8,7 +8,9 @@ from typing import Optional
 import unicodedata
 from fastapi import FastAPI, HTTPException
 
-from core import predictor
+from core.predictor import Predict
+
+predictor = Predict()
 
 DATA_DIR = Path(__file__).resolve().parent.parent
 fighters_path = DATA_DIR / "data/fighters.json"
