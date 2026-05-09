@@ -15,7 +15,7 @@ predictor = Predict()
 DATA_DIR = Path(__file__).resolve().parent.parent
 fighters_path = DATA_DIR / "data/fighters.json"
 rankings_path = DATA_DIR / "data/rankings.json"
-fights_path = DATA_DIR / "ufc_events.json"
+fights_path = DATA_DIR / "data/ufc_events.json"
 
 rankings_db = []
 fighters_db = {}
