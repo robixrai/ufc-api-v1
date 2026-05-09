@@ -273,7 +273,7 @@ def add_bet(data: dict):
     try:
         f1_for_model = f1_sel
         f2_for_model = f2_sel
-        win_prob, lose_prob, msg = predictor.predict_fight(f1_for_model, f2_for_model, rounds)
+        win_prob, lose_prob, msg = predictor.predict_fight(f1_for_model, f2_for_model, rounds, json=0)
         if win_prob == 0 and lose_prob == 0:
             predictor_msg = msg
             f1_model_prob = None
@@ -475,7 +475,7 @@ def add_parlay(data: dict):
         # Run predictor for this leg
         print(f"\n    Running predictor model for leg {i}...")
         try:
-            win_prob, lose_prob, pred_msg = predictor.predict_fight(f_sel, opp_sel, rounds)
+            win_prob, lose_prob, pred_msg = predictor.predict_fight(f_sel, opp_sel, rounds, json=0)
             if win_prob == 0 and lose_prob == 0:
                 f1_model_prob = None
                 f2_model_prob = None
@@ -650,7 +650,7 @@ def analyse_matchup(data: dict):
 
     print("\n  Running predictor model...")
     try:
-        win_prob, lose_prob, _ = predictor.predict_fight(f1, f2, rounds)
+        win_prob, lose_prob, _ = predictor.predict_fight(f1, f2, rounds, json=0)
         f1_model_prob = round(win_prob, 4)
         f2_model_prob = round(lose_prob, 4)
     except Exception as e:
@@ -747,10 +747,18 @@ def view_bets(data: dict):
         print(f"\n  SINGLES ({len(singles_pending)})")
         print_divider()
         for b in singles_pending:
-            ev      = b.get("ev")
-            ev_tag  = f"[{'+EV' if ev is not None and ev >= 0 else ('-EV' if ev is not None else 'no EV')}]"
-            print(f"  #{b['id']:<3} {b['date']}  |  {b['fighter']:<22}  {format_odds(b['odds']):<7}  "
-                  f"{b['units']}u  {format_currency(b['stake'])}  {ev_tag}")
+            ev = b.get("ev")
+            ev_str = format_ev(ev) if ev is not None else "N/A"
+            model_prob = b.get("model_prob_f1")
+            model_str = f"{model_prob * 100:.1f}%" if model_prob is not None else "N/A"
+            implied = b.get("implied_prob")
+            impl_str = f"{implied * 100:.1f}%" if implied is not None else "N/A"
+            decimal = american_to_decimal(b["odds"])
+            potential_return = round(b["stake"] * decimal, 2)
+            print(f"  #{b['id']:<3} {b['date']}  |  {b['fighter']:<22}  {format_odds(b['odds']):<8} "
+                  f"{b['units']}u  {format_currency(b['stake'])}  "
+                  f"To win: {format_currency(b['potential_win'])}  Return: {format_currency(potential_return)}  "
+                  f"Model: {model_str:<8} Implied: {impl_str:<8} EV: {ev_str}")
     else:
         print("\n  SINGLES — none pending")
 

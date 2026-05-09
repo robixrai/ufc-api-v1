@@ -81,7 +81,7 @@ def lock_event(data):
                 print(f"  ✗ SKIPPED {key}: {f2} not found in fighters_db")
                 continue
 
-            win_prob, lose_prob, logs = predictor.predict_fight(f1_obj, f2_obj, rounds, 0)
+            win_prob, lose_prob, logs = predictor.predict_fight(f1_obj, f2_obj, rounds,json=0)
 
             # determine winner
             if win_prob >= 0.5:

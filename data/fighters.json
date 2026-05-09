@@ -477,16 +477,16 @@
             },
             "grappling": {
                 "takedown": 6,
-                "takedown-defence": 8,
+                "takedown-defence": 6,
                 "submissions": 6,
-                "ground-control": 5,
-                "ground-and-pound": 7,
+                "ground-control": 8,
+                "ground-and-pound": 8,
                 "scrambles": 8,
                 "style": "Ground and Pound",
-                "bottom-game": 4
+                "bottom-game": 6
             },
             "clinch": {
-                "clinch-control": 7,
+                "clinch-control": 8,
                 "clinch-striking": 8
             },
             "intangibles": {
@@ -585,8 +585,8 @@
         },
         "career": {
             "api-id": 30,
-            "wins": 30,
-            "losses": 6,
+            "wins": 6,
+            "losses": 0,
             "draws": 0,
             "no-contests": 0,
             "ko-tko-wins": 8,
@@ -739,17 +739,17 @@
                 "submissions": 9,
                 "ground-control": 10,
                 "ground-and-pound": 10,
-                "scrambles": 10,
+                "scrambles": 9,
                 "style": "All-Round Grappler",
                 "bottom-game": 8
             },
             "clinch": {
-                "clinch-control": 10,
+                "clinch-control": 8,
                 "clinch-striking": 7
             },
             "intangibles": {
-                "stamina": 8,
-                "chin": 9,
+                "stamina": 9,
+                "chin": 8,
                 "durability": 8,
                 "fight-iq": 9
             },
@@ -1445,8 +1445,8 @@
         },
         "career": {
             "api-id": 13,
-            "wins": 14,
-            "losses": 4,
+            "wins": 4,
+            "losses": 0,
             "draws": 0,
             "no-contests": 0,
             "ko-tko-wins": 2,
@@ -5960,7 +5960,7 @@
         "skillset": {
             "striking": {
                 "punches": {
-                    "jab": 7,
+                    "jab": 8,
                     "cross": 7,
                     "haymaker": 6
                 },
@@ -5970,21 +5970,21 @@
                     "head": 6
                 },
                 "overview": {
-                    "power": 7,
-                    "accuracy": 7,
+                    "power": 6,
+                    "accuracy": 9,
                     "volume": 8,
                     "defence": 7,
-                    "footwork": 8
+                    "footwork": 7
                 },
                 "proportion": 0.4,
                 "style": "Muay Thai / Kickboxer"
             },
             "grappling": {
                 "takedown": 10,
-                "takedown-defence": 9,
+                "takedown-defence": 8,
                 "submissions": 9,
                 "ground-control": 10,
-                "ground-and-pound": 10,
+                "ground-and-pound": 8,
                 "scrambles": 9,
                 "style": "All-Round Grappler",
                 "bottom-game": 9
@@ -5995,9 +5995,9 @@
             },
             "intangibles": {
                 "stamina": 8,
-                "chin": 7,
-                "durability": 7,
-                "fight-iq": 9
+                "chin": 8,
+                "durability": 6,
+                "fight-iq": 8
             },
             "ratio": 0.35
         },
@@ -6213,14 +6213,14 @@
         "specs": {
             "height": 173.0,
             "reach": 76.0,
-            "stance": "Orthodox"
+            "stance": "Southpaw"
         },
         "skillset": {
             "striking": {
                 "punches": {
                     "jab": 8,
                     "cross": 9,
-                    "haymaker": 10
+                    "haymaker": 9
                 },
                 "kicks": {
                     "low": 8,
@@ -6230,32 +6230,32 @@
                 "overview": {
                     "power": 10,
                     "accuracy": 8,
-                    "volume": 10,
+                    "volume": 9,
                     "defence": 7,
-                    "footwork": 8
+                    "footwork": 9
                 },
                 "proportion": 0.85,
                 "style": "Pressure Striker"
             },
             "grappling": {
                 "takedown": 8,
-                "takedown-defence": 6,
+                "takedown-defence": 8,
                 "submissions": 5,
-                "ground-control": 6,
+                "ground-control": 7,
                 "ground-and-pound": 7,
-                "scrambles": 8,
+                "scrambles": 9,
                 "style": "Wrestler",
-                "bottom-game": 6
+                "bottom-game": 7
             },
             "clinch": {
-                "clinch-control": 8,
+                "clinch-control": 6,
                 "clinch-striking": 9
             },
             "intangibles": {
                 "stamina": 9,
-                "chin": 9,
-                "durability": 8,
-                "fight-iq": 7
+                "chin": 8,
+                "durability": 9,
+                "fight-iq": 8
             },
             "ratio": 0.8
         },
@@ -9322,19 +9322,19 @@
         "skillset": {
             "striking": {
                 "punches": {
-                    "jab": 9,
+                    "jab": 10,
                     "cross": 9,
                     "haymaker": 8
                 },
                 "kicks": {
-                    "low": 8,
+                    "low": 9,
                     "body": 9,
                     "head": 8
                 },
                 "overview": {
-                    "power": 7,
-                    "accuracy": 8,
-                    "volume": 8,
+                    "power": 8,
+                    "accuracy": 9,
+                    "volume": 9,
                     "defence": 9,
                     "footwork": 8
                 },
@@ -9342,14 +9342,14 @@
                 "style": "Outside Sniper"
             },
             "grappling": {
-                "takedown": 8,
-                "takedown-defence": 7,
+                "takedown": 7,
+                "takedown-defence": 8,
                 "submissions": 7,
-                "ground-control": 8,
+                "ground-control": 9,
                 "ground-and-pound": 8,
                 "scrambles": 6,
                 "style": "Defensive Grappler",
-                "bottom-game": 8
+                "bottom-game": 7
             },
             "clinch": {
                 "clinch-control": 8,
@@ -9358,7 +9358,7 @@
             "intangibles": {
                 "stamina": 9,
                 "chin": 8,
-                "durability": 9,
+                "durability": 8,
                 "fight-iq": 9
             },
             "ratio": 0.85
@@ -9602,11 +9602,11 @@
                 "style": "Pressure Striker"
             },
             "grappling": {
-                "takedown": 7,
+                "takedown": 5,
                 "takedown-defence": 8,
                 "submissions": 4,
-                "ground-control": 7,
-                "ground-and-pound": 8,
+                "ground-control": 6,
+                "ground-and-pound": 6,
                 "scrambles": 6,
                 "style": "Defensive Grappler",
                 "bottom-game": 8

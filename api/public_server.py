@@ -368,3 +368,19 @@ def predict_matchup(f1: str, f2: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Model Error: {str(e)}")
 
+@app.get("/events")
+def get_events():
+    if not events_db:
+        raise HTTPException(status_code=404, detail="No events found")
+    return events_db
+
+@app.get("/events/{event_name}")
+def get_event(event_name: str):
+    # normalise underscores to spaces
+    name = event_name.replace("_", " ")
+    # case-insensitive search
+    for key, event in events_db.items():
+        if key.lower() == name.lower():
+            return {"event": key, **event}
+    raise HTTPException(status_code=404, detail=f"Event '{event_name}' not found")
+
