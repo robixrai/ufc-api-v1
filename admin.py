@@ -680,8 +680,10 @@ def predictions():
             confidence = "LOW"
         elif stakes < 0.4:
             confidence = "MEDIUM"
-        else:
+        elif stakes < 0.6:
             confidence = "HIGH"
+        else:
+            confidence = "LOCK"
         if win == 0.0:
             print(logs)
         else:

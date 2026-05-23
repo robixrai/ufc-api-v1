@@ -1,78 +1,442 @@
 {
     "UFC 328": {
         "type": "Numbered Event",
-        "main_fight": "Chimaev vs Strickland",
-        "comain": "Van vs Taira",
+        "main_fight": {
+            "fighter1": "Khamzat Chimaev",
+            "fighter2": "Sean Strickland"
+        },
+        "comain": {
+            "fighter1": "Tatsuro Taira",
+            "fighter2": "Joshua Van"
+        },
         "date": "2026-05-09",
         "location": "Newark, New Jersey",
         "main_card": [
             {
                 "fighter1": "Khamzat Chimaev",
                 "fighter2": "Sean Strickland",
-                "rounds": 5
+                "rounds": 5,
+                "is_main_event": true,
+                "is_co_main_event": false
             },
             {
                 "fighter1": "Tatsuro Taira",
                 "fighter2": "Joshua Van",
-                "rounds": 5
+                "rounds": 5,
+                "is_main_event": false,
+                "is_co_main_event": true
             },
             {
                 "fighter1": "Alexander Volkov",
                 "fighter2": "Waldo Cortes-Acosta",
-                "rounds": 3
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
             },
             {
                 "fighter1": "Sean Brady",
                 "fighter2": "Joaquin Buckley",
-                "rounds": 3
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
             },
             {
                 "fighter1": "King Green",
                 "fighter2": "Jeremy Stephens",
-                "rounds": 3
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
             }
         ],
         "prelims": [
             {
                 "fighter1": "Ateba Gautier",
                 "fighter2": "Ozzy Diaz",
-                "rounds": 3
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
             },
             {
                 "fighter1": "Joel Alvarez",
                 "fighter2": "Yaroslav Amosov",
-                "rounds": 3
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
             },
             {
                 "fighter1": "Grant Dawson",
                 "fighter2": "Mateusz Rebecki",
-                "rounds": 3
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
             },
             {
                 "fighter1": "Jim Miller",
                 "fighter2": "Jared Gordon",
-                "rounds": 3
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
             },
             {
                 "fighter1": "Roman Kopylov",
                 "fighter2": "Marco Tulio",
-                "rounds": 3
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
             },
             {
                 "fighter1": "Pat Sabatini",
                 "fighter2": "William Gomis",
-                "rounds": 3
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
             },
             {
                 "fighter1": "Baisangur Susurkaev",
                 "fighter2": "Djorden Santos",
-                "rounds": 3
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
             },
             {
                 "fighter1": "Clayton Carpenter",
                 "fighter2": "Jose Ochoa",
-                "rounds": 3
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
             }
         ]
+    },
+    "UFC Fight Night: Allen vs. Costa": {
+        "type": "Fight Night",
+        "main_fight": {
+            "fighter1": "Arnold Allen",
+            "fighter2": "Melquizael Costa"
+        },
+        "comain": {
+            "fighter1": "Dooho Choi",
+            "fighter2": "Daniel Santos"
+        },
+        "date": "2025-05-16",
+        "location": "Meta APEX, Las Vegas, United States",
+        "main_card": [
+            {
+                "fighter1": "Arnold Allen",
+                "fighter2": "Melquizael Costa",
+                "rounds": 5,
+                "is_main_event": true,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Dooho Choi",
+                "fighter2": "Daniel Santos",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": true
+            },
+            {
+                "fighter1": "Malcolm Wellmaker",
+                "fighter2": "Juan Diaz",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Modestas Bukauskas",
+                "fighter2": "Rodolfo Bellato",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Timmy Cuamba",
+                "fighter2": "Benardo Sopaj",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            }
+        ],
+        "prelims": [
+            {
+                "fighter1": "Jeremiah Wells",
+                "fighter2": "Nicolas Dalby",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Tuco Tokkos",
+                "fighter2": "Ivan Erslan",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Trey Ogden",
+                "fighter2": "Thomas Gantt",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Ketlen Vieira",
+                "fighter2": "Jacqueline Cavalcanti",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Cody Brundage",
+                "fighter2": "Andre Petroski",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Alice Ardelean",
+                "fighter2": "Polyana Viana",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Daniel Barez",
+                "fighter2": "Luis Gurule",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Shauna Bannon",
+                "fighter2": "Nicolle Caliari",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            }
+        ]
+    },
+    "UFC Fight Night: Song vs. Figueiredo": {
+        "type": "Fight Night",
+        "main_fight": {
+            "fighter1": "Song Yadong",
+            "fighter2": "Deiveson Figueiredo"
+        },
+        "comain": {
+            "fighter1": "Zhang Mingyang",
+            "fighter2": "Alonzo Menifield"
+        },
+        "date": "2026-05-30",
+        "location": "Galaxy Arena, Macao",
+        "main_card": [
+            {
+                "fighter1": "Song Yadong",
+                "fighter2": "Deiveson Figueiredo",
+                "rounds": 5,
+                "is_main_event": true,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Zhang Mingyang",
+                "fighter2": "Alonzo Menifield",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": true
+            },
+            {
+                "fighter1": "Sergei Pavlovich",
+                "fighter2": "Tallison Teixeira",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Kai Asakura",
+                "fighter2": "Cameron Smotherman",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Muslim Salikhov",
+                "fighter2": "Jake Matthews",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Alex Perez",
+                "fighter2": "Sumudaerji",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            }
+        ],
+        "prelims": [
+            {
+                "fighter1": "Yi Sak Lee",
+                "fighter2": "Luis Dias De Assis",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Ding Meng",
+                "fighter2": "Jose Henrique",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Aoriqileng",
+                "fighter2": "Cody Haddon",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Rei Tsuruya",
+                "fighter2": "Jesus Aguilar",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Angela Hill",
+                "fighter2": "Jingnan Xiong",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Zhu Kangjie",
+                "fighter2": "Ramon Taveras",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Loma Lookboonmee",
+                "fighter2": "Jaqueline Amorim",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            }
+        ]
+    },
+    "UFC Fight Night: Muhammad vs. Bonfim": {
+        "type": "Fight Night",
+        "main_fight": {
+            "fighter1": "Belal Muhammad",
+            "fighter2": "Gabriel Bonfim"
+        },
+        "comain": {
+            "fighter1": "Brendan Allen",
+            "fighter2": "Edmen Shahbayzan"
+        },
+        "date": "2026-06-07",
+        "location": "Meta APEX, Las Vegas",
+        "main_card": [
+            {
+                "fighter1": "Belal Muhammad",
+                "fighter2": "Gabriel Bonfim",
+                "rounds": 5,
+                "is_main_event": true,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Brendan Allen",
+                "fighter2": "Edmen Shahbayzan",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": true
+            },
+            {
+                "fighter1": "Bryce Mitchell",
+                "fighter2": "Victor Henry",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Iwo Baraniewski",
+                "fighter2": "Billy Elekana",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Imanol Rodriguez",
+                "fighter2": "Matt Schnel",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            }
+        ],
+        "prelims": []
+    },
+    "UFC Freedom 250": {
+        "type": "Other",
+        "main_fight": {
+            "fighter1": "Ilia Topuria",
+            "fighter2": "Justin Gaethje"
+        },
+        "comain": {
+            "fighter1": "Alex Pereira",
+            "fighter2": "Ciryl Gane"
+        },
+        "date": "2026-06-14",
+        "location": "The White House, Washington",
+        "main_card": [
+            {
+                "fighter1": "Ilia Topuria",
+                "fighter2": "Justin Gaethje",
+                "rounds": 5,
+                "is_main_event": true,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Alex Pereira",
+                "fighter2": "Ciryl Gane",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": true
+            },
+            {
+                "fighter1": "Sean O'Malley",
+                "fighter2": "Aiemann Zahabi",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Josh Hokit",
+                "fighter2": "Derrick Lewis",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Mauricio Ruffy",
+                "fighter2": "Michael Chandler",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Bo Nickal",
+                "fighter2": "Kyle Daukaus",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Diego Lopes",
+                "fighter2": "Steve Garcia",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            }
+        ],
+        "prelims": []
     }
 }

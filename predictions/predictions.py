@@ -51,11 +51,10 @@ def lock_event(data):
         return
 
     if event_name in data:
-        if event_name in data:
-            redo = input(f"  Predictions already locked for {event_name}. Redo? (y/n): ").strip().lower()
-            if redo != "y":
-                return
-            del data[event_name]
+        redo = input(f"  Predictions already locked for {event_name}. Redo? (y/n): ").strip().lower()
+        if redo != "y":
+            return
+        del data[event_name]
 
     event = events[event_name]
     all_fights = event.get("main_card", []) + event.get("prelims", [])
@@ -81,7 +80,7 @@ def lock_event(data):
                 print(f"  ✗ SKIPPED {key}: {f2} not found in fighters_db")
                 continue
 
-            win_prob, lose_prob, logs = predictor.predict_fight(f1_obj, f2_obj, rounds,json=0)
+            win_prob, lose_prob, logs = predictor.predict_fight(f1_obj, f2_obj, rounds, json=0)
 
             # determine winner
             if win_prob >= 0.5:
@@ -104,17 +103,13 @@ def lock_event(data):
                     break
 
             # parse winner's individual method from their "Final profile" line
-            # logs have two METHOD PROFILE blocks — winner is f1 if win_prob >= 0.5, else f2
-            # we find the Final profile line for the winner's block
             winner_method = "Dec"
             winner_section = False
             for line in logs.splitlines():
                 if f"METHOD PROFILE : {winner}" in line:
                     winner_section = True
                 if winner_section and "Final profile" in line:
-                    # line looks like: Final profile  →  KO: 0.352   Sub: 0.622   Dec: 0.026
-                    parts = line.split("KO:")[1].split("Sub:")[1].split("Dec:")
-                    ko_val = float(line.split("KO:")[1].split()[0])
+                    ko_val  = float(line.split("KO:")[1].split()[0])
                     sub_val = float(line.split("Sub:")[1].split()[0])
                     dec_val = float(line.split("Dec:")[1].split()[0])
                     best = max(ko_val, sub_val, dec_val)
@@ -132,9 +127,11 @@ def lock_event(data):
                 "predicted_fight_method": fight_method,
                 "win_probability": prob,
                 "actual_winner": None,
-                "actual_method": None,
+                "actual_winner_method": None,
+                "actual_fight_method": None,
                 "winner_correct": None,
-                "method_correct": None,
+                "winner_method_correct": None,
+                "fight_method_correct": None,
             }
             print(f"  ✓ {key}")
             print(f"    → {winner} by {winner_method} (winner method) / {fight_method} (fight method) ({prob}%)")
@@ -144,6 +141,7 @@ def lock_event(data):
 
     save(data)
     print(f"\n  Predictions locked for {event_name}.")
+
 # ─── Log result ───────────────────────────────────────────────────────────────
 def log_result(data):
     event_names = list(data.keys())
@@ -192,11 +190,13 @@ def log_result(data):
 
     fight = fights[key]
     fight["actual_winner"] = actual_winner
-    fight["actual_method"] = actual_method
+    fight["actual_winner_method"] = actual_method
+    fight["actual_fight_method"] = actual_method
     fight["winner_correct"] = fight["predicted_winner"] == actual_winner
-    fight["method_correct"] = fight["predicted_method"] == actual_method
+    fight["winner_method_correct"] = fight["predicted_winner_method"] == actual_method
+    fight["fight_method_correct"] = fight["predicted_fight_method"] == actual_method
     save(data)
-    print(f"\n  Winner: {'✓' if fight['winner_correct'] else '✗'}  Method: {'✓' if fight['method_correct'] else '✗'}")
+    print(f"\n  Winner: {'✓' if fight['winner_correct'] else '✗'}  Method: {'✓' if fight['winner_method_correct'] else '✗'}")
 
 # ─── View predictions ─────────────────────────────────────────────────────────
 def view_predictions(data):
@@ -219,31 +219,35 @@ def view_predictions(data):
     print(f"\n  {event_name}")
     print("  " + "─" * 50)
     for key, fight in data[event_name]["fights"].items():
-        w = fight["winner_correct"]
-        m = fight["method_correct"]
-        w_icon = "✓" if w else ("✗" if w is False else "—")
-        m_icon = "✓" if m else ("✗" if m is False else "—")
+        w  = fight.get("winner_correct")
+        wm = fight.get("winner_method_correct")
+        fm = fight.get("fight_method_correct")
+        w_icon  = "✓" if w  else ("✗" if w  is False else "—")
+        wm_icon = "✓" if wm else ("✗" if wm is False else "—")
+        fm_icon = "✓" if fm else ("✗" if fm is False else "—")
         print(f"\n  {key}")
-        print(f"    Predicted : {fight['predicted_winner']} by {fight['predicted_winner_method']} (winner) / {fight['predicted_fight_method']} (fight) ({fight['win_probability']}%)")
-        if fight["actual_winner"]:
-            print(f"    Actual    : {fight['actual_winner']} by {fight['actual_method']}")
-        print(f"    Result    : Winner {w_icon}  Method {m_icon}")
+        print(f"    Predicted : {fight['predicted_winner']} by {fight['predicted_winner_method']} (winner method) / {fight['predicted_fight_method']} (fight method) ({fight['win_probability']}%)")
+        if fight.get("actual_winner"):
+            print(f"    Actual    : {fight['actual_winner']} — winner method: {fight.get('actual_winner_method')} / fight method: {fight.get('actual_fight_method')}")
+        print(f"    Result    : Winner {w_icon}  Winner Method {wm_icon}  Fight Method {fm_icon}")
 
 # ─── Accuracy ─────────────────────────────────────────────────────────────────
 def print_accuracy(data):
-    total = win_c = method_c = resolved = 0
+    total = win_c = winner_method_c = fight_method_c = resolved = 0
     for event in data.values():
         for fight in event["fights"].values():
             total += 1
-            if fight["actual_winner"] is not None:
+            if fight.get("actual_winner") is not None:
                 resolved += 1
-                win_c += int(fight["winner_correct"])
-                method_c += int(fight["method_correct"])
+                win_c          += int(bool(fight.get("winner_correct")))
+                winner_method_c += int(bool(fight.get("winner_method_correct")))
+                fight_method_c  += int(bool(fight.get("fight_method_correct")))
 
-    print(f"\n  OVERALL          {total} fights ({resolved} resolved)")
+    print(f"\n  OVERALL               {total} fights ({resolved} resolved)")
     if resolved:
-        print(f"  Win accuracy     {win_c}/{resolved}  ({win_c/resolved:.1%})")
-        print(f"  Method accuracy  {method_c}/{resolved}  ({method_c/resolved:.1%})")
+        print(f"  Win accuracy          {win_c}/{resolved}  ({win_c/resolved:.1%})")
+        print(f"  Winner method acc.    {winner_method_c}/{resolved}  ({winner_method_c/resolved:.1%})")
+        print(f"  Fight method acc.     {fight_method_c}/{resolved}  ({fight_method_c/resolved:.1%})")
     else:
         print("  No results logged yet.")
 

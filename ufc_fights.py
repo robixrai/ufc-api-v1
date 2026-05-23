@@ -4,6 +4,7 @@ from pathlib import Path
 
 file_path = Path(__file__).resolve().parent / "data" / "ufc_events.json"
 
+
 class UFCManager:
     def __init__(self, filename=file_path):
         self.filename = filename
@@ -31,11 +32,9 @@ class UFCManager:
         return events
 
     def get_menu_choice(self, prompt, options):
-        """Helper for strict numbered menu selection."""
         print(f"\n{prompt}")
         for i, opt in enumerate(options, 1):
             print(f"{i}. {opt}")
-
         while True:
             choice = input("Select (1-{0}) or 'exit': ".format(len(options))).strip().lower()
             if choice in ['exit', 'leave', 'quit']:
@@ -47,6 +46,52 @@ class UFCManager:
             except ValueError:
                 pass
             print("Invalid. Please enter a number from the list.")
+
+    def _fighters_match(self, bout_struct, f1, f2):
+        """Check if two fighter names match a bout struct (order-insensitive)."""
+        a  = bout_struct["fighter1"].strip().lower()
+        b  = bout_struct["fighter2"].strip().lower()
+        f1n = f1.strip().lower()
+        f2n = f2.strip().lower()
+        return (a == f1n and b == f2n) or (a == f2n and b == f1n)
+
+    def _build_bout(self, event_name, fighter1, fighter2):
+        """Build a bout dict — rounds and flags derived automatically.
+
+        Round rules:
+          - Main event (any type)                  → 5 rounds
+          - Co-main on a Numbered Event             → 5 rounds
+          - Everything else                         → 3 rounds
+        """
+        event = self.data[event_name]
+        etype = event["type"]
+
+        is_main_event    = self._fighters_match(event["main_fight"], fighter1, fighter2)
+        is_co_main_event = (not is_main_event) and self._fighters_match(event["comain"], fighter1, fighter2)
+
+        if is_main_event:
+            rounds = 5
+        elif is_co_main_event and etype == "Numbered Event":
+            rounds = 5
+        else:
+            rounds = 3
+
+        return {
+            "fighter1": fighter1,
+            "fighter2": fighter2,
+            "rounds": rounds,
+            "is_main_event": is_main_event,
+            "is_co_main_event": is_co_main_event,
+        }
+
+    def _recompute_all_bouts(self, event_name):
+        """Recompute rounds + flags on every bout after an event-level edit."""
+        event = self.data[event_name]
+        for card_key in ("main_card", "prelims"):
+            event[card_key] = [
+                self._build_bout(event_name, b["fighter1"], b["fighter2"])
+                for b in event[card_key]
+            ]
 
     def run(self):
         while True:
@@ -63,31 +108,43 @@ class UFCManager:
 
             choice = input("\nMain Menu Selection: ")
 
+            # ------------------------------------------------------------------ 1
             if choice == '1':
-                name = input("Event Name (e.g., UFC 328): ")
-                # Strictly Numbered vs Fight Night
-                etype = self.get_menu_choice("Event Type:", ["Numbered Event", "Fight Night"])
-                if etype == 'exit': continue
+                name = input("Event Name (e.g., UFC 328): ").strip()
 
-                main_title = input("Main Event: ")
-                comain_title = input("Co-Main: ")
-                date = input("Date (YYYY-MM-DD): ")
-                loc = input("Location: ")
+                etype = self.get_menu_choice(
+                    "Event Type:", ["Numbered Event", "Fight Night", "Other"]
+                )
+                if etype == 'exit':
+                    continue
+
+                print("\nMain Event fighters:")
+                main_f1 = input("  Fighter 1: ").strip()
+                main_f2 = input("  Fighter 2: ").strip()
+
+                print("Co-Main Event fighters:")
+                comain_f1 = input("  Fighter 1: ").strip()
+                comain_f2 = input("  Fighter 2: ").strip()
+
+                date = input("Date (YYYY-MM-DD): ").strip()
+                loc  = input("Location: ").strip()
 
                 self.data[name] = {
                     "type": etype,
-                    "main_fight": main_title,
-                    "comain": comain_title,
+                    "main_fight": {"fighter1": main_f1, "fighter2": main_f2},
+                    "comain":     {"fighter1": comain_f1, "fighter2": comain_f2},
                     "date": date,
                     "location": loc,
                     "main_card": [],
-                    "prelims": []
+                    "prelims": [],
                 }
-                print(f"\n'{name}' initialized as a {etype}.")
+                print(f"\n'{name}' initialised as a {etype}.")
 
+            # ------------------------------------------------------------------ 2
             elif choice == '2':
                 events = self.list_events()
-                if not events: continue
+                if not events:
+                    continue
                 try:
                     idx = int(input("\nSelect event index: "))
                     event_name = events[idx]
@@ -95,74 +152,132 @@ class UFCManager:
                     print("Invalid event choice.")
                     continue
 
-                print(f"\n--- Adding bouts to: {event_name} ---")
-                print("Type 'exit' as the fighter name to return to menu.")
+                # Ask for card section ONCE, then spam-add bouts
+                section = self.get_menu_choice("Adding to which card?", ["Main Card", "Prelims"])
+                if section == 'exit':
+                    continue
+                card_key = "main_card" if section == "Main Card" else "prelims"
+
+                print(f"\n--- Adding bouts to: {event_name} › {section} ---")
+                print("Type 'exit' as Fighter 1 to finish.\n")
 
                 while True:
-                    f1 = input("\nFighter 1: ").strip()
-                    if f1.lower() in ['exit', 'leave']: break
+                    f1 = input("Fighter 1: ").strip()
+                    if f1.lower() in ['exit', 'leave', 'quit']:
+                        break
                     f2 = input("Fighter 2: ").strip()
 
-                    rounds = self.get_menu_choice("Rounds:", ["3", "5"])
-                    if rounds == 'exit': break
+                    bout = self._build_bout(event_name, f1, f2)
+                    self.data[event_name][card_key].append(bout)
 
-                    placement = self.get_menu_choice("Card Placement:", ["Main Card", "Prelims"])
-                    if placement == 'exit': break
+                    flags = []
+                    if bout["is_main_event"]:    flags.append("MAIN EVENT")
+                    if bout["is_co_main_event"]: flags.append("CO-MAIN")
+                    tag = f" [{', '.join(flags)}]" if flags else ""
+                    print(f"  Added: {f1} vs {f2} — {bout['rounds']} rounds{tag}\n")
 
-                    key = "main_card" if placement == "Main Card" else "prelims"
-                    self.data[event_name][key].append({
-                        "fighter1": f1,
-                        "fighter2": f2,
-                        "rounds": int(rounds)
-                    })
-                    print(f"Added to {placement}: {f1} vs {f2}")
-
+            # ------------------------------------------------------------------ 3
             elif choice == '3':
                 events = self.list_events()
-                if not events: continue
-                idx = int(input("Select event index: "))
-                old_name = events[idx]
+                if not events:
+                    continue
+                try:
+                    idx = int(input("Select event index: "))
+                    old_name = events[idx]
+                except (ValueError, IndexError):
+                    print("Invalid choice.")
+                    continue
 
-                field = self.get_menu_choice(f"Edit {old_name}:",
-                                             ["Name", "Type", "Date", "Location", "Main Event Title"])
+                field = self.get_menu_choice(
+                    f"Edit '{old_name}':",
+                    ["Name", "Type", "Date", "Location", "Main Event", "Co-Main Event"]
+                )
+                if field == 'exit':
+                    continue
+
                 if field == 'Name':
-                    new_name = input("New Event Name: ")
+                    new_name = input("New Event Name: ").strip()
                     self.data[new_name] = self.data.pop(old_name)
-                elif field == 'Type':
-                    self.data[old_name]["type"] = self.get_menu_choice("New Type:", ["Numbered Event", "Fight Night"])
-                elif field == 'Date':
-                    self.data[old_name]["date"] = input("New Date: ")
-                elif field == 'Location':
-                    self.data[old_name]["location"] = input("New Location: ")
-                elif field == 'Main Event Title':
-                    self.data[old_name]["main_fight"] = input("New Main Event: ")
 
+                elif field == 'Type':
+                    new_type = self.get_menu_choice(
+                        "New Type:", ["Numbered Event", "Fight Night", "Other"]
+                    )
+                    if new_type != 'exit':
+                        self.data[old_name]["type"] = new_type
+                        self._recompute_all_bouts(old_name)
+                        print("Type updated — rounds recomputed.")
+
+                elif field == 'Date':
+                    self.data[old_name]["date"] = input("New Date (YYYY-MM-DD): ").strip()
+
+                elif field == 'Location':
+                    self.data[old_name]["location"] = input("New Location: ").strip()
+
+                elif field == 'Main Event':
+                    print("New Main Event fighters:")
+                    f1 = input("  Fighter 1: ").strip()
+                    f2 = input("  Fighter 2: ").strip()
+                    self.data[old_name]["main_fight"] = {"fighter1": f1, "fighter2": f2}
+                    self._recompute_all_bouts(old_name)
+                    print("Main event updated — flags recomputed.")
+
+                elif field == 'Co-Main Event':
+                    print("New Co-Main Event fighters:")
+                    f1 = input("  Fighter 1: ").strip()
+                    f2 = input("  Fighter 2: ").strip()
+                    self.data[old_name]["comain"] = {"fighter1": f1, "fighter2": f2}
+                    self._recompute_all_bouts(old_name)
+                    print("Co-main updated — flags recomputed.")
+
+            # ------------------------------------------------------------------ 4
             elif choice == '4':
                 events = self.list_events()
-                if not events: continue
-                event_name = events[int(input("Select event index: "))]
-                section = self.get_menu_choice("From which list?", ["Main Card", "Prelims"])
-                key = "main_card" if section == "Main Card" else "prelims"
+                if not events:
+                    continue
+                try:
+                    event_name = events[int(input("Select event index: "))]
+                except (ValueError, IndexError):
+                    print("Invalid choice.")
+                    continue
 
-                fights = self.data[event_name][key]
+                section = self.get_menu_choice("From which card?", ["Main Card", "Prelims"])
+                if section == 'exit':
+                    continue
+                card_key = "main_card" if section == "Main Card" else "prelims"
+
+                fights = self.data[event_name][card_key]
+                if not fights:
+                    print("No bouts in that section.")
+                    continue
                 for i, f in enumerate(fights):
-                    print(f"{i}. {f['fighter1']} vs {f['fighter2']}")
+                    print(f"  {i}. {f['fighter1']} vs {f['fighter2']}")
 
-                f_idx = int(input("Index to remove: "))
-                fights.pop(f_idx)
-                print("Bout removed.")
+                try:
+                    fights.pop(int(input("Index to remove: ")))
+                    print("Bout removed.")
+                except (ValueError, IndexError):
+                    print("Invalid index.")
 
+            # ------------------------------------------------------------------ 5
             elif choice == '5':
                 events = self.list_events()
-                if not events: continue
-                idx = int(input("Select event index to PURGE: "))
-                if input(f"Confirm deleting {events[idx]}? (y/n): ").lower() == 'y':
-                    del self.data[events[idx]]
+                if not events:
+                    continue
+                try:
+                    target = events[int(input("Select event index to PURGE: "))]
+                except (ValueError, IndexError):
+                    print("Invalid choice.")
+                    continue
+                if input(f"Confirm deleting '{target}'? (y/n): ").lower() == 'y':
+                    del self.data[target]
                     print("Event deleted.")
 
+            # ------------------------------------------------------------------ 6
             elif choice == '6':
                 print(json.dumps(self.data, indent=4))
 
+            # ------------------------------------------------------------------ 7
             elif choice == '7':
                 self.save()
                 break

@@ -3553,45 +3553,45 @@
             "striking": {
                 "punches": {
                     "jab": 9,
-                    "cross": 10,
+                    "cross": 6,
                     "haymaker": 7
                 },
                 "kicks": {
                     "low": 8,
-                    "body": 7,
+                    "body": 8,
                     "head": 8
                 },
                 "overview": {
-                    "power": 8,
-                    "accuracy": 9,
-                    "volume": 8,
-                    "defence": 10,
-                    "footwork": 10
+                    "power": 7,
+                    "accuracy": 8,
+                    "volume": 9,
+                    "defence": 8,
+                    "footwork": 7
                 },
                 "proportion": 0.6,
                 "style": "Outside Sniper"
             },
             "grappling": {
-                "takedown": 8,
+                "takedown": 7,
                 "takedown-defence": 9,
-                "submissions": 8,
-                "ground-control": 8,
-                "ground-and-pound": 8,
-                "scrambles": 9,
-                "style": "All-Round Grappler",
-                "bottom-game": 9
+                "submissions": 6,
+                "ground-control": 7,
+                "ground-and-pound": 7,
+                "scrambles": 6,
+                "style": "Defensive Grappler",
+                "bottom-game": 7
             },
             "clinch": {
-                "clinch-control": 8,
+                "clinch-control": 7,
                 "clinch-striking": 8
             },
             "intangibles": {
-                "stamina": 9,
-                "chin": 10,
-                "durability": 9,
-                "fight-iq": 10
+                "stamina": 8,
+                "chin": 9,
+                "durability": 8,
+                "fight-iq": 9
             },
-            "ratio": 0.4
+            "ratio": 0.95
         },
         "career": {
             "api-id": 0,
@@ -3896,46 +3896,46 @@
         "skillset": {
             "striking": {
                 "punches": {
-                    "jab": 8,
-                    "cross": 9,
+                    "jab": 6,
+                    "cross": 8,
                     "haymaker": 8
                 },
                 "kicks": {
-                    "low": 9,
-                    "body": 9,
-                    "head": 10
+                    "low": 6,
+                    "body": 8,
+                    "head": 8
                 },
                 "overview": {
-                    "power": 9,
-                    "accuracy": 9,
-                    "volume": 8,
-                    "defence": 8,
-                    "footwork": 8
+                    "power": 8,
+                    "accuracy": 6,
+                    "volume": 7,
+                    "defence": 6,
+                    "footwork": 7
                 },
                 "proportion": 0.6,
                 "style": "Outside Sniper"
             },
             "grappling": {
-                "takedown": 8,
-                "takedown-defence": 8,
-                "submissions": 9,
+                "takedown": 7,
+                "takedown-defence": 6,
+                "submissions": 8,
                 "ground-control": 8,
-                "ground-and-pound": 8,
-                "scrambles": 8,
+                "ground-and-pound": 7,
+                "scrambles": 7,
                 "style": "Submission Specialist",
-                "bottom-game": 8
+                "bottom-game": 7
             },
             "clinch": {
-                "clinch-control": 7,
-                "clinch-striking": 9
+                "clinch-control": 8,
+                "clinch-striking": 6
             },
             "intangibles": {
-                "stamina": 9,
-                "chin": 9,
-                "durability": 9,
-                "fight-iq": 9
+                "stamina": 7,
+                "chin": 8,
+                "durability": 7,
+                "fight-iq": 7
             },
-            "ratio": 0.4
+            "ratio": 0.8
         },
         "career": {
             "api-id": 0,
@@ -13807,27 +13807,27 @@
                     "head": 6
                 },
                 "overview": {
-                    "power": 6,
-                    "accuracy": 8,
+                    "power": 8,
+                    "accuracy": 6,
                     "volume": 7,
-                    "defence": 8,
-                    "footwork": 8
+                    "defence": 7,
+                    "footwork": 6
                 },
                 "proportion": 0.5,
                 "style": "Technical Boxer"
             },
             "grappling": {
-                "takedown": 8,
+                "takedown": 9,
                 "takedown-defence": 9,
                 "submissions": 7,
-                "ground-control": 8,
-                "ground-and-pound": 8,
-                "scrambles": 7,
+                "ground-control": 9,
+                "ground-and-pound": 7,
+                "scrambles": 9,
                 "style": "All-Round Grappler",
-                "bottom-game": 9
+                "bottom-game": 7
             },
             "clinch": {
-                "clinch-control": 9,
+                "clinch-control": 8,
                 "clinch-striking": 7
             },
             "intangibles": {
@@ -14315,18 +14315,18 @@
                 "punches": {
                     "jab": 9,
                     "cross": 8,
-                    "haymaker": 6
+                    "haymaker": 7
                 },
                 "kicks": {
                     "low": 8,
-                    "body": 7,
+                    "body": 8,
                     "head": 6
                 },
                 "overview": {
                     "power": 7,
                     "accuracy": 9,
-                    "volume": 8,
-                    "defence": 8,
+                    "volume": 9,
+                    "defence": 9,
                     "footwork": 8
                 },
                 "proportion": 0.8,
@@ -14334,13 +14334,13 @@
             },
             "grappling": {
                 "takedown": 5,
-                "takedown-defence": 9,
+                "takedown-defence": 8,
                 "submissions": 4,
                 "ground-control": 6,
-                "ground-and-pound": 6,
+                "ground-and-pound": 7,
                 "scrambles": 7,
                 "style": "Defensive Grappler",
-                "bottom-game": 9
+                "bottom-game": 8
             },
             "clinch": {
                 "clinch-control": 7,
@@ -15409,5 +15409,487 @@
             "ufc-sub-wins": 0
         },
         "description": "One of the UFC's most beloved personalities, the Western Sydney-born heavyweight of Wiradjuri and Samoan heritage built his reputation on explosive knockout power and an infectious crowd-pleasing style. At his 2021-22 peak he strung together five consecutive finishes including victories over Derrick Lewis and Augusto Sakai. Since then he has suffered seven consecutive losses to elite competition, being finished by strikes, submissions and decisions. His grappling defense is a severe liability at the top level — he has been submitted multiple times in recent years — and his chin and durability have visibly declined. He remains dangerous in a phone booth brawl but is no longer competitive against ranked opposition."
+    },
+
+    {
+        "personal-info": {
+            "name": "Dooho Choi",
+            "nickname": "The Korean Superboy",
+            "birth-date": "1991-04-10",
+            "nationality": "South Korean",
+            "fighting-out-of": "Busan, South Korea",
+            "country-code": "KR",
+            "weight-class": "Featherweight",
+            "gym": "Team Mada",
+            "status": "Active",
+            "gender": "Male"
+        },
+        "specs": {
+            "height": 173,
+            "reach": 71,
+            "stance": "Orthodox"
+        },
+        "skillset": {
+            "striking": {
+                "punches": {
+                    "jab": 8,
+                    "cross": 9,
+                    "haymaker": 10
+                },
+                "kicks": {
+                    "low": 8,
+                    "body": 9,
+                    "head": 8
+                },
+                "overview": {
+                    "power": 10,
+                    "accuracy": 7,
+                    "volume": 9,
+                    "defence": 6,
+                    "footwork": 6
+                },
+                "proportion": 0.9,
+                "style": "Pressure Striker"
+            },
+            "grappling": {
+                "takedown": 5,
+                "takedown-defence": 6,
+                "submissions": 4,
+                "ground-control": 5,
+                "ground-and-pound": 6,
+                "scrambles": 6,
+                "style": "Defensive Grappler",
+                "bottom-game": 6
+            },
+            "clinch": {
+                "clinch-control": 6,
+                "clinch-striking": 8
+            },
+            "intangibles": {
+                "stamina": 7,
+                "chin": 7,
+                "durability": 7,
+                "fight-iq": 7
+            },
+            "ratio": 0.9
+        },
+        "career": {
+            "api-id": 0,
+            "wins": 17,
+            "losses": 4,
+            "draws": 1,
+            "no-contests": 0,
+            "ko-tko-wins": 13,
+            "sub-wins": 0,
+            "win-streak": 2,
+            "last-five": [1, 1, 2, 0, 0],
+            "fight-history": [],
+            "ufc-wins": 6,
+            "ufc-losses": 3,
+            "ufc-ko-tko-wins": 5,
+            "ufc-sub-wins": 0
+        },
+        "description": "Dooho Choi is one of the most purely explosive finishers the Featherweight division has ever seen. His 2016 war with Cub Swanson is an all-time classic, inducted into the UFC Hall of Fame Fight Wing in 2022. After mandatory South Korean military service caused a lengthy absence, Choi returned in 2023 and has looked reinvigorated, back-to-back TKO wins in 2024 proving his one-shot power has not faded. He is a pure Pressure Striker with almost no grappling ambition — he walks forward, throws bombs, and dares opponents to trade with him."
+    },
+    {
+        "personal-info": {
+            "name": "Juan Diaz",
+            "nickname": "Pegajoso",
+            "birth-date": "1997-01-01",
+            "nationality": "Peruvian",
+            "fighting-out-of": "Tijuana, Mexico",
+            "country-code": "PE",
+            "weight-class": "Bantamweight",
+            "gym": "Entram Gym",
+            "status": "Active",
+            "gender": "Male"
+        },
+        "specs": {
+            "height": 170,
+            "reach": 68,
+            "stance": "Orthodox"
+        },
+        "skillset": {
+            "striking": {
+                "punches": {
+                    "jab": 7,
+                    "cross": 8,
+                    "haymaker": 8
+                },
+                "kicks": {
+                    "low": 7,
+                    "body": 6,
+                    "head": 7
+                },
+                "overview": {
+                    "power": 8,
+                    "accuracy": 7,
+                    "volume": 8,
+                    "defence": 7,
+                    "footwork": 7
+                },
+                "proportion": 0.55,
+                "style": "Pressure Striker"
+            },
+            "grappling": {
+                "takedown": 7,
+                "takedown-defence": 7,
+                "submissions": 7,
+                "ground-control": 7,
+                "ground-and-pound": 7,
+                "scrambles": 7,
+                "style": "All-Round Grappler",
+                "bottom-game": 7
+            },
+            "clinch": {
+                "clinch-control": 7,
+                "clinch-striking": 7
+            },
+            "intangibles": {
+                "stamina": 8,
+                "chin": 7,
+                "durability": 7,
+                "fight-iq": 7
+            },
+            "ratio": 0.55
+        },
+        "career": {
+            "api-id": 0,
+            "wins": 15,
+            "losses": 1,
+            "draws": 1,
+            "no-contests": 0,
+            "ko-tko-wins": 7,
+            "sub-wins": 4,
+            "win-streak": 8,
+            "last-five": [1, 1, 1, 1, 1],
+            "fight-history": [],
+            "ufc-wins": 0,
+            "ufc-losses": 0,
+            "ufc-ko-tko-wins": 0,
+            "ufc-sub-wins": 0
+        },
+        "description": "Juan Diaz is a Peruvian bantamweight who relocated to Tijuana to train at Entram Gym and built his reputation on the Latin American regional scene, winning the LUX Fight League Bantamweight title before earning a UFC contract on Dana White's Contender Series in October 2025 with the first spinning back elbow KO in DWCS history. Born in Peru and raised partly in Argentina, he carries all three flags with pride. His UFC debut comes at Allen vs. Costa on May 16, 2026 against Malcolm Wellmaker."
+    },
+    {
+        "personal-info": {
+            "name": "Modestas Bukauskas",
+            "nickname": "The Baltic Gladiator",
+            "birth-date": "1994-02-10",
+            "nationality": "Lithuanian",
+            "fighting-out-of": "Denham, Buckinghamshire, England",
+            "country-code": "LT",
+            "weight-class": "Light Heavyweight",
+            "gym": "Gintas Combat",
+            "status": "Active",
+            "gender": "Male"
+        },
+        "specs": {
+            "height": 193,
+            "reach": 77,
+            "stance": "Switch"
+        },
+        "skillset": {
+            "striking": {
+                "punches": {
+                    "jab": 8,
+                    "cross": 9,
+                    "haymaker": 9
+                },
+                "kicks": {
+                    "low": 8,
+                    "body": 9,
+                    "head": 8
+                },
+                "overview": {
+                    "power": 9,
+                    "accuracy": 8,
+                    "volume": 8,
+                    "defence": 7,
+                    "footwork": 7
+                },
+                "proportion": 0.8,
+                "style": "Muay Thai / Kickboxer"
+            },
+            "grappling": {
+                "takedown": 5,
+                "takedown-defence": 7,
+                "submissions": 6,
+                "ground-control": 5,
+                "ground-and-pound": 6,
+                "scrambles": 6,
+                "style": "Defensive Grappler",
+                "bottom-game": 6
+            },
+            "clinch": {
+                "clinch-control": 7,
+                "clinch-striking": 9
+            },
+            "intangibles": {
+                "stamina": 8,
+                "chin": 7,
+                "durability": 7,
+                "fight-iq": 7
+            },
+            "ratio": 0.85
+        },
+        "career": {
+            "api-id": 0,
+            "wins": 20,
+            "losses": 7,
+            "draws": 0,
+            "no-contests": 0,
+            "ko-tko-wins": 14,
+            "sub-wins": 2,
+            "win-streak": 0,
+            "last-five": [0, 1, 1, 1, 1],
+            "fight-history": [],
+            "ufc-wins": 7,
+            "ufc-losses": 5,
+            "ufc-ko-tko-wins": 5,
+            "ufc-sub-wins": 1
+        },
+        "description": "Born in Klaipėda, Lithuania and raised in England from age three, Modestas Bukauskas is a four-time British kickboxing champion and two-time Cage Warriors Light Heavyweight champion. His UFC run has been a rollercoaster of spectacular elbow KOs and sudden stoppages. A serious leg injury against Khalil Rountree Jr. led to his first UFC release, but he worked back through surgery and rebuilt his momentum impressively, winning four straight inside the Octagon before a third-round KO loss to Nikita Krylov in January 2026. A switch-stance Muay Thai specialist with genuine finishing power."
+    },
+    {
+        "personal-info": {
+            "name": "Ateba Gautier",
+            "nickname": "The Storm",
+            "birth-date": "2002-04-10",
+            "nationality": "Cameroonian",
+            "fighting-out-of": "Manchester, England",
+            "country-code": "CM",
+            "weight-class": "Middleweight",
+            "gym": "Manchester Top Team",
+            "status": "Active",
+            "gender": "Male"
+        },
+        "specs": {
+            "height": 193,
+            "reach": 77,
+            "stance": "Switch"
+        },
+        "skillset": {
+            "striking": {
+                "punches": {
+                    "jab": 8,
+                    "cross": 8,
+                    "haymaker": 8
+                },
+                "kicks": {
+                    "low": 7,
+                    "body": 8,
+                    "head": 9
+                },
+                "overview": {
+                    "power": 9,
+                    "accuracy": 8,
+                    "volume": 7,
+                    "defence": 7,
+                    "footwork": 7
+                },
+                "proportion": 0.7,
+                "style": "Muay Thai / Kickboxer"
+            },
+            "grappling": {
+                "takedown": 6,
+                "takedown-defence": 7,
+                "submissions": 5,
+                "ground-control": 6,
+                "ground-and-pound": 6,
+                "scrambles": 6,
+                "style": "All-Round Grappler",
+                "bottom-game": 6
+            },
+            "clinch": {
+                "clinch-control": 7,
+                "clinch-striking": 8
+            },
+            "intangibles": {
+                "stamina": 8,
+                "chin": 7,
+                "durability": 7,
+                "fight-iq": 7
+            },
+            "ratio": 0.75
+        },
+        "career": {
+            "api-id": 0,
+            "wins": 11,
+            "losses": 1,
+            "draws": 0,
+            "no-contests": 0,
+            "ko-tko-wins": 9,
+            "sub-wins": 0,
+            "win-streak": 3,
+            "last-five": [1, 1, 1, 0, 1],
+            "fight-history": [],
+            "ufc-wins": 3,
+            "ufc-losses": 0,
+            "ufc-ko-tko-wins": 3,
+            "ufc-sub-wins": 0
+        },
+        "description": "One of the most exciting young prospects in the Middleweight division, Ateba Gautier moved from Cameroon to Manchester at 19 to train under Lerone Murphy's gym, Manchester Top Team. Born in Douala, he earned a silver medal at the 2024 African Sambo Championships and was signed from Dana White's Contender Series after a second-round KO of Yura Naito. He has a 100% finishing rate with all nine of his stoppages coming via KO or TKO. Gautier's rapid UFC rise continued with a TKO win over Ozzy Diaz at UFC 328."
+    },
+    {
+        "personal-info": {
+            "name": "Grant Dawson",
+            "nickname": "KGD",
+            "birth-date": "1994-02-20",
+            "nationality": "American",
+            "fighting-out-of": "Coconut Creek, Florida",
+            "country-code": "US",
+            "weight-class": "Lightweight",
+            "gym": "American Top Team",
+            "status": "Active",
+            "gender": "Male"
+        },
+        "specs": {
+            "height": 178,
+            "reach": 72,
+            "stance": "Orthodox"
+        },
+        "skillset": {
+            "striking": {
+                "punches": {
+                    "jab": 7,
+                    "cross": 7,
+                    "haymaker": 6
+                },
+                "kicks": {
+                    "low": 6,
+                    "body": 6,
+                    "head": 5
+                },
+                "overview": {
+                    "power": 6,
+                    "accuracy": 7,
+                    "volume": 7,
+                    "defence": 7,
+                    "footwork": 6
+                },
+                "proportion": 0.3,
+                "style": "Pressure Striker"
+            },
+            "grappling": {
+                "takedown": 9,
+                "takedown-defence": 8,
+                "submissions": 9,
+                "ground-control": 10,
+                "ground-and-pound": 9,
+                "scrambles": 8,
+                "style": "Wrestler",
+                "bottom-game": 7
+            },
+            "clinch": {
+                "clinch-control": 9,
+                "clinch-striking": 7
+            },
+            "intangibles": {
+                "stamina": 9,
+                "chin": 8,
+                "durability": 8,
+                "fight-iq": 8
+            },
+            "ratio": 0.3
+        },
+        "career": {
+            "api-id": 0,
+            "wins": 24,
+            "losses": 3,
+            "draws": 1,
+            "no-contests": 0,
+            "ko-tko-wins": 5,
+            "sub-wins": 13,
+            "win-streak": 1,
+            "last-five": [1, 0, 1, 1, 2],
+            "fight-history": [],
+            "ufc-wins": 12,
+            "ufc-losses": 2,
+            "ufc-ko-tko-wins": 2,
+            "ufc-sub-wins": 6
+        },
+        "description": "Grant Dawson is one of the most suffocating wrestlers in the Lightweight division and quietly one of the most underrated fighters on the UFC roster. Born in Cambria, Wisconsin and raised in Stromsburg, Nebraska, he built a 100% finishing rate on the regional scene before joining American Top Team in Florida. He uses his striking purely to initiate clinch work and takedowns, where his top control and submission hunting are elite — he has the record for ground control time in several of his UFC bouts. Most recently he submitted Mateusz Rebecki at UFC 328 in May 2026."
+    },
+    {
+        "personal-info": {
+            "name": "Alonzo Menifield",
+            "nickname": "Atomic",
+            "birth-date": "1987-10-18",
+            "nationality": "American",
+            "fighting-out-of": "Dallas, Texas",
+            "country-code": "US",
+            "weight-class": "Light Heavyweight",
+            "gym": "Fortis MMA",
+            "status": "Active",
+            "gender": "Male"
+        },
+        "specs": {
+            "height": 183,
+            "reach": 76,
+            "stance": "Orthodox"
+        },
+        "skillset": {
+            "striking": {
+                "punches": {
+                    "jab": 8,
+                    "cross": 9,
+                    "haymaker": 10
+                },
+                "kicks": {
+                    "low": 6,
+                    "body": 7,
+                    "head": 7
+                },
+                "overview": {
+                    "power": 10,
+                    "accuracy": 7,
+                    "volume": 7,
+                    "defence": 6,
+                    "footwork": 6
+                },
+                "proportion": 0.85,
+                "style": "Pressure Striker"
+            },
+            "grappling": {
+                "takedown": 5,
+                "takedown-defence": 7,
+                "submissions": 6,
+                "ground-control": 5,
+                "ground-and-pound": 6,
+                "scrambles": 5,
+                "style": "Defensive Grappler",
+                "bottom-game": 6
+            },
+            "clinch": {
+                "clinch-control": 6,
+                "clinch-striking": 8
+            },
+            "intangibles": {
+                "stamina": 7,
+                "chin": 7,
+                "durability": 7,
+                "fight-iq": 6
+            },
+            "ratio": 0.9
+        },
+        "career": {
+            "api-id": 0,
+            "wins": 17,
+            "losses": 6,
+            "draws": 1,
+            "no-contests": 0,
+            "ko-tko-wins": 10,
+            "sub-wins": 3,
+            "win-streak": 0,
+            "last-five": [0, 1, 0, 1, 1],
+            "fight-history": [],
+            "ufc-wins": 9,
+            "ufc-losses": 6,
+            "ufc-ko-tko-wins": 5,
+            "ufc-sub-wins": 3
+        },
+        "description": "Born in Los Angeles and raised across 12 foster homes after losing his father young, Alonzo Menifield channeled his adversity into football and eventually MMA. He trains at Fortis MMA in Dallas and is one of the most dangerous first-round punchers in the Light Heavyweight division, carrying nuclear power in his hands. His career has been defined by explosive early finishes and sudden knockouts when the power lands. He is next scheduled to face Zhang Mingyang at UFC Fight Night Macao on May 30, 2026."
     }
+
 ]
