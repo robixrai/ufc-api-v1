@@ -845,7 +845,7 @@ class Predict():
         return f1_str_updated, f1_grp_updated, f2_str_updated, f2_grp_updated, logs
 
     def predict_outcome(self, standing_prob: float, grappling_prob: float, fighter1: Fighter, fighter2: Fighter,
-                        logs: str, rounds: int, json: int) -> Tuple[float, float, str]:
+                        logs: str, rounds: int, json: int):
 
         C1, C2 = fighter1.clinch_score, fighter2.clinch_score
         I1, I2 = fighter1.intangibles_score, fighter2.intangibles_score
@@ -932,7 +932,6 @@ class Predict():
             best_method_value = methods[best_method_name]
 
             # 4. Convert to percentage float with one decimal place
-            # Using round() or your math.floor logic as requested
             method_perc = math.floor(best_method_value * 1000) / 10.0
 
             confidence = "Low"
@@ -941,22 +940,18 @@ class Predict():
             if winner_conf > 0.80:
                 confidence = "High"
 
-            # ... (Your existing win_perc and lose_perc logic) ...
             win_perc = math.floor(win_prob * 1000) / 10.0
             lose_perc = math.floor(lose_prob * 1000) / 10.0
             if round(win_perc + lose_perc, 1) != 100.0:
                 win_perc += 0.1
 
-            # ... (Your existing ko/sub/dec logic) ...
             ko_perc = math.floor(fight_ko * 1000) / 10.0
             sub_perc = math.floor(fight_sub * 1000) / 10.0
             dec_perc = math.floor(fight_dec * 1000) / 10.0
 
-            # fix the rounding remainder on the largest value
             total = round(ko_perc + sub_perc + dec_perc, 1)
             if total != 100.0:
                 diff = round(100.0 - total, 1)
-                # add remainder to the largest
                 largest = max(["ko", "sub", "dec"], key=lambda x: {"ko": ko_perc, "sub": sub_perc, "dec": dec_perc}[x])
                 if largest == "ko":
                     ko_perc = round(ko_perc + diff, 1)
@@ -964,6 +959,90 @@ class Predict():
                     sub_perc = round(sub_perc + diff, 1)
                 else:
                     dec_perc = round(dec_perc + diff, 1)
+
+            # --- Individual fighter method threats ---
+            f1_ko_perc = math.floor(f1_ko * 1000) / 10.0
+            f1_sub_perc = math.floor(f1_sub * 1000) / 10.0
+            f1_dec_perc = math.floor(f1_dec * 1000) / 10.0
+
+            f2_ko_perc = math.floor(f2_ko * 1000) / 10.0
+            f2_sub_perc = math.floor(f2_sub * 1000) / 10.0
+            f2_dec_perc = math.floor(f2_dec * 1000) / 10.0
+
+            for _ko, _sub, _dec, _name in [
+                (f1_ko_perc, f1_sub_perc, f1_dec_perc, "f1"),
+                (f2_ko_perc, f2_sub_perc, f2_dec_perc, "f2"),
+            ]:
+                _total = round(_ko + _sub + _dec, 1)
+                if _total != 100.0:
+                    _diff = round(100.0 - _total, 1)
+                    _largest = max(["ko", "sub", "dec"], key=lambda x: {"ko": _ko, "sub": _sub, "dec": _dec}[x])
+                    if _name == "f1":
+                        if _largest == "ko":
+                            f1_ko_perc = round(f1_ko_perc + _diff, 1)
+                        elif _largest == "sub":
+                            f1_sub_perc = round(f1_sub_perc + _diff, 1)
+                        else:
+                            f1_dec_perc = round(f1_dec_perc + _diff, 1)
+                    else:
+                        if _largest == "ko":
+                            f2_ko_perc = round(f2_ko_perc + _diff, 1)
+                        elif _largest == "sub":
+                            f2_sub_perc = round(f2_sub_perc + _diff, 1)
+                        else:
+                            f2_dec_perc = round(f2_dec_perc + _diff, 1)
+
+            # --- Style clash ---
+            STR_STYLE_ADVANTAGE = {
+                "Counter Striker": ["Pressure Striker"],
+                "Pressure Striker": ["Outside Sniper"],
+                "Outside Sniper": ["Technical Boxer", "Muay Thai / Kickboxer"],
+                "Technical Boxer": ["Pressure Striker"],
+                "Muay Thai / Kickboxer": ["Technical Boxer"]
+            }
+            GRP_STYLE_ADVANTAGE = {
+                "Wrestler": ["Submission Specialist", "Ground and Pound"],
+                "Defensive Grappler": ["Wrestler", "Submission Specialist"],
+                "Submission Specialist": ["Ground and Pound"],
+                "Ground and Pound": ["Defensive Grappler", "All-Round Grappler"],
+                "All-Round Grappler": ["Wrestler"]
+            }
+
+            f1_str_style = getattr(fighter1, "_skillset_striking_style", None)
+            f2_str_style = getattr(fighter2, "_skillset_striking_style", None)
+            f1_grp_style = getattr(fighter1, "_skillset_grappling_style", None)
+            f2_grp_style = getattr(fighter2, "_skillset_grappling_style", None)
+
+            str_clash = None
+            str_advantage = None
+            if f1_str_style and f2_str_style:
+                if f2_str_style in STR_STYLE_ADVANTAGE.get(f1_str_style, []):
+                    str_clash = True
+                    str_advantage = f1_name
+                elif f1_str_style in STR_STYLE_ADVANTAGE.get(f2_str_style, []):
+                    str_clash = True
+                    str_advantage = f2_name
+                else:
+                    str_clash = False
+                    str_advantage = None
+
+            grp_clash = None
+            grp_advantage = None
+            if f1_grp_style and f2_grp_style:
+                if f2_grp_style in GRP_STYLE_ADVANTAGE.get(f1_grp_style, []):
+                    grp_clash = True
+                    grp_advantage = f1_name
+                elif f1_grp_style in GRP_STYLE_ADVANTAGE.get(f2_grp_style, []):
+                    grp_clash = True
+                    grp_advantage = f2_name
+                else:
+                    grp_clash = False
+                    grp_advantage = None
+
+            # --- Specs score ---
+            specs_scale = 20.0
+            f1_specs_score = round(min(10.0, max(0.0, 5.0 + specs_adv_1 * specs_scale)), 2)
+            f2_specs_score = round(min(10.0, max(0.0, 5.0 + specs_adv_2 * specs_scale)), 2)
 
             return 0.0, 0.0, {
                 "Fighter 1": f1_name,
@@ -975,11 +1054,61 @@ class Predict():
                 "Winning fighters Confidence": confidence,
                 "Fighter 1 % of winning": win_perc,
                 "Fighter 2 % of winning": lose_perc,
-                "Winners method of victory": best_method_name,  # The string "KO"
-                "Winners method of victory %": method_perc,  # The float 75.4
+                "Winners method of victory": best_method_name,
+                "Winners method of victory %": method_perc,
                 "% of KO": round(ko_perc, 1),
                 "% of SUB": round(sub_perc, 1),
-                "% of DEC": round(dec_perc, 1)
+                "% of DEC": round(dec_perc, 1),
+
+                # --- Distance ---
+                "Goes to distance": dec_perc > (ko_perc + sub_perc),
+                "% goes to distance": dec_perc,
+                "Standing Probability": standing_prob,
+                "Grappling Probability": grappling_prob,
+
+                # --- Fighter 1 info ---
+                "Fighter 1 Height": getattr(fighter1, "_specs_height", None),
+                "Fighter 1 Age": fighter1.age,
+                "Fighter 1 Reach": getattr(fighter1, "_specs_reach", None),
+                "Fighter 1 Stance": getattr(fighter1, "_specs_stance", None),
+                "Fighter 1 Striking Style": f1_str_style,
+                "Fighter 1 Grappling Style": f1_grp_style,
+                "Fighter 1 % KO": f1_ko_perc,
+                "Fighter 1 % SUB": f1_sub_perc,
+                "Fighter 1 % DEC": f1_dec_perc,
+
+                # --- Fighter 2 info ---
+                "Fighter 2 Height": getattr(fighter2, "_specs_height", None),
+                "Fighter 2 Age": fighter2.age,
+                "Fighter 2 Reach": getattr(fighter2, "_specs_reach", None),
+                "Fighter 2 Stance": getattr(fighter2, "_specs_stance", None),
+                "Fighter 2 Striking Style": f2_str_style,
+                "Fighter 2 Grappling Style": f2_grp_style,
+                "Fighter 2 % KO": f2_ko_perc,
+                "Fighter 2 % SUB": f2_sub_perc,
+                "Fighter 2 % DEC": f2_dec_perc,
+
+                # --- Style clash ---
+                "Striking style clash": str_clash,
+                "Striking style advantage": str_advantage,
+                "Grappling style clash": grp_clash,
+                "Grappling style advantage": grp_advantage,
+
+                # --- Radar data (all axes 0-10) ---
+                "Fighter 1 Radar": {
+                    "Striking": round(float(getattr(fighter1, "striking_score", 0) or 0), 2),
+                    "Grappling": round(float(getattr(fighter1, "grappling_score", 0) or 0), 2),
+                    "Clinch": round(float(getattr(fighter1, "clinch_score", 0) or 0), 2),
+                    "Intangibles": round(float(getattr(fighter1, "intangibles_score", 0) or 0), 2),
+                    "Specs Score": f1_specs_score,
+                },
+                "Fighter 2 Radar": {
+                    "Striking": round(float(getattr(fighter2, "striking_score", 0) or 0), 2),
+                    "Grappling": round(float(getattr(fighter2, "grappling_score", 0) or 0), 2),
+                    "Clinch": round(float(getattr(fighter2, "clinch_score", 0) or 0), 2),
+                    "Intangibles": round(float(getattr(fighter2, "intangibles_score", 0) or 0), 2),
+                    "Specs Score": f2_specs_score,
+                }
             }
 
         else:
