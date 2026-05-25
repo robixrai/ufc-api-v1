@@ -1040,9 +1040,9 @@ class Predict():
                     grp_advantage = None
 
             # --- Specs score ---
-            specs_scale = 20.0
-            f1_specs_score = round(min(10.0, max(0.0, 5.0 + specs_adv_1 * specs_scale)), 2)
-            f2_specs_score = round(min(10.0, max(0.0, 5.0 + specs_adv_2 * specs_scale)), 2)
+            specs_scale = 50.0
+            f1_specs_score = round(min(10.0, max(0.0, 7.5 + specs_adv_1 * specs_scale)), 2)
+            f2_specs_score = round(min(10.0, max(0.0, 7.5 + specs_adv_2 * specs_scale)), 2)
 
             return 0.0, 0.0, {
                 "Fighter 1": f1_name,
