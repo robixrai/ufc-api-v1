@@ -257,7 +257,7 @@
                 "is_co_main_event": false
             },
             {
-                "fighter1": "Muslim Salikhov",
+                "fighter1": "Carlston Harris",
                 "fighter2": "Jake Matthews",
                 "rounds": 3,
                 "is_main_event": false,
@@ -274,14 +274,14 @@
         "prelims": [
             {
                 "fighter1": "Yi Sak Lee",
-                "fighter2": "Luis Dias De Assis",
+                "fighter2": "Luis Felipe Dias",
                 "rounds": 3,
                 "is_main_event": false,
                 "is_co_main_event": false
             },
             {
                 "fighter1": "Ding Meng",
-                "fighter2": "Jose Henrique",
+                "fighter2": "Jose Souza",
                 "rounds": 3,
                 "is_main_event": false,
                 "is_co_main_event": false
@@ -295,7 +295,7 @@
             },
             {
                 "fighter1": "Rei Tsuruya",
-                "fighter2": "Jesus Aguilar",
+                "fighter2": "Luis Gurule",
                 "rounds": 3,
                 "is_main_event": false,
                 "is_co_main_event": false
@@ -345,34 +345,84 @@
             },
             {
                 "fighter1": "Brendan Allen",
-                "fighter2": "Edmen Shahbayzan",
+                "fighter2": "Edmen Shahbazyan",
                 "rounds": 3,
                 "is_main_event": false,
-                "is_co_main_event": true
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Fares Ziam",
+                "fighter2": "Tom Nolan",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
             },
             {
                 "fighter1": "Bryce Mitchell",
-                "fighter2": "Victor Henry",
+                "fighter2": "Santiago Luna",
                 "rounds": 3,
                 "is_main_event": false,
                 "is_co_main_event": false
             },
             {
                 "fighter1": "Iwo Baraniewski",
-                "fighter2": "Billy Elekana",
-                "rounds": 3,
-                "is_main_event": false,
-                "is_co_main_event": false
-            },
-            {
-                "fighter1": "Imanol Rodriguez",
-                "fighter2": "Matt Schnel",
+                "fighter2": "Junior Tafa",
                 "rounds": 3,
                 "is_main_event": false,
                 "is_co_main_event": false
             }
         ],
-        "prelims": []
+        "prelims": [
+            {
+                "fighter1": "Matt Schnell",
+                "fighter2": "Alessandro Costa",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Marcus McGhee",
+                "fighter2": "John Yannis",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Bruno Silva",
+                "fighter2": "Edgar Chairez",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Priscila Cachoeira",
+                "fighter2": "Chelsea Chandler",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Jordan Leavitt",
+                "fighter2": "Joanderson Brito",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Jeisla Chaves",
+                "fighter2": "Yuneisy Duben",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Ketlen Souza",
+                "fighter2": "Ariane Carnelossi",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            }
+        ]
     },
     "UFC Freedom 250": {
         "type": "Other",

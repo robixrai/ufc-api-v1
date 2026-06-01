@@ -1039,10 +1039,10 @@ class Predict():
                     grp_clash = False
                     grp_advantage = None
 
-            # --- Specs score ---
-            specs_scale = 50.0
-            f1_specs_score = round(min(10.0, max(0.0, 7.5 + specs_adv_1 * specs_scale)), 2)
-            f2_specs_score = round(min(10.0, max(0.0, 7.5 + specs_adv_2 * specs_scale)), 2)
+            # --- Condition score (specs + form, range 5-10, midpoint 7.5) ---
+            condition_scale = 6.25
+            f1_condition = round(min(10.0, max(5.0, 7.5 + (specs_adv_1 + fb1) * condition_scale)), 2)
+            f2_condition = round(min(10.0, max(5.0, 7.5 + (specs_adv_2 + fb2) * condition_scale)), 2)
 
             return 0.0, 0.0, {
                 "Fighter 1": f1_name,
@@ -1100,14 +1100,14 @@ class Predict():
                     "Grappling": round(float(getattr(fighter1, "grappling_score", 0) or 0), 2),
                     "Clinch": round(float(getattr(fighter1, "clinch_score", 0) or 0), 2),
                     "Intangibles": round(float(getattr(fighter1, "intangibles_score", 0) or 0), 2),
-                    "Specs Score": f1_specs_score,
+                    "Condition": f1_condition,
                 },
                 "Fighter 2 Radar": {
                     "Striking": round(float(getattr(fighter2, "striking_score", 0) or 0), 2),
                     "Grappling": round(float(getattr(fighter2, "grappling_score", 0) or 0), 2),
                     "Clinch": round(float(getattr(fighter2, "clinch_score", 0) or 0), 2),
                     "Intangibles": round(float(getattr(fighter2, "intangibles_score", 0) or 0), 2),
-                    "Specs Score": f2_specs_score,
+                    "Condition": f2_condition,
                 }
             }
 

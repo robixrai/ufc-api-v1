@@ -11,7 +11,9 @@ Run from project root:
 
 import json
 import os
+import sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from datetime import datetime
 
 # ── Project imports ────────────────────────────────────────────────────────────
@@ -43,10 +45,7 @@ BET_MARKETS = {
     "11": "Takedowns",
 }
 
-# Markets where the model can derive a probability automatically
 MODEL_DERIVED_MARKETS = {"ML", "KO/TKO", "Sub", "Dec", "KO/TKO or Sub", "Sub or Dec", "ITD", "OOTD"}
-
-# Markets where the user must supply their own probability estimate
 MANUAL_PROB_MARKETS = {"O/U Rounds", "Sig Strikes", "Takedowns"}
 
 # ── Data helpers ───────────────────────────────────────────────────────────────
@@ -223,7 +222,6 @@ def pause():
 # ── Market selection ───────────────────────────────────────────────────────────
 
 def select_market() -> str:
-    """Prompt user to pick a bet market. Returns the market string."""
     print("\n  Bet market:")
     for key, name in BET_MARKETS.items():
         print(f"    {key:>2}. {name}")
@@ -234,7 +232,6 @@ def select_market() -> str:
         print("  Please enter a valid number.")
 
 def select_market_for_parlay_leg() -> str:
-    """Same as select_market but with leg-indented formatting."""
     print("\n    Bet market:")
     for key, name in BET_MARKETS.items():
         print(f"      {key:>2}. {name}")
@@ -247,7 +244,6 @@ def select_market_for_parlay_leg() -> str:
 # ── Market label builder ───────────────────────────────────────────────────────
 
 def market_label(market: str, extra: dict) -> str:
-    """Build a human-readable label for a bet, e.g. 'O/U Rounds — Over 2.5'."""
     if market == "O/U Rounds":
         return f"O/U Rounds — {extra.get('ou_pick','?')} {extra.get('ou_line','?')}"
     if market in ("Sig Strikes", "Takedowns"):
@@ -255,7 +251,10 @@ def market_label(market: str, extra: dict) -> str:
     if market == "ML":
         return f"ML — {extra.get('bet_fighter','?')}"
     if market in ("KO/TKO", "Sub", "Dec"):
-        return f"{market} — {extra.get('bet_fighter','?')}"
+        fighter = extra.get('bet_fighter', '?')
+        rnd = extra.get('round')
+        round_str = f" (R{rnd})" if rnd else " (any round)"
+        return f"{market} — {fighter}{round_str}"
     if market in ("KO/TKO or Sub", "Sub or Dec"):
         return market
     if market in ("ITD", "OOTD"):
@@ -265,10 +264,6 @@ def market_label(market: str, extra: dict) -> str:
 # ── Predictor helpers ──────────────────────────────────────────────────────────
 
 def run_predictor(f1_sel, f2_sel, f1_display: str, f2_display: str, rounds: int) -> dict:
-    """
-    Run the predictor and return a structured result dict with all probs.
-    Returns None values if predictor fails or fighters can't be found.
-    """
     result = {
         "f1_win_prob":    None,
         "f2_win_prob":    None,
@@ -299,7 +294,6 @@ def run_predictor(f1_sel, f2_sel, f1_display: str, f2_display: str, rounds: int)
         result["f2_win_prob"]   = round(lose_prob, 4)
         result["predictor_msg"] = logs
 
-        # ── Parse fight-level method probs ────────────────────────────────────
         in_fight_section = False
         for line in logs.splitlines():
             if "FIGHT METHOD PROFILE" in line or "Most likely method" in line:
@@ -313,7 +307,6 @@ def run_predictor(f1_sel, f2_sel, f1_display: str, f2_display: str, rounds: int)
                     pass
                 break
 
-        # ── Parse per-fighter method probs ────────────────────────────────────
         for fighter_name, prefix in [(f1_display, "f1"), (f2_display, "f2")]:
             in_section = False
             for line in logs.splitlines():
@@ -335,10 +328,6 @@ def run_predictor(f1_sel, f2_sel, f1_display: str, f2_display: str, rounds: int)
 
 
 def derive_model_prob(market: str, bet_fighter: str, f1_display: str, preds: dict) -> float | None:
-    """
-    Derive the model probability for a given market from predictor output.
-    Returns None if not derivable.
-    """
     is_f1 = (bet_fighter == f1_display)
 
     if market == "ML":
@@ -366,7 +355,6 @@ def derive_model_prob(market: str, bet_fighter: str, f1_display: str, preds: dic
         return None
 
     if market == "KO/TKO or Sub":
-        # Fight ends inside the distance (either fighter)
         ko  = preds["fight_ko_prob"]
         sub = preds["fight_sub_prob"]
         if ko is not None and sub is not None:
@@ -396,10 +384,8 @@ def derive_model_prob(market: str, bet_fighter: str, f1_display: str, preds: dic
 
 
 def get_manual_prob(market: str, extra_label: str = "") -> float | None:
-    """Ask the user to enter their estimated probability for a prop market."""
-    prompt = f"  Your estimated probability for {market}{extra_label} (0-100, or leave blank to skip EV): "
     while True:
-        raw = input(prompt).strip()
+        raw = ""
         if raw == "":
             return None
         try:
@@ -412,7 +398,6 @@ def get_manual_prob(market: str, extra_label: str = "") -> float | None:
 
 
 def get_ou_details(market: str, indent: str = "  ") -> dict:
-    """Prompt for O/U line and pick. Returns dict with ou_line and ou_pick."""
     while True:
         try:
             line = float(input(f"{indent}Line (e.g. 2.5): ").strip())
@@ -466,7 +451,6 @@ def odds_to_probs():
 def add_bet(data: dict):
     print_header("ADD NEW BET")
 
-    # ── Fighter selection ──────────────────────────────────────────────────────
     print()
     f1_sel = select_fighter_for_bet("  Fighter 1 — search name: ")
     if f1_sel is None:
@@ -494,10 +478,8 @@ def add_bet(data: dict):
         except ValueError:
             print("  Please enter a number.")
 
-    # ── Market selection ───────────────────────────────────────────────────────
     market = select_market()
 
-    # ── Fighter selection for directional markets ──────────────────────────────
     extra = {}
     bet_fighter = None
     opponent    = None
@@ -521,17 +503,14 @@ def add_bet(data: dict):
         extra["bet_fighter"] = bet_fighter
         extra["opponent"]    = opponent
     else:
-        # For non-directional markets store both names for context
         bet_fighter = f"{f1_display} vs {f2_display}"
         opponent    = ""
 
-    # ── O/U line details ───────────────────────────────────────────────────────
     if market in ("O/U Rounds", "Sig Strikes", "Takedowns"):
         print(f"\n  Enter line details for {market}:")
         ou = get_ou_details(market)
         extra.update(ou)
 
-    # ── Run predictor ──────────────────────────────────────────────────────────
     print("\n  Running predictor model...")
     preds = run_predictor(f1_sel, f2_sel, f1_display, f2_display, rounds)
 
@@ -541,9 +520,6 @@ def add_bet(data: dict):
             print(f"  Fight method — KO: {preds['fight_ko_prob']*100:.1f}%  Sub: {preds['fight_sub_prob']*100:.1f}%  Dec: {preds['fight_dec_prob']*100:.1f}%")
     else:
         print(f"  Model: {preds['predictor_msg']}")
-
-    # ── Derive or request model prob ───────────────────────────────────────────
-    chosen_fighter_for_prob = f1_display if (needs_fighter and bet_fighter == f1_display) else f2_display
 
     if market in MODEL_DERIVED_MARKETS:
         model_prob = derive_model_prob(market, bet_fighter if needs_fighter else f1_display, f1_display, preds)
@@ -558,7 +534,6 @@ def add_bet(data: dict):
         if model_prob is not None:
             print(f"  Using your estimate: {model_prob*100:.1f}%")
 
-    # ── Bookmaker odds ─────────────────────────────────────────────────────────
     print(f"\n  Enter bookmaker American odds for [{market_label(market, extra)}]:")
     while True:
         try:
@@ -567,9 +542,24 @@ def add_bet(data: dict):
         except ValueError:
             print("    Please enter a valid integer.")
 
-    # Implied probability — for two-sided markets get both sides; for props just single side
-    two_sided_markets = {"ML", "KO/TKO", "Sub", "Dec", "ITD", "OOTD"}
-    if market in two_sided_markets and needs_fighter:
+    # ── Implied probability ────────────────────────────────────────────────────
+    method_markets = {"KO/TKO", "Sub", "Dec"}
+    two_sided_markets = {"ML", "ITD", "OOTD"}
+
+    if market in method_markets:
+        print(f"\n  Round detail for [{market_label(market, extra)}]:")
+        round_choice = input("  Specific round? Enter round number or press Enter for 'any round': ").strip()
+        if round_choice:
+            try:
+                extra["round"] = int(round_choice)
+                print(f"  Round {extra['round']} noted.")
+            except ValueError:
+                extra["round"] = None
+        else:
+            extra["round"] = None
+        impl_bet = american_to_implied_prob(bet_odds)
+
+    elif market in two_sided_markets and needs_fighter:
         print(f"  Enter odds for the other side ({opponent}) for vig removal:")
         while True:
             try:
@@ -578,12 +568,12 @@ def add_bet(data: dict):
             except ValueError:
                 print("    Please enter a valid integer.")
         impl_bet, _ = normalise_probs(bet_odds, opp_odds)
+
     else:
         impl_bet = american_to_implied_prob(bet_odds)
 
     ev_for_bet = calculate_ev(model_prob, bet_odds) if model_prob is not None else None
 
-    # ── Stake ──────────────────────────────────────────────────────────────────
     unit_size = data["unit_size"]
     bankroll  = data["bankroll"]
     max_units = bankroll / unit_size
@@ -611,7 +601,6 @@ def add_bet(data: dict):
     potential_win    = round(stake * (decimal_odds - 1), 2)
     potential_return = round(stake * decimal_odds, 2)
 
-    # ── Summary ────────────────────────────────────────────────────────────────
     print_divider()
     print("  BET SUMMARY")
     print_divider()
@@ -721,10 +710,8 @@ def add_parlay(data: dict):
             except ValueError:
                 print("    Please enter a number.")
 
-        # Market
         market = select_market_for_parlay_leg()
 
-        # Fighter selection for directional markets
         extra = {}
         bet_fighter = None
         needs_fighter = market in ("ML", "KO/TKO", "Sub", "Dec", "Sub or Dec")
@@ -747,13 +734,11 @@ def add_parlay(data: dict):
         else:
             bet_fighter = f"{f1_display} vs {f2_display}"
 
-        # O/U details
         if market in ("O/U Rounds", "Sig Strikes", "Takedowns"):
             print(f"\n    Enter line details for {market}:")
             ou = get_ou_details(market, indent="    ")
             extra.update(ou)
 
-        # Run predictor
         print(f"\n    Running predictor for leg {i}...")
         preds = run_predictor(f_sel, opp_sel, f1_display, f2_display, rounds)
 
@@ -764,7 +749,6 @@ def add_parlay(data: dict):
         else:
             print(f"    Model: {preds['predictor_msg']}")
 
-        # Derive or request model prob
         if market in MODEL_DERIVED_MARKETS:
             model_prob = derive_model_prob(market, bet_fighter if needs_fighter else f1_display, f1_display, preds)
             if model_prob is not None:
@@ -776,7 +760,6 @@ def add_parlay(data: dict):
             label_suffix = f" ({extra.get('ou_pick','')} {extra.get('ou_line','')})" if "ou_line" in extra else ""
             model_prob = get_manual_prob(market, label_suffix)
 
-        # Odds
         print(f"\n    Odds for [{market_label(market, extra)}]:")
         while True:
             try:
@@ -785,9 +768,24 @@ def add_parlay(data: dict):
             except ValueError:
                 print("      Please enter a valid integer.")
 
-        # Implied prob
-        two_sided = {"ML", "KO/TKO", "Sub", "Dec", "ITD", "OOTD"}
-        if market in two_sided and needs_fighter:
+        # ── Implied prob ───────────────────────────────────────────────────────
+        method_markets = {"KO/TKO", "Sub", "Dec"}
+        two_sided = {"ML", "ITD", "OOTD"}
+
+        if market in method_markets:
+            print(f"\n    Round detail for [{market_label(market, extra)}]:")
+            round_choice = input("    Specific round? Enter round number or press Enter for 'any round': ").strip()
+            if round_choice:
+                try:
+                    extra["round"] = int(round_choice)
+                    print(f"    Round {extra['round']} noted.")
+                except ValueError:
+                    extra["round"] = None
+            else:
+                extra["round"] = None
+            impl_leg = american_to_implied_prob(odds_leg)
+
+        elif market in two_sided and needs_fighter:
             opp_name = extra.get("opponent", "opponent")
             print(f"      {opp_name} odds (for vig removal):")
             while True:
@@ -797,6 +795,7 @@ def add_parlay(data: dict):
                 except ValueError:
                     print("      Please enter a valid integer.")
             impl_leg, _ = normalise_probs(odds_leg, opp_odds_leg)
+
         else:
             impl_leg = american_to_implied_prob(odds_leg)
 
@@ -824,7 +823,6 @@ def add_parlay(data: dict):
 
         print(f"    ✓ Leg {i} added: [{market_label(market, extra)}] ({format_odds(odds_leg)})")
 
-    # Combined parlay odds
     combined_decimal = 1.0
     for leg in legs:
         combined_decimal *= american_to_decimal(leg["odds"])
@@ -985,7 +983,6 @@ def analyse_matchup(data: dict):
     print(f"  {'Edge (model - implied)':<30} {('+' if edge_f1 >= 0 else '')}{round(edge_f1*100,1):<18}% {('+' if edge_f2 >= 0 else '')}{round(edge_f2*100,1):<18}%")
     print(f"  {'EV (per $1 staked)':<30} {format_ev(ev_f1):<20} {format_ev(ev_f2):<20}")
 
-    # Method breakdown if available
     if preds["fight_ko_prob"] is not None:
         print_divider()
         print(f"  FIGHT METHOD BREAKDOWN")
@@ -1063,7 +1060,6 @@ def view_bets(data: dict):
                 f"To win: {format_currency(b['potential_win'])}  Return: {format_currency(ret)}  "
                 f"Model: {model_str:<8} Implied: {impl_str:<8} EV: {ev_str}")
 
-    # ── UPCOMING ──────────────────────────────────────────────────────────────
     print(f"\n  ┌─ UPCOMING BETS ─────────────────────────────────────────┐")
 
     if singles_pending:
@@ -1092,14 +1088,13 @@ def view_bets(data: dict):
     else:
         print("\n  PARLAYS — none pending")
 
-    # ── COMPLETED ─────────────────────────────────────────────────────────────
     print(f"\n  ├─ COMPLETED BETS ────────────────────────────────────────┤")
 
     if singles_settled:
         print(f"\n  SINGLES ({len(singles_settled)})")
         print_divider()
         for b in singles_settled:
-            result_icon = "✓" if b["status"] == "won" else "✗"
+            result_icon = "✓" if b["status"] == "won" else ("○" if b["status"] == "void" else "✗")
             pnl_str     = f"+{format_currency(b['pnl'])}" if b["pnl"] >= 0 else format_currency(b["pnl"])
             mkt         = market_label(b.get("market", "ML"), b.get("extra", {}))
             print(f"  {result_icon} #{b['id']:<3} {b['date']}  |  {b['fighter']:<22}  [{mkt}]  "
@@ -1205,30 +1200,42 @@ def settle_bet(data: dict):
 
     print("  1. Won")
     print("  2. Lost")
+    print("  3. Void (stake refunded)")
 
     while True:
-        result = input("  Result (1 or 2): ").strip()
-        if result in ("1", "2"):
+        result = input("  Result (1, 2 or 3): ").strip()
+        if result in ("1", "2", "3"):
             break
-        print("  Please enter 1 or 2.")
+        print("  Please enter 1, 2 or 3.")
 
     if result == "1":
-        pnl              = bet["potential_win"]
-        bet["status"]    = "won"
-        bet["pnl"]       = pnl
+        pnl = bet["potential_win"]
+        bet["status"] = "won"
+        bet["pnl"] = pnl
         data["bankroll"] = round(data["bankroll"] + bet["stake"] + pnl, 2)
         if bet.get("type") == "parlay":
             for leg in bet["legs"]:
                 leg["status"] = "won"
         print(f"\n  ✓ Won! +{format_currency(pnl)}")
-    else:
-        pnl              = -bet["stake"]
-        bet["status"]    = "lost"
-        bet["pnl"]       = pnl
+
+    elif result == "2":
+        pnl = -bet["stake"]
+        bet["status"] = "lost"
+        bet["pnl"] = pnl
         if bet.get("type") == "parlay":
             for leg in bet["legs"]:
                 leg["status"] = "lost"
         print(f"\n  ✗ Lost. -{format_currency(bet['stake'])}")
+
+    else:
+        pnl = 0.0
+        bet["status"] = "void"
+        bet["pnl"] = pnl
+        data["bankroll"] = round(data["bankroll"] + bet["stake"], 2)
+        if bet.get("type") == "parlay":
+            for leg in bet["legs"]:
+                leg["status"] = "void"
+        print(f"\n  ○ Void. Stake of {format_currency(bet['stake'])} refunded.")
 
     print(f"  New bankroll: {format_currency(data['bankroll'])}")
     save_data(data)
@@ -1240,9 +1247,8 @@ def settle_bet(data: dict):
 def view_stats(data: dict):
     print_header("STATS & PERFORMANCE")
 
-    bets    = data["bets"]
+    bets = data["bets"]
 
-    # ── All settled bets (singles + parlays) for overall P&L / ROI ───────────
     all_settled       = [b for b in bets if b["status"] != "pending"]
     all_total_staked  = sum(b["stake"] for b in all_settled)
     all_total_pnl     = sum(b["pnl"]   for b in all_settled)
@@ -1250,17 +1256,16 @@ def view_stats(data: dict):
     all_units_pnl     = sum(b["pnl"] / data["unit_size"] for b in all_settled)
     overall_roi       = (all_total_pnl / all_total_staked * 100) if all_total_staked > 0 else 0.0
 
-    # ── Singles breakdown ─────────────────────────────────────────────────────
     singles = [b for b in bets if b.get("type", "single") == "single"]
     settled = [b for b in singles if b["status"] != "pending"]
     won     = [b for b in settled if b["status"] == "won"]
     lost    = [b for b in settled if b["status"] == "lost"]
     pending = [b for b in singles if b["status"] == "pending"]
 
-    singles_staked     = sum(b["stake"] for b in settled)
-    singles_pnl        = sum(b["pnl"]   for b in settled)
-    singles_units_pnl  = sum(b["pnl"] / data["unit_size"] for b in settled)
-    singles_roi        = (singles_pnl / singles_staked * 100) if singles_staked > 0 else 0.0
+    singles_staked    = sum(b["stake"] for b in settled)
+    singles_pnl       = sum(b["pnl"]   for b in settled)
+    singles_units_pnl = sum(b["pnl"] / data["unit_size"] for b in settled)
+    singles_roi       = (singles_pnl / singles_staked * 100) if singles_staked > 0 else 0.0
 
     plus_ev_bets  = [b for b in settled if b.get("ev") is not None and b["ev"] >= 0]
     minus_ev_bets = [b for b in settled if b.get("ev") is not None and b["ev"] <  0]
@@ -1312,7 +1317,6 @@ def view_stats(data: dict):
             plus_ev_won = [b for b in plus_ev_bets if b["status"] == "won"]
             print(f"  {'+EV win rate':<28}: {len(plus_ev_won)}/{len(plus_ev_bets)} ({len(plus_ev_won)/len(plus_ev_bets)*100:.1f}%)")
 
-    # ── Breakdown by market ────────────────────────────────────────────────────
     print_divider()
     print(f"  BY MARKET")
     print_divider()
@@ -1344,7 +1348,6 @@ def view_stats(data: dict):
     else:
         print(f"  {'  No settled underdog bets'}")
 
-    # ── Parlay stats ───────────────────────────────────────────────────────────
     parlays_all     = [b for b in bets if b.get("type") == "parlay"]
     parlays_pending = [b for b in parlays_all if b["status"] == "pending"]
     parlays_settled = [b for b in parlays_all if b["status"] != "pending"]

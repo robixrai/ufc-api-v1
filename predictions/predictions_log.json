@@ -125,7 +125,7 @@
             }
         }
     },
-    "UFC Fight Night: Allen vs. Costa ": {
+    "UFC Fight Night: Allen vs. Costa": {
         "locked_at": "2026-05-17T03:22:47.943354",
         "fights": {
             "Arnold Allen vs Melquizael Costa": {
@@ -222,6 +222,64 @@
                 "predicted_winner_method": "Sub",
                 "predicted_fight_method": "KO",
                 "win_probability": 52.0,
+                "actual_winner": null,
+                "actual_winner_method": null,
+                "actual_fight_method": null,
+                "winner_correct": null,
+                "winner_method_correct": null,
+                "fight_method_correct": null
+            }
+        }
+    },
+    "UFC Fight Night: Song vs. Figueiredo": {
+        "locked_at": "2026-05-31T12:15:50.197076",
+        "fights": {
+            "Song Yadong vs Deiveson Figueiredo": {
+                "predicted_winner": "Song Yadong",
+                "predicted_winner_method": "Dec",
+                "predicted_fight_method": "Dec",
+                "win_probability": 73.1,
+                "actual_winner": "Song Yadong",
+                "actual_winner_method": "Sub - Guillotine",
+                "actual_fight_method": "Sub - Guillotine",
+                "winner_correct": true,
+                "winner_method_correct": false,
+                "fight_method_correct": false
+            },
+            "Zhang Mingyang vs Alonzo Menifield": {
+                "predicted_winner": "Zhang Mingyang",
+                "predicted_winner_method": "KO",
+                "predicted_fight_method": "KO",
+                "win_probability": 74.6,
+                "actual_winner": "Alonzo Menifield",
+                "actual_winner_method": "KO/TKO - Punches",
+                "actual_fight_method": "KO/TKO - Punches",
+                "winner_correct": false,
+                "winner_method_correct": true,
+                "fight_method_correct": true
+            },
+            "Sergei Pavlovich vs Tallison Teixeira": {
+                "predicted_winner": "Sergei Pavlovich",
+                "predicted_winner_method": "KO",
+                "predicted_fight_method": "KO",
+                "win_probability": 86.8,
+                "actual_winner": "Sergei Pavlovich",
+                "actual_winner_method": "KO/TKO - Punches",
+                "actual_fight_method": "KO/TKO - Punches",
+                "winner_correct": true,
+                "winner_method_correct": true,
+                "fight_method_correct": true
+            }
+        }
+    },
+    "UFC Fight Night: Muhammad vs. Bonfim": {
+        "locked_at": "2026-06-01T20:52:41.103546",
+        "fights": {
+            "Belal Muhammad vs Gabriel Bonfim": {
+                "predicted_winner": "Belal Muhammad",
+                "predicted_winner_method": "Dec",
+                "predicted_fight_method": "Dec",
+                "win_probability": 60.8,
                 "actual_winner": null,
                 "actual_winner_method": null,
                 "actual_fight_method": null,
