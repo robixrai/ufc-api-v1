@@ -262,6 +262,26 @@ def get_division_rankings(gender: str, division: str, rank: Optional[int] = None
     return fighters
 
 
+@app.get("/fighters/search")
+def search_fighters(q: str):
+    if not fighters_db:
+        raise HTTPException(status_code=500, detail="Fighters are not loaded")
+
+    norm_query = normalise_name(q)
+    if not norm_query:
+        raise HTTPException(status_code=400, detail="Query must not be empty")
+
+    matches = [
+        copy_without_skillset(fighter)
+        for key, fighter in fighters_db.items()
+        if norm_query in key
+    ]
+
+    if not matches:
+        raise HTTPException(status_code=404, detail=f"No fighters found matching '{q}'")
+
+    return matches
+
 @app.get("/fighters/{name}")
 def get_fighter(name: str, block: Optional[str] = None):
     """
