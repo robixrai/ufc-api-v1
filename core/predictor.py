@@ -1040,9 +1040,13 @@ class Predict():
                     grp_advantage = None
 
             # --- Condition score (specs + form, range 5-10, midpoint 7.5) ---
-            condition_scale = 6.25
-            f1_condition = round(min(10.0, max(5.0, 7.5 + (specs_adv_1 + fb1) * condition_scale)), 2)
-            f2_condition = round(min(10.0, max(5.0, 7.5 + (specs_adv_2 + fb2) * condition_scale)), 2)
+            condition_scale = 2.5  # Adjust steepness (higher = more sensitive to small changes)
+            f1_raw = (specs_adv_1 + fb1) * condition_scale
+            f2_raw = (specs_adv_2 + fb2) * condition_scale
+
+            # Sigmoid: 5 + 5 / (1 + e^-x) maps any input to (5, 10)
+            f1_condition = round(5.0 + 5.0 / (1.0 + math.exp(-f1_raw)), 2)
+            f2_condition = round(5.0 + 5.0 / (1.0 + math.exp(-f2_raw)), 2)
 
             return 0.0, 0.0, {
                 "Fighter 1": f1_name,
