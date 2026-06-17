@@ -162,72 +162,72 @@
                 "predicted_winner_method": "KO",
                 "predicted_fight_method": "KO",
                 "win_probability": 79.0,
-                "actual_winner": null,
-                "actual_winner_method": null,
-                "actual_fight_method": null,
-                "winner_correct": null,
-                "winner_method_correct": null,
-                "fight_method_correct": null
+                "actual_winner": "Justin Gaethje",
+                "actual_winner_method": "KO",
+                "actual_fight_method": "KO",
+                "winner_correct": false,
+                "winner_method_correct": true,
+                "fight_method_correct": true
             },
             "Alex Pereira vs Ciryl Gane": {
                 "predicted_winner": "Alex Pereira",
                 "predicted_winner_method": "KO",
                 "predicted_fight_method": "KO",
                 "win_probability": 60.1,
-                "actual_winner": null,
-                "actual_winner_method": null,
-                "actual_fight_method": null,
-                "winner_correct": null,
-                "winner_method_correct": null,
-                "fight_method_correct": null
+                "actual_winner": "Ciryl Gane",
+                "actual_winner_method": "KO",
+                "actual_fight_method": "KO",
+                "winner_correct": false,
+                "winner_method_correct": true,
+                "fight_method_correct": true
             },
             "Sean O'Malley vs Aiemann Zahabi": {
                 "predicted_winner": "Sean O'Malley",
                 "predicted_winner_method": "Dec",
                 "predicted_fight_method": "Dec",
                 "win_probability": 69.4,
-                "actual_winner": null,
-                "actual_winner_method": null,
-                "actual_fight_method": null,
-                "winner_correct": null,
-                "winner_method_correct": null,
-                "fight_method_correct": null
+                "actual_winner": "Sean O'Malley",
+                "actual_winner_method": "KO",
+                "actual_fight_method": "KO",
+                "winner_correct": true,
+                "winner_method_correct": false,
+                "fight_method_correct": false
             },
             "Josh Hokit vs Derrick Lewis": {
                 "predicted_winner": "Josh Hokit",
                 "predicted_winner_method": "KO",
                 "predicted_fight_method": "KO",
                 "win_probability": 86.4,
-                "actual_winner": null,
-                "actual_winner_method": null,
-                "actual_fight_method": null,
-                "winner_correct": null,
-                "winner_method_correct": null,
-                "fight_method_correct": null
+                "actual_winner": "Josh Hokit",
+                "actual_winner_method": "KO",
+                "actual_fight_method": "KO",
+                "winner_correct": true,
+                "winner_method_correct": true,
+                "fight_method_correct": true
             },
             "Mauricio Ruffy vs Michael Chandler": {
                 "predicted_winner": "Mauricio Ruffy",
                 "predicted_winner_method": "KO",
                 "predicted_fight_method": "KO",
                 "win_probability": 80.4,
-                "actual_winner": null,
-                "actual_winner_method": null,
-                "actual_fight_method": null,
-                "winner_correct": null,
-                "winner_method_correct": null,
-                "fight_method_correct": null
+                "actual_winner": "Mauricio Ruffy",
+                "actual_winner_method": "KO",
+                "actual_fight_method": "KO",
+                "winner_correct": true,
+                "winner_method_correct": true,
+                "fight_method_correct": true
             },
             "Diego Lopes vs Steve Garcia": {
                 "predicted_winner": "Diego Lopes",
                 "predicted_winner_method": "Sub",
                 "predicted_fight_method": "KO",
                 "win_probability": 52.0,
-                "actual_winner": null,
-                "actual_winner_method": null,
-                "actual_fight_method": null,
-                "winner_correct": null,
-                "winner_method_correct": null,
-                "fight_method_correct": null
+                "actual_winner": "Diego Lopes",
+                "actual_winner_method": "KO",
+                "actual_fight_method": "KO",
+                "winner_correct": true,
+                "winner_method_correct": false,
+                "fight_method_correct": true
             }
         }
     }

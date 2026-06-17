@@ -633,16 +633,16 @@
                     "haymaker": 10
                 },
                 "kicks": {
-                    "low": 7,
-                    "body": 8,
-                    "head": 9
+                    "low": 9,
+                    "body": 7,
+                    "head": 6
                 },
                 "overview": {
-                    "power": 10,
+                    "power": 9,
                     "accuracy": 9,
-                    "volume": 6,
+                    "volume": 8,
                     "defence": 8,
-                    "footwork": 8
+                    "footwork": 9
                 },
                 "proportion": 0.85,
                 "style": "Counter Striker"
@@ -659,15 +659,15 @@
             },
             "clinch": {
                 "clinch-control": 6,
-                "clinch-striking": 7
+                "clinch-striking": 8
             },
             "intangibles": {
-                "stamina": 7,
-                "chin": 8,
-                "durability": 8,
-                "fight-iq": 7
+                "stamina": 8,
+                "chin": 9,
+                "durability": 9,
+                "fight-iq": 8
             },
-            "ratio": 0.8
+            "ratio": 0.95
         },
         "career": {
             "api-id": 0,
@@ -920,7 +920,7 @@
                 "clinch-striking": 7
             },
             "intangibles": {
-                "stamina": 9,
+                "stamina": 8,
                 "chin": 8,
                 "durability": 8,
                 "fight-iq": 10

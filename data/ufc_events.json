@@ -438,5 +438,106 @@
             }
         ],
         "prelims": []
+    },
+    "UFC Fight Night: Kape vs Horiguchi": {
+        "type": "Fight Night",
+        "main_fight": {
+            "fighter1": "Manel Kape",
+            "fighter2": "Kyoji Horiguchi"
+        },
+        "comain": {
+            "fighter1": "Ion Cutelaba",
+            "fighter2": "Navajo Stirling"
+        },
+        "date": "2026-06-20",
+        "location": "Meta APEX, Las Vegas",
+        "main_card": [
+            {
+                "fighter1": "Manel Kape",
+                "fighter2": "Kyoji Horiguchi",
+                "rounds": 5,
+                "is_main_event": true,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Ion Cutelaba",
+                "fighter2": "Navajo Stirling",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": true
+            },
+            {
+                "fighter1": "Andre Fili",
+                "fighter2": "Vinicius Oliveira",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Hyder Amil",
+                "fighter2": "Christian Rodriguez",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Andre Lima",
+                "fighter2": "Kevin Borjas",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Melsik Baghdasaryan",
+                "fighter2": "Murtazali Magomedov",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            }
+        ],
+        "prelims": [
+            {
+                "fighter1": "Bia Mesquita",
+                "fighter2": "Melissa Mullins",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Allan Nascimento",
+                "fighter2": "Mitch Raposo",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Gaston Bolanos",
+                "fighter2": "Michael Aswell Jr.",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Karol Rosa",
+                "fighter2": "Luana Santos",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Leon Shahbazyan",
+                "fighter2": "Levan Chokheli",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            },
+            {
+                "fighter1": "Shane Collins",
+                "fighter2": "Otari Tanzilovi",
+                "rounds": 3,
+                "is_main_event": false,
+                "is_co_main_event": false
+            }
+        ]
     }
 }
