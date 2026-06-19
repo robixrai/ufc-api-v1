@@ -19,6 +19,7 @@ fights_path = DATA_DIR / "data/ufc_events.json"
 
 rankings_db = []
 fighters_db = {}
+photos_db = {}
 events_db = {}
 
 
@@ -65,6 +66,22 @@ async def lifespan(app: FastAPI):
             events_db = json.load(f)
     except FileNotFoundError:
         events_db = {}
+
+    try:
+        photos_path = DATA_DIR / "data/fighter_photos.json"
+        with open(photos_path, "r", encoding="utf-8") as f:
+            photos_list = json.load(f)
+    except FileNotFoundError:
+        photos_list = []
+
+    # Build photos_db: key = normalised name, value = full photo dict
+    photos_db = {}
+    for item in photos_list:
+        raw_name = item.get("fighter_name")
+        if not raw_name:
+            continue
+        key = normalise_name(raw_name)
+        photos_db[key] = deepcopy(item)
 
     yield
 
@@ -393,3 +410,38 @@ def get_event(event_name: str):
             return {"event": key, **event}
     raise HTTPException(status_code=404, detail=f"Event '{event_name}' not found")
 
+
+@app.get("/photos")
+def get_all_photos():
+    """Get all fighter photos."""
+    if not photos_db:
+        raise HTTPException(status_code=404, detail="No photos found")
+    return list(photos_db.values())
+
+
+@app.get("/photos/{name}")
+def get_fighter_photos(name: str):
+    """
+    Get fighter photos by name.
+    Returns fighter photo URLs and UFC profile link.
+    """
+    if not photos_db:
+        raise HTTPException(status_code=500, detail="Photos database not loaded")
+
+    norm_name = normalise_name(name)
+    if not norm_name:
+        raise HTTPException(status_code=404, detail=f"Fighter '{name}' not found / Not in database")
+
+    # Exact lookup
+    photo_data = photos_db.get(norm_name)
+    if not photo_data:
+        # Partial search
+        for key in photos_db.keys():
+            if norm_name in key:
+                photo_data = photos_db[key]
+                break
+
+    if not photo_data:
+        raise HTTPException(status_code=404, detail=f"Fighter '{name}' not found / Not in database")
+
+    return photo_data

@@ -230,5 +230,34 @@
                 "fight_method_correct": true
             }
         }
+    },
+    "UFC Fight Night: Kape vs Horiguchi": {
+        "locked_at": "2026-06-19T14:20:17.439667",
+        "fights": {
+            "Manel Kape vs Kyoji Horiguchi": {
+                "predicted_winner": "Manel Kape",
+                "predicted_winner_method": "KO",
+                "predicted_fight_method": "KO",
+                "win_probability": 58.8,
+                "actual_winner": null,
+                "actual_winner_method": null,
+                "actual_fight_method": null,
+                "winner_correct": null,
+                "winner_method_correct": null,
+                "fight_method_correct": null
+            },
+            "Karol Rosa vs Luana Santos": {
+                "predicted_winner": "Luana Santos",
+                "predicted_winner_method": "Dec",
+                "predicted_fight_method": "Dec",
+                "win_probability": 69.7,
+                "actual_winner": null,
+                "actual_winner_method": null,
+                "actual_fight_method": null,
+                "winner_correct": null,
+                "winner_method_correct": null,
+                "fight_method_correct": null
+            }
+        }
     }
 }
