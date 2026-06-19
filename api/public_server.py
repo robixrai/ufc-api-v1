@@ -16,6 +16,7 @@ DATA_DIR = Path(__file__).resolve().parent.parent
 fighters_path = DATA_DIR / "data/fighters.json"
 rankings_path = DATA_DIR / "data/rankings.json"
 fights_path = DATA_DIR / "data/ufc_events.json"
+photos_path = DATA_DIR / "data/fighter_photos.json"
 
 rankings_db = []
 fighters_db = {}
@@ -25,7 +26,7 @@ events_db = {}
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global rankings_db, fighters_db, events_db
+    global rankings_db, fighters_db, events_db, photos_db
 
     # load rankings
     try:
@@ -68,7 +69,6 @@ async def lifespan(app: FastAPI):
         events_db = {}
 
     try:
-        photos_path = DATA_DIR / "data/fighter_photos.json"
         with open(photos_path, "r", encoding="utf-8") as f:
             photos_list = json.load(f)
     except FileNotFoundError:
