@@ -664,7 +664,7 @@ def predictions():
 
         model = Predict()
 
-        win, loss, logs = model.predict_fight(fighterone, fightertwo, rounds, 0)
+        win, loss, logs = model.predict_fight(fighterone, fightertwo, rounds, 1)
 
         if win > 0.5:
             winner = fighter1

@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="3c06be63-609f-4fe8-bf24-d2d0a4834fb3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/predictor.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/predictor.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,23 +40,23 @@
 }</component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0087134940726625" />
-      <entry key="MS500" value="1.892640909190489" />
-      <entry key="S2" value="7.585240207413632" />
-      <entry key="S5" value="15.255007287761806" />
-      <entry key="S10" value="21.03315948565294" />
-      <entry key="S30" value="27.033279266624323" />
-      <entry key="S60" value="29.22383940824066" />
-      <entry key="M2" value="30.914643572421177" />
-      <entry key="M5" value="32.558516229460686" />
-      <entry key="M10" value="35.16837257141766" />
-      <entry key="M15" value="39.572792385168604" />
-      <entry key="M30" value="53.45030972910703" />
-      <entry key="H1" value="72.71422203170717" />
-      <entry key="H2" value="92.37555943911845" />
-      <entry key="H4" value="107.65146176336424" />
-      <entry key="D1" value="124.90486808792447" />
-      <entry key="W1" value="128.39997093701797" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0003168307536472" />
+      <entry key="S2" value="1.133415667254995" />
+      <entry key="S5" value="1.4467686934206143" />
+      <entry key="S10" value="1.6684075803135496" />
+      <entry key="S30" value="1.874340217863634" />
+      <entry key="S60" value="1.935061611800866" />
+      <entry key="M2" value="1.9669858384696572" />
+      <entry key="M5" value="1.9866611896499093" />
+      <entry key="M10" value="1.9933085602974159" />
+      <entry key="M15" value="1.9957123206083565" />
+      <entry key="M30" value="2.087390482771955" />
+      <entry key="H1" value="4.0071804723952065" />
+      <entry key="H2" value="11.558174199637753" />
+      <entry key="H4" value="25.244147203658443" />
+      <entry key="D1" value="108.51825564072468" />
+      <entry key="W1" value="163.63990615546882" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
@@ -76,23 +78,23 @@
       <entry key="W1" value="0.0" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.11135152620262007" />
-      <entry key="MS500" value="1.3229899693627536" />
-      <entry key="S2" value="7.320538458568027" />
-      <entry key="S5" value="15.114211929233283" />
-      <entry key="S10" value="20.936527881631072" />
-      <entry key="S30" value="26.98156366301326" />
-      <entry key="S60" value="29.18843326238984" />
-      <entry key="M2" value="30.889569684807427" />
-      <entry key="M5" value="32.54470477970116" />
-      <entry key="M10" value="35.1603697820444" />
-      <entry key="M15" value="39.56697633976012" />
-      <entry key="M30" value="53.44684207338202" />
-      <entry key="H1" value="72.71209424952768" />
-      <entry key="H2" value="92.3742749480644" />
-      <entry key="H4" value="107.65072890960097" />
-      <entry key="D1" value="124.90472831319762" />
-      <entry key="W1" value="128.39995045074886" />
+      <entry key="MS100" value="0.0017602548097867773" />
+      <entry key="MS500" value="0.2813659969075649" />
+      <entry key="S2" value="0.8285892955777026" />
+      <entry key="S5" value="1.2795208733993075" />
+      <entry key="S10" value="1.56993496411767" />
+      <entry key="S30" value="1.8369721559707013" />
+      <entry key="S60" value="1.9157093617888947" />
+      <entry key="M2" value="1.9571341111975769" />
+      <entry key="M5" value="1.9826772123283083" />
+      <entry key="M10" value="1.9913092600064866" />
+      <entry key="M15" value="1.9943778176622986" />
+      <entry key="M30" value="2.0867214092990882" />
+      <entry key="H1" value="4.006834968754308" />
+      <entry key="H2" value="11.557979650431353" />
+      <entry key="H4" value="25.244017181149786" />
+      <entry key="D1" value="108.51815751197645" />
+      <entry key="W1" value="163.63988394929638" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -106,50 +108,51 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.admin.executor&quot;: &quot;Run&quot;,
-    &quot;Python.api.executor&quot;: &quot;Run&quot;,
-    &quot;Python.betting_logs.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.photoscraper.executor&quot;: &quot;Run&quot;,
-    &quot;Python.predictions.executor&quot;: &quot;Run&quot;,
-    &quot;Python.script.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ufc_fights.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;ai.playground.ignore.import.keys.banner.in.settings&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/robix/UFC API + Interface&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.admin.executor": "Run",
+    "Python.api.executor": "Run",
+    "Python.betting_logs.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.orderphotos.executor": "Run",
+    "Python.photoscraper.executor": "Run",
+    "Python.predictions.executor": "Run",
+    "Python.script.executor": "Run",
+    "Python.ufc_fights.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "ai.playground.ignore.import.keys.banner.in.settings": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "C:/Users/robix/UFC API + Interface",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;JSON&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "JSON"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\robix\PyCharmMiscProject" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.admin">
+  <component name="RunManager" selected="Python.predictions">
     <configuration default="true" type="DjangoTestsConfigurationType">
       <module name="robixrai's MMA project" />
       <option name="ENV_FILES" value="" />
@@ -224,7 +227,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="betting_logs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="orderphotos" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="UFC API + Interface" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -233,14 +236,14 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/predictions" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/scripts" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="DEBUG_JUST_MY_CODE" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/predictions/betting_logs.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/scripts/orderphotos.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -465,11 +468,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.predictions" />
         <item itemvalue="Python.admin" />
+        <item itemvalue="Python.predictions" />
+        <item itemvalue="Python.orderphotos" />
         <item itemvalue="Python.photoscraper" />
         <item itemvalue="Python.ufc_fights" />
-        <item itemvalue="Python.betting_logs" />
       </list>
     </recent_temporary>
   </component>
@@ -494,7 +497,7 @@
       <workItem from="1779917311565" duration="316000" />
       <workItem from="1779917663243" duration="220000" />
       <workItem from="1781435506465" duration="8379000" />
-      <workItem from="1781874723354" duration="4882000" />
+      <workItem from="1781874723354" duration="7016000" />
     </task>
     <servers />
   </component>
@@ -503,12 +506,13 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Welcome$main.coverage" NAME="main Coverage Results" MODIFIED="1774211853819" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/UFC_API___Interface$predictions.coverage" NAME="predictions Coverage Results" MODIFIED="1781875214499" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/predictions" />
+    <SUITE FILE_PATH="coverage/UFC_API___Interface$predictions.coverage" NAME="predictions Coverage Results" MODIFIED="1781962207438" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/predictions" />
     <SUITE FILE_PATH="coverage/UFC_API___Interface$ufc_fights.coverage" NAME="ufc_fights Coverage Results" MODIFIED="1781607413247" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/UFC_API___Interface$photoscraper.coverage" NAME="photoscraper Coverage Results" MODIFIED="1781713818215" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scripts" />
-    <SUITE FILE_PATH="coverage/UFC_API___Interface$admin.coverage" NAME="admin Coverage Results" MODIFIED="1781875068457" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/UFC_API___Interface$admin.coverage" NAME="admin Coverage Results" MODIFIED="1781962242553" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Welcome$api.coverage" NAME="api Coverage Results" MODIFIED="1774211906579" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/UFC_API___Interface$betting_logs.coverage" NAME="betting_logs Coverage Results" MODIFIED="1781486002228" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/predictions" />
+    <SUITE FILE_PATH="coverage/UFC_API___Interface$orderphotos.coverage" NAME="orderphotos Coverage Results" MODIFIED="1781946018700" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scripts" />
     <SUITE FILE_PATH="coverage/Welcome$script.coverage" NAME="script Coverage Results" MODIFIED="1774204430587" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

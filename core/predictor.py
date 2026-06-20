@@ -1040,8 +1040,13 @@ class Predict():
                     grp_advantage = None
 
             # --- Specs score ---
-            f1_condition = round(min(10.0, max(5.0, 7.5 + (specs_adv_1 + fb1) * 6.25)), 2)
-            f2_condition = round(min(10.0, max(5.0, 7.5 + (specs_adv_2 + fb2) * 6.25)), 2)
+            condition_scale = 2.5  # Adjust steepness (higher = more sensitive to small changes)
+            f1_raw = (specs_adv_1 + fb1) * condition_scale
+            f2_raw = (specs_adv_2 + fb2) * condition_scale
+
+            # Sigmoid: 5 + 5 / (1 + e^-x) maps any input to (5, 10)
+            f1_condition = round(5.0 + 5.0 / (1.0 + math.exp(-f1_raw)), 2)
+            f2_condition = round(5.0 + 5.0 / (1.0 + math.exp(-f2_raw)), 2)
 
             return 0.0, 0.0, {
                 "Fighter 1": f1_name,
@@ -1099,14 +1104,14 @@ class Predict():
                     "Grappling": round(float(getattr(fighter1, "grappling_score", 0) or 0), 2),
                     "Clinch": round(float(getattr(fighter1, "clinch_score", 0) or 0), 2),
                     "Intangibles": round(float(getattr(fighter1, "intangibles_score", 0) or 0), 2),
-                    "Specs Score": f1_specs_score,
+                    "Specs Score": f1_condition,
                 },
                 "Fighter 2 Radar": {
                     "Striking": round(float(getattr(fighter2, "striking_score", 0) or 0), 2),
                     "Grappling": round(float(getattr(fighter2, "grappling_score", 0) or 0), 2),
                     "Clinch": round(float(getattr(fighter2, "clinch_score", 0) or 0), 2),
                     "Intangibles": round(float(getattr(fighter2, "intangibles_score", 0) or 0), 2),
-                    "Specs Score": f2_specs_score,
+                    "Specs Score": f2_condition,
                 }
             }
 
